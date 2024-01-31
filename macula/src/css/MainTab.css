@@ -1,0 +1,39 @@
+/* MainPage.css */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo img {
+    max-width: 200px; /* Adjust the size as needed */
+  }
+  
+  .navigation a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #000; /* Adjust the color as needed */
+  }
+  
+  .content {
+    display: flex;
+  }
+  
+  .left-section {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .middle-section img {
+    max-width: 30%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+align-items: left
+;  }
+  

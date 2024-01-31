@@ -1,14 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React from "react";
+import MainTabs from "./MainTabs";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>HELLO MACULA</h1>
-      </header>
+    <div>
+      <MainTabs />
     </div>
   );
-}
+};
 
 export default App;
+
