@@ -1,0 +1,102 @@
+.Large-text {
+    color: #000000;
+    font-family: Inter;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    /* 76.8px */
+    height: 111px;
+    align-self: stretch;
+}
+
+.Medium-text {
+    color: #000000;
+    font-family: Inter;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    width: 180px;
+    height: 90px;
+    flex-shrink: 0;
+    /* 50% */
+}
+
+.Small-text {
+    color: #000;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    /* 83.333% */
+    width: 385px;
+    height: 90px;
+    flex-shrink: 0;
+}
+
+.Extra-small-text {
+    color: var(--Gray-600, #475467);
+
+    /* Text md/Normal */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    width: 360px;
+    /* 150% */
+}
+
+
+.Black-button {
+    display: flex;
+    width: 159px;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid var(--Black, #404040);
+    background: #404040;
+}
+
+.Eye-logo {
+    width: 428px;
+    height: 461px;
+    flex-shrink: 0;
+}
+
+.Orange-button {
+    display: flex;
+    width: 159px;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid #EF5423;
+    background: #EF5423;
+    color: white;
+
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+.White-button {
+    display: flex;
+    width: 159px;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    color: rgb(0, 0, 0);
+    border: 1px solid var(--Gray-300, #D0D5DD);
+    background: var(--Base-White, #FFF);
+
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
