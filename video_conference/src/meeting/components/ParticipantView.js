@@ -13,8 +13,31 @@ function ParticipantsViewer({ isPresenting }) {
   } = useMeeting();
 
   const participantIds = useMemo(() => {
-    // ... existing logic ...
+    const pinnedParticipantId = [...pinnedParticipants.keys()].filter(
+      (participantId) => {
+        return participantId !== localParticipant.id;
+      }
+    );
+    const regularParticipantIds = [...participants.keys()].filter(
+      (participantId) => {
+        return (
+          ![...pinnedParticipants.keys()].includes(participantId) &&
+          localParticipant.id !== participantId
+        );
+      }
+    );
 
+    const ids = [
+      localParticipant.id,
+      ...pinnedParticipantId,
+      ...regularParticipantIds,
+    ].slice(0, isPresenting ? 6 : 16);
+
+    if (activeSpeakerId) {
+      if (!ids.includes(activeSpeakerId)) {
+        ids[ids.length - 1] = activeSpeakerId;
+      }
+    }
     return ids;
   }, [
     participants,
@@ -25,22 +48,10 @@ function ParticipantsViewer({ isPresenting }) {
   ]);
 
   return (
-    <div>
-      {participantIds.map((participantId) => {
-        const participant = participants.get(participantId);
-        const isParticipating = /* Your logic to determine participation */;
-        return (
-          <div key={participantId}>
-            {isParticipating ? (
-              <div className="status-rectangle-participating" />
-            ) : (
-              <div className="status-rectangle-not-participating" />
-            )}
-            <span>{participant.name}</span>
-          </div>
-        );
-      })}
-    </div>
+    <MemoizedParticipantGrid
+      participantIds={participantIds}
+      isPresenting={isPresenting}
+    />
   );
 }
 
