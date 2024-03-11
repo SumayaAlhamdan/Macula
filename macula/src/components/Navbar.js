@@ -1,13 +1,16 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleClick = () => {
     logout();
+    navigate('/login');
   };
 
   return (
@@ -19,7 +22,11 @@ const Navbar = () => {
         <nav>
           {user && (
             <div className="user-info">
-              <span>{user.student ? user.student.name : user.educator.name}</span>
+              <Link to="/home">Home</Link>
+              <Link to="/courses">Courses</Link>
+              <Link to="/profile">
+                <span>{user.student ? user.student.name : user.educator.name}</span>
+              </Link>
               <button onClick={handleClick}>Log out</button>
             </div>
           )}
