@@ -9,7 +9,8 @@ const studentSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true
-    }
+    },
+    present: { type: Boolean, default: false }
 });
 
 // Specify the collection name explicitly
