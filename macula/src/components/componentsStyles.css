@@ -61,6 +61,10 @@
     border-radius: 5px;
     border: 1px solid var(--Black, #404040);
     background: #404040;
+    /* Add this style to your CSS */
+    white-space: nowrap;
+  
+  
 }
 
 .Eye-logo {

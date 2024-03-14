@@ -1,9 +1,12 @@
+//server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const studentsRoutes = require('./routes/students');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const educatorsRoutes = require('./routes/educators'); // Import educatorsRoutes
+const courseRoutes = require('./routes/courseRoutes.js') // Import educatorsRoutes
+
 require('dotenv').config();
 
 // Connect to the database
@@ -27,6 +30,8 @@ mongoose.connect("mongodb+srv://nesreengdb:macula2024@macula.svwywkc.mongodb.net
     app.use('/api/students', studentsRoutes);
     app.use('/api/attendance', attendanceRoutes);
     app.use('/api/educators', educatorsRoutes);
+app.use('/api/courses', courseRoutes);
+
 
     // Start the server
     const PORT = process.env.PORT || 4000;

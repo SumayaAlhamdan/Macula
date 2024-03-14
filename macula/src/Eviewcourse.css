@@ -1,0 +1,63 @@
+body {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  background-color: white; /* Set the background color to white */
+}
+.popup-inner .buttons-container {
+  display: flex;
+ justify-content:space-between;  /* Add space between buttons */
+  margin-top: 16px; /* Add margin for spacing */
+
+}
+.popup-inner .buttons-container button {
+  flex: 1; /* Make buttons flex items to share available space equally */
+  margin: 0 4px; /* Adjust margin to control the space between buttons */
+}
+.courses-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  max-width: 800px; 
+  width: 100%; 
+  margin: 0 auto;
+  margin-bottom: 15px;
+  
+}
+
+.course-box {
+  margin-bottom: 10px;
+  text-align: left; /* Align the courses to the left */
+}
+
+.course-box p {
+  margin: 0;
+}
+
+.course-box hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 50%; /* Set the width of the line */
+}
+
+.calendar-icon {
+  margin-right: 5px; /* Adjust margin as needed */
+  vertical-align: middle; /* Align the icon vertically with the text */
+  font-size: 1.2em; /* Adjust the size of the icon */
+  color: #EF5423; /* Set the color of the icon */
+}
+
+.form-container label {
+  margin-bottom: 5px;
+  text-align: left; /* Align labels to the left */
+  font-size: 14px; /* Adjust font size for smaller labels */
+}
+.error-message {
+  color: red;
+}
+.courses-title {
+  display: flex;
+  align-items: center;
+}
+
+
+
+
