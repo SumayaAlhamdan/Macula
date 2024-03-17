@@ -1,0 +1,48 @@
+.course-icon{
+    color: #EF5423 ;
+ }
+ .classroom-page-title{
+margin-bottom: 50px;
+ }
+ 
+ h3{
+    margin-left: 19px; 
+ }
+ .classroom-container {
+    margin-left: 0px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-width: 1000px; 
+    width: 100%; 
+    max-height: 400px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    justify-content: center;
+    overflow-y: scroll;
+    
+  }
+
+  .classroom-box{
+    text-align: left;
+  }
+
+  .arrow-icon {
+    color: #EF5423;
+    float: right;
+  }
+
+  .create-classroom{
+    display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  height: 100vh; /* Adjust the height as needed */
+  }
+
+  .error-message {
+    color: red;
+  }
+
+  .classroom{
+    text-align: left;
+    font-size: 14px ;
+  }

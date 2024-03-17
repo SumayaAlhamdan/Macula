@@ -6,6 +6,7 @@ import StudentHome from './pages/studentHome'; // PascalCase for component name
 import EducatorHome from './pages/educatorHome'; // PascalCase for component name
 import Courses from './pages/Courses';
 import Profile from './pages/profile';
+import Classrooms from './pages/Eclassrooms';
 // App.js
 import React from "react";
 import Eviewcourse from "./Eviewcourse";
@@ -37,6 +38,7 @@ function App() {
             <Route path="/educator-home" element={<EducatorHome />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/Eclassrooms/:courseCode" element={<Classrooms />} />
 
 
           {/* <MainTabs /> */}

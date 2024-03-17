@@ -72,6 +72,32 @@ router.post('/register', async (req, res) => {
     }
 });
 
+router.get('/eCourse', async (req, res) => {
+    try {
+        // Fetch only the 'code' field from courses with the same educatorID
+        const courses = await Course.find({ educatorID: req.query.educatorID }, { code: 1, _id: 0 });
+
+        res.status(200).json(courses);
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.get('/sCourse', async (req, res) => {
+    try {
+        const studentId = req.query.studentID; 
+        // Fetch only the 'code' field from courses that have the specified student
+        const courses = await Course.find({ studentId:{$in: students} }, { code: 1, _id: 0 });
+
+        res.status(200).json(courses);
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
   
 

@@ -6,6 +6,7 @@ const studentsRoutes = require('./routes/students');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const educatorsRoutes = require('./routes/educators'); // Import educatorsRoutes
 const courseRoutes = require('./routes/courseRoutes.js') // Import educatorsRoutes
+const classroomsRoutes = require('./routes/classroomsRoutes.js')
 
 require('dotenv').config();
 
@@ -31,6 +32,7 @@ mongoose.connect("mongodb+srv://nesreengdb:macula2024@macula.svwywkc.mongodb.net
     app.use('/api/attendance', attendanceRoutes);
     app.use('/api/educators', educatorsRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/classrooms', classroomsRoutes);
 
 
     // Start the server

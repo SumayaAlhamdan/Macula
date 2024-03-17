@@ -57,6 +57,10 @@ body {
   display: flex;
   align-items: center;
 }
+.arrow-icon {
+  color: #EF5423;
+  float: right;
+}
 
 
 
