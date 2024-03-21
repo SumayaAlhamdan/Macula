@@ -7,6 +7,7 @@ import EducatorHome from './pages/educatorHome'; // PascalCase for component nam
 import Courses from './pages/Courses';
 import Profile from './pages/profile';
 import Classrooms from './pages/Eclassrooms';
+import SClassrooms from './pages/Sclassrooms';
 // App.js
 import React from "react";
 import Eviewcourse from "./Eviewcourse";
@@ -39,6 +40,7 @@ function App() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/Eclassrooms/:courseCode" element={<Classrooms />} />
+            <Route path="/Sclassrooms/:courseCode" element={<SClassrooms />} />
 
 
           {/* <MainTabs /> */}

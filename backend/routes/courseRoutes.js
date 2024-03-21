@@ -88,9 +88,9 @@ router.get('/sCourse', async (req, res) => {
     try {
         const studentId = req.query.studentID; 
         // Fetch only the 'code' field from courses that have the specified student
-        const courses = await Course.find({ studentId:{$in: students} }, { code: 1, _id: 0 });
+        const courses = await Course.find({ students: { $in: [studentId] } }, { code: 1, _id: 0 });
 
-        res.status(200).json(courses);
+        res.status(200).json({message:courses});
     } catch (error) {
         console.error('Error fetching courses:', error);
         res.status(500).json({ message: 'Internal server error' });

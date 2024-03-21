@@ -8,8 +8,8 @@ import OrangeButton from "./components/OrangeButton";
 import WhiteButton from "./components/WhiteButton";
 import Popup from "./components/popup";
 import "./Eviewcourse.css"; // Import CSS stylesheet
-import { FaCalendarAlt } from 'react-icons/fa'; // Import the calendar icon from Font Awesome
-
+import { FaCalendarAlt , FaArrowRight } from 'react-icons/fa'; // Import the calendar icon from Font Awesome
+import { useNavigate } from 'react-router-dom';
 
 const Sviewcourse = () => {
   const [buttonPopup, setButtonPopup] = useState(false);
@@ -17,7 +17,7 @@ const Sviewcourse = () => {
   const [fetchedCourses, setFetchedCourses] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const user = JSON.parse(localStorage.getItem('user'));
-
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -69,6 +69,10 @@ const Sviewcourse = () => {
   const handleInputChange = (e) => {
     setCourseCode(e.target.value);
   };
+  const handleNavigateToClassrooms = (courseCode) => {
+    // Navigate to the classrooms page and send the course code as a parameter
+    navigate(`/Sclassrooms/${courseCode}`);
+  };
   
 return (
   <div>
@@ -85,7 +89,11 @@ return (
               return (
                 <div key={course._id} className="course-box">
                   {/* Apply course-box class */}
-                  <p>{course.code} : {course.title}</p>
+                  <p>{course.code} : {course.title}
+                  <FaArrowRight
+                      className="arrow-icon"
+                      onClick={() => handleNavigateToClassrooms(course.code)}
+                    /></p>
                   {index !== fetchedCourses.length - 1 && <hr />}
                   {/* Render horizontal line only if it's not the last course */}
                 </div>

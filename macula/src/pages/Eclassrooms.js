@@ -91,7 +91,7 @@ const Classrooms = () => {
               <div key={classroom._id} className="classroom-box">
                 <p>
                   {classroom.title}
-                  <div><FaArrowRight className="arrow-icon" /></div>
+                  <div className='joindiv'> Join<FaArrowRight className="arrow-icon" /></div>
                   <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
                 </p>
                 {index !== fetchedClassrooms.length - 1 && <hr />}

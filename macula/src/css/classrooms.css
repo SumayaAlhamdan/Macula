@@ -29,6 +29,8 @@ margin-bottom: 50px;
   .arrow-icon {
     color: #EF5423;
     float: right;
+    margin-left: 10px;
+    margin-top: 4px;
   }
 
   .create-classroom{
@@ -45,4 +47,9 @@ margin-bottom: 50px;
   .classroom{
     text-align: left;
     font-size: 14px ;
+  }
+  .joindiv{
+    float: right;
+    text-decoration: underline ;
+    color: #EF5423;
   }
