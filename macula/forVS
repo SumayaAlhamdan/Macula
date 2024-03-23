@@ -1,0 +1,15 @@
+git clone https://github.com/videosdk-live/videosdk-rtc-react-sdk-example.git
+
+cp.env.example.env; 
+امسحوا كل شي من .env 
+
+وحطوا هذا: 
+REACT_APP_VIDEOSDK_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJiNzk5N2RkOC05Y2U5LTQ0YzMtYjQ3MS1mODhjMTUzZjI1MWYiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcxMDE4NzYzMCwiZXhwIjoxNzQxNzIzNjMwfQ.gIcnVYwhube_NfeI-UMKPszw2T3pfS29BBs2GK9ctkc"
+  
+ npm install
+
+ npm start 
+
+ و ان شاء الله يشتغل  
+
+
