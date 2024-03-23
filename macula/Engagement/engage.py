@@ -72,12 +72,14 @@ while True:
                 'Longest Focus Duration': longest_focus_duration
             })
 
+
             # Update the longest focus duration if needed
             if focus_duration > longest_focus_duration:
                 longest_focus_duration = focus_duration
 
             print(f"Distracted for {focus_duration} seconds")
             print(f"Longest Focus Duration: {longest_focus_duration} seconds")
+
 
             prev_face_location = None
 
