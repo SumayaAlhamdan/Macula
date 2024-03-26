@@ -1,3 +1,4 @@
+// Import React, useState, useEffect, and other necessary components
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaDesktop, FaArrowRight } from 'react-icons/fa';
@@ -61,7 +62,12 @@ const EducatorHome = () => {
               <div key={classroom._id} className="classroom-box">
                 <p>
                   {classroom.courseID}: {classroom.title}
-                  <div className="joindiv"> Join<FaArrowRight className="arrow-icon" /></div>
+                  <div className="joindiv">
+                    {/* Anchor tag with href attribute set to the desired URL */}
+                    <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
+                      Join<FaArrowRight className="arrow-icon" />
+                    </a>
+                  </div>
                   <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
                 </p>
                 {index !== fetchedClassrooms.length - 1 && <hr />}

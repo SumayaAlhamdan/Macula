@@ -59,7 +59,11 @@ const StudentHome = () => {
                 <div key={classroom._id} className="classroom-box">
                   <p>
                     {classroom.courseID}: {classroom.title}
-                    <div className="joindiv"> Join <FaArrowRight className="arrow-icon" /></div>
+                    <div className="joindiv"> 
+                    <a href="http://localhost:3000/react-rtc-demo" target="_blank" className="join-link">
+                    Join <FaArrowRight className="arrow-icon" />
+                    </a>
+                    </div>
                     <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
                   </p>
                   {index !== fetchedClassrooms.length - 1 && <hr />}
