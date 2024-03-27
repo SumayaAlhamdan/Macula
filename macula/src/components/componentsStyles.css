@@ -154,10 +154,24 @@
     border-radius: 15px;
     text-align: left;
   }
+  .modal-title {
+    text-align: left;
+    padding: 2px;
+    margin-bottom: 5px; /* Add margin bottom for spacing */
+}
+
+.modal-sub-title {
+    text-align: left;
+    padding: 2px;
+    color: rgb(67, 66, 66);
+    font-weight: normal; /* Make text non-bold */
+    margin-left: 15px;
+}
+
   .modal-header {
     text-align: left;
     padding: 2px 16px;
-    color: rgb(67, 66, 66);
+    /* color: rgb(67, 66, 66); */
   }
   .close-button {
     position: absolute;
@@ -167,7 +181,7 @@
   }
   .close-icon {
     position: absolute;
-    top: 40px;
+    top: 48px;
     right: 20px;
     cursor: pointer;
     color: #767777; /* Change the color as needed */

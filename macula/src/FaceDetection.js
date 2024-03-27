@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import './components/componentsStyles.css';
 import '@fortawesome/fontawesome-free/css/all.css';
-
+import './index.css';
 const FaceDetection = () => {
 
     const studentID = "65ed6df744d0dcc77de74db4";
@@ -44,53 +44,74 @@ const FaceDetection = () => {
 
     const handleVideoOnPlay = async () => {
         if (!videoRef.current) return;
-
+    
         // Wait for the video metadata to load
         await new Promise(resolve => {
             videoRef.current.addEventListener('loadedmetadata', resolve);
         });
-        const labeledFaceDescriptors = await getLabeledFaceDescriptions(studentID);
-        const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors);
-        setInterval(async () => {
-            if (canvasRef && canvasRef.current) {
-                canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(videoRef.current);
-                const displaySize = {
-                    width: videoWidth,
-                    height: videoHeight
-                }
-
-
-
-
-                faceapi.matchDimensions(canvasRef.current, displaySize);
-
-                const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
-                const resizedDetections = faceapi.resizeResults(detections, displaySize);
-
-                const context = canvasRef.current?.getContext('2d');
-                if (!context) return; // Exit early if context is null
-
-                context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
-                resizedDetections.forEach(async (detection) => {
-                    const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
-                    if (bestMatch._label === studentID) { // Check if the label matches the student ID
-                        const box = detection.detection.box;
-                        const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
-                        drawBox.draw(canvasRef.current);
-
-                        // Make an HTTP request to mark the student present in the database
-                        try {
-                            await axios.post('http://localhost:4000/api/attendance', { studentID });
-                            console.log('Student marked present:', studentID);
-                        } catch (error) {
-                            console.error('Error marking student present:', error);
-                        }
+    
+        // Wait for the video to finish loading
+        await new Promise(resolve => {
+            videoRef.current.addEventListener('canplaythrough', resolve, { once: true });
+        });
+    
+        try {
+            const labeledFaceDescriptors = await getLabeledFaceDescriptions(studentID);
+            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors);
+    
+            setInterval(async () => {
+                if (canvasRef && canvasRef.current) {
+                    const displaySize = {
+                        width: videoWidth,
+                        height: videoHeight
                     }
-                });
-            }
-        }, 100)
+    
+                    faceapi.matchDimensions(canvasRef.current, displaySize);
+    
+                    const detections = await faceapi.detectAllFaces(videoRef.current).withFaceLandmarks().withFaceDescriptors();
+                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+    
+                    const context = canvasRef.current?.getContext('2d');
+                    if (!context) return; // Exit early if context is null
+    
+                    context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    
+                    if (resizedDetections.length === 0) {
+                        console.log('No face detected.');
+                        // Handle the case where no face is detected
+                        return;
+                    }
+    
+                    resizedDetections.forEach(async (detection) => {
+                        const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
+                        if (bestMatch._label === studentID) { // Check if the label matches the student ID
+                            const box = detection.detection.box;
+                            const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
+                            drawBox.draw(canvasRef.current);
+    
+                            // Make an HTTP request to mark the student present in the database
+                            try {
+                                await axios.post('http://localhost:4000/api/attendance', { studentID });
+                                console.log('Student marked present:', studentID);
+                            } catch (error) {
+                                console.error('Error marking student present:', error);
+                                // Handle error marking student present
+                            }
+                        } else {
+                            console.log('Face does not match the student ID:', bestMatch._label);
+                            // Handle the case where the detected face does not match the student ID
+                        }
+                    });
+                }
+            }, 100);
+        } catch (error) {
+            console.error('Error in face detection:', error);
+            // Handle general error in face detection process
+        }
     }
+    
+    
+    
     const getLabeledFaceDescriptions = async (studentId) => {
         try {
             const response = await axios.get('http://localhost:4000/api/attendance');
@@ -159,15 +180,15 @@ const FaceDetection = () => {
                                 </button> */}
                                
                                 <div className='modal-header'>
-                                <p className='Medium-text'>Attendance Verification</p>
+                                <h2 className='modal-title'>Attendance Verification</h2>
                                 <span className="close-icon" onClick={closeWebcam}>
                                     <i className="fas fa-times"></i>
                                 </span>
                                 </div>
-                                <p className='Extra-small-text'>Please show your face clearly to verify your attendance</p>
+                                <h4 className='modal-sub-title'>Please show your face clearly to verify your attendance</h4>
                                 <div>
                                     <div style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
-                                    <i className="fas fa-user-check" style={{ fontSize: '48px', color: 'grey', position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)' }}></i>
+                                    {/* <i className="fas fa-user-check" style={{ fontSize: '48px', color: 'grey', position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)' }}></i> */}
                                         <video ref={videoRef} height={videoHeight} width={videoWidth} onPlay={handleVideoOnPlay} style={{ borderRadius: '10px' }} />
                                         <canvas ref={canvasRef} style={{ position: 'absolute' }} />
                                     </div>
