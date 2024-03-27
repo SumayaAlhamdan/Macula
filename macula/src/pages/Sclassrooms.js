@@ -35,6 +35,7 @@ const SClassrooms = () => {
       <div className="classroom-page-title">
         <h2><FaCalendarAlt className='course-icon' /> {courseCode}</h2>
       </div>
+      <div className="upcoming-classes-container">
       <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
       <div className="classroom-container">
         {fetchedClassrooms.length > 0 ? (
@@ -43,7 +44,9 @@ const SClassrooms = () => {
               <div key={classroom._id} className="classroom-box">
                 <p>
                   {classroom.title}
-                  <div className='joindiv'> Join<FaArrowRight className="arrow-icon" /></div>
+                  <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
+                          Join<FaArrowRight className="arrow-icon" />
+                        </a></div>
                   <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
                 </p>
                 {index !== fetchedClassrooms.length - 1 && <hr />}
@@ -53,6 +56,7 @@ const SClassrooms = () => {
         ) : (
           <p>No Upcoming classes for this course</p>
         )}
+      </div>
       </div>
     </div>
   );

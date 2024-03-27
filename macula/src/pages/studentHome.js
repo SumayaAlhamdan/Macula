@@ -48,7 +48,8 @@ const StudentHome = () => {
 
   return (
     <div className="educator-home">
-      <h2>Welcome, Student!</h2>
+      <h2>Welcome, <span className='usernametitle'>{user.student.name} </span></h2>
+      <div className="upcoming-classes-container">
       <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
       <div className="classroom-container">
         {fetchedClassrooms.length > 0 && fetchedCourses.length > 0 ? (
@@ -74,8 +75,9 @@ const StudentHome = () => {
             }
           })
         ) : (
-          <p>No Upcoming classes</p>
+          <p className='classesEmptyState'>No Upcoming classes</p>
         )}
+      </div>
       </div>
     </div>
   );

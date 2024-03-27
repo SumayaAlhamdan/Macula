@@ -11,4 +11,31 @@
   .horizontal-item {
     flex-basis: calc(33.33% - 10px);  Adjust the width of each item 
    }  */ 
-
+   .classroom-container {
+    width: 300px; /* Set the fixed width */
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: 500px; /* Set the maximum height for scrolling */
+    float: left; /* Align the container to the left */
+    margin-right: 0px; /* Add some space between the container and other elements */
+  }
+  .upcoming-classes-container {
+    width: 500px; /* Adjust the width as needed */
+    margin-right: 20px; 
+    margin-left: 150px;/* Add some space between the upcoming classes and the classroom container */
+    
+  }
+  .classesEmptyState{
+    font-size: x-large;
+    text-align: center;
+    margin-top: 30%;
+  }
+  .usernametitle{
+    color:#EF5423 ;
+  }
+  .join-link{
+    color: #EF5423;
+  }
+  .joindiv{
+    float: right
+  }
+  
