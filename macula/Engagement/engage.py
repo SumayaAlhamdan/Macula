@@ -32,6 +32,7 @@ while True:
     ret, frame = cap.read()
 
     if not ret:
+        print("Error reading frame from webcam")
         break
 
     # Convert the frame to grayscale for face detection
@@ -62,6 +63,9 @@ while True:
             end_time_focus = time.time()
             focus_duration = end_time_focus - start_time_focus
 
+            print(f"Distracted for {focus_duration} seconds")
+            print(f"Longest Focus Duration: {longest_focus_duration} seconds")
+
             # Store engagement data in MongoDB
             collection.insert_one({
                 'studentID': SID,
@@ -72,25 +76,19 @@ while True:
                 'Longest Focus Duration': longest_focus_duration
             })
 
-
             # Update the longest focus duration if needed
             if focus_duration > longest_focus_duration:
                 longest_focus_duration = focus_duration
 
-            print(f"Distracted for {focus_duration} seconds")
-            print(f"Longest Focus Duration: {longest_focus_duration} seconds")
-
-
             prev_face_location = None
 
     # Display the frame
-    cv2.imshow('Engagement Analysis', frame)
+    cv2.imshow('Frame', frame)
 
-    # Break the loop if 'q' key is pressed
+    # Press 'q' to quit
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the video capture object, close the window, and disconnect from MongoDB
+# Release the video capture object and close any OpenCV windows
 cap.release()
 cv2.destroyAllWindows()
-client.close()

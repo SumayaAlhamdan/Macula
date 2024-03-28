@@ -41,6 +41,11 @@ const StudentHome = () => {
     }
   }
 
+  const openLinks = () => {
+    window.open('http://localhost:3000/react-rtc-demo', '_blank');
+    window.open('http://127.0.0.1:5000', '_blank');
+};
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Returns only the date part
@@ -60,10 +65,8 @@ const StudentHome = () => {
                 <div key={classroom._id} className="classroom-box">
                   <p>
                     {classroom.courseID}: {classroom.title}
-                    <div className="joindiv"> 
-                    <a href="http://localhost:3000/react-rtc-demo" target="_blank" className="join-link">
+                    <div className="joindiv" onClick={openLinks}> 
                     Join <FaArrowRight className="arrow-icon" />
-                    </a>
                     </div>
                     <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
                   </p>

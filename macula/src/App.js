@@ -13,7 +13,7 @@ import Classrooms from './pages/Eclassrooms';
 import SClassrooms from './pages/Sclassrooms';
 import Eviewcourse from "./Eviewcourse";
 import Sviewcourse from "./Sviewcourse";
-
+import ViewEngage from "./pages/ViewEngage";
 function App() {
   return (
     <div className="App">
@@ -32,6 +32,8 @@ function App() {
             <Route path="/Sclassrooms/:courseCode" element={<SClassrooms />} />
             <Route path="/Eviewcourse" element={<Eviewcourse />} />
             <Route path="/Sviewcourse" element={<Sviewcourse />} />
+            <Route path="/ViewEngage" element={<ViewEngage />} />
+
           </Routes>
         </Layout>
       </Router>
