@@ -94,7 +94,11 @@ const Classrooms = () => {
         return date.toLocaleDateString(); // Returns only the date part
     };
 
-    
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0];
+
+    // Get current time in HH:MM format
+    const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
     return (
         <div className="classroom-page">
             <div className="classroom-page-title">
@@ -135,11 +139,11 @@ const Classrooms = () => {
                     <div className="horizontal-container">
                         <div className="horizontal-date">
                             <label>Date:</label>
-                            <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+                            <input type="date" name="date" value={formData.date} onChange={handleChange} min={today} required />
                         </div>
                         <div className="horizontal-time">
                             <label>Time:</label>
-                            <input type="time" name="time" value={formData.time} onChange={handleChange} required />
+                            <input type="time" name="time" value={formData.time} onChange={handleChange} min={now} required />
                         </div>
                         <div className="horizontal-duration">
                             <label>Duration:</label>
