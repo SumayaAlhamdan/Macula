@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaDesktop, FaArrowRight } from 'react-icons/fa';
 import "../educatorHome.css";
+import FaceDetection from '../FaceDetection';
 
 const StudentHome = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [fetchedClassrooms, setFetchedClassrooms] = useState([]);
   const [fetchedCourses, setFetchedCourses] = useState([]);
-
+  const [selectedClassroomID, setSelectedClassroomID] = useState(null); // State to store the selected classroom ID
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -50,6 +51,16 @@ const StudentHome = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Returns only the date part
   };
+  const handleJoinClassroom = (classroomID) => {
+    setSelectedClassroomID(classroomID); // Set the selected classroom ID to trigger the FaceDetection popup
+  };
+  const handleCloseModal = () => {
+    setSelectedClassroomID(null); // Reset selectedClassroomID when the modal is closed
+  };
+  const handleStartVideo = (startVideo) => {
+    startVideo(); // Call the startVideo function when available
+};
+
 
   return (
     <div className="educator-home">
@@ -65,9 +76,17 @@ const StudentHome = () => {
                 <div key={classroom._id} className="classroom-box">
                   <p>
                     {classroom.courseID}: {classroom.title}
-                    <div className="joindiv" onClick={openLinks}> 
+                    <div className="joindiv"> 
+                        {/* Pass the classroom ID to the handleJoinClassroom function */}
+                        <button onClick={() => handleJoinClassroom(classroom._id)} className="join-link">
+                          Join <FaArrowRight className="arrow-icon" />
+                        </button>
+                      </div>
+                    {/* <div className="joindiv"> 
+                    <a href="http://localhost:3000/react-rtc-demo" target="_blank" className="join-link">
                     Join <FaArrowRight className="arrow-icon" />
-                    </div>
+                    </a>
+                    </div> */}
                     <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
                   </p>
                   {index !== fetchedClassrooms.length - 1 && <hr />}
@@ -82,6 +101,8 @@ const StudentHome = () => {
         )}
       </div>
       </div>
+      {selectedClassroomID && <FaceDetection classroomID={selectedClassroomID} studentID={user.student.ID} onStartVideo={handleStartVideo} onCloseModal={handleCloseModal}/>}
+    
     </div>
   );
 };

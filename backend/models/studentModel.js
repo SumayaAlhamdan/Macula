@@ -18,7 +18,10 @@ const studentSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  }, image: {
+    type: String,
+    required: true
+}
 }, { timestamps: false })
 
 module.exports = mongoose.model('Student', studentSchema, 'students');

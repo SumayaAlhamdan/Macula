@@ -4,11 +4,13 @@ import axios from 'axios';
 import { FaDesktop, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 import BlackButton from "../components/BlackButton";
 import "../css/classrooms.css";
+import FaceDetection from '../FaceDetection';
 
 const SClassrooms = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
   const { courseCode } = useParams();
   const [fetchedClassrooms, setFetchedClassrooms] = useState([]);
-
+  const [selectedClassroomID, setSelectedClassroomID] = useState(null); // State to store the selected classroom ID
   useEffect(() => {
     fetchClassrooms();
   }, []);
@@ -29,35 +31,53 @@ const SClassrooms = () => {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Returns only the date part
   };
-
+  const handleJoinClassroom = (classroomID) => {
+    setSelectedClassroomID(classroomID); // Set the selected classroom ID to trigger the FaceDetection popup
+  };
+  const handleCloseModal = () => {
+    setSelectedClassroomID(null); // Reset selectedClassroomID when the modal is closed
+  };
+  const handleStartVideo = (startVideo) => {
+    startVideo(); // Call the startVideo function when available
+  };
   return (
     <div className="classroom-page">
       <div className="classroom-page-title">
         <h2><FaCalendarAlt className='course-icon' /> {courseCode}</h2>
       </div>
       <div className="upcoming-classes-container">
-      <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
-      <div className="classroom-container">
-        {fetchedClassrooms.length > 0 ? (
-          fetchedClassrooms.map((classroom, index) => (
-            classroom.courseID === courseCode ? (
-              <div key={classroom._id} className="classroom-box">
-                <p>
-                  {classroom.title}
-                  <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
+        <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
+        <div className="classroom-container">
+          {fetchedClassrooms.length > 0 ? (
+            fetchedClassrooms.map((classroom, index) => (
+              classroom.courseID === courseCode ? (
+                <div key={classroom._id} className="classroom-box">
+                  <p>
+                    {classroom.title}
+                    <div className="joindiv">
+                      {/* Pass the classroom ID to the handleJoinClassroom function */}
+                      <button onClick={() => handleJoinClassroom(classroom._id)} className="join-link">
+                        Join <FaArrowRight className="arrow-icon" />
+                      </button>
+                    </div>
+                    {/* <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
                           Join<FaArrowRight className="arrow-icon" />
-                        </a></div>
-                  <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
-                </p>
-                {index !== fetchedClassrooms.length - 1 && <hr />}
-              </div>
-            ) : null
-          ))
-        ) : (
-          <p>No Upcoming classes for this course</p>
-        )}
+                        </a>
+                        </div> */}
+                    <div>
+                      {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                  </p>
+                  {index !== fetchedClassrooms.length - 1 && <hr />}
+                </div>
+              ) : null
+            ))
+          ) : (
+            <p>No Upcoming classes for this course</p>
+          )}
+        </div>
       </div>
-      </div>
+      {selectedClassroomID && <FaceDetection classroomID={selectedClassroomID} studentID={user.student.ID} onStartVideo={handleStartVideo} onCloseModal={handleCloseModal} />}
+
     </div>
   );
 };

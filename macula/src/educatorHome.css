@@ -34,6 +34,8 @@
   }
   .join-link{
     color: #EF5423;
+    border: none;
+    background-color: rgba(232, 232, 232, 0.482);
   }
   .joindiv{
     float: right
