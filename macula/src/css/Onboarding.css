@@ -1,0 +1,221 @@
+.Logo {
+    position: absolute;
+    top: 150px;
+    left: 60px;
+    width: 600px; /* Adjust width as needed */
+  }
+  
+  .ojo {
+    position: absolute;
+    top: 181px;
+    left: 330px;
+    transform: translate(-50%, -50%);
+  }
+  .AdminLogin{
+    font-size:x-small;
+    color: #EF5423;
+    font-weight: 500;
+    font-style:italic;
+    text-decoration: underline;
+  }
+  .sloganIn{
+   padding-top: 0%;
+  }
+  .Main{
+    position: absolute;
+  top: 20px; /* Adjust the top position as needed */
+  right: 27%; /* Center horizontally */
+  transform: translateX(-50%);
+  z-index: 1; /* Ensure the text appears above the SVG */
+  color:#000000 ;
+  text-decoration: none;
+  }
+
+  .Aboutus{
+    position: absolute;
+  top: 20px; /* Adjust the top position as needed */
+  right: 10%; /* Center horizontally */
+  transform: translateX(-50%);
+  z-index: 1; /* Ensure the text appears above the SVG */
+  color:#000000 ;
+  text-decoration: none;
+  }
+  .Features{
+    position: absolute;
+  top: 20px; /* Adjust the top position as needed */
+  right: 18%; /* Center horizontally */
+  transform: translateX(-50%);
+  z-index: 1; /* Ensure the text appears above the SVG */
+  color:#000000 ;
+  text-decoration: none;
+  }
+  .LoginOnboarding{
+    position: absolute;
+  top: 20px; /* Adjust the top position as needed */
+  right: 5%; /* Center horizontally */
+  transform: translateX(-50%);
+  z-index: 1; /* Ensure the text appears above the SVG */
+  color:#000000 ;
+  text-decoration: none;
+  }
+  
+  .slogan {
+    position: absolute;
+    top: 37%; /* Adjust the top position as needed */
+    left: 28%; /* Center horizontally */
+    transform: translateX(-50%);
+    z-index: 1; /* Ensure the text appears above the SVG */
+    font-size: 22px;
+   /* font-style: oblique;
+   /* font-weight:600; */
+    color: #109ba8;
+  }  
+
+  .sloganIn{
+    padding-bottom: 10%;
+  }
+  
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+.pupila {
+  position: absolute;
+  content:"";
+  width: 20px;
+  height: 50px;
+  background: #000000;
+   border-radius: 200%;
+  margin: auto;
+  top: 0; left: 0; bottom: 10; right: 0;
+  z-index: 1;
+  
+  animation-name: move;
+  animation-duration: 4s;
+  animation-timing-function: ease;
+  animation-delay:0s;
+  animation-iteration-count: infinite;
+  
+  
+  animation-name: blink;
+  animation-duration: 4s;
+  animation-timing-function: ease;
+  animation-delay:2s;
+  animation-iteration-count: infinite;
+  
+  -webkit-animation-name: blink;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-delay:2s;
+  -webkit-animation-iteration-count: infinite;
+  
+  -moz-animation-name: blink;
+  -moz-animation-duration: 4s;
+  -moz-animation-timing-function: ease;
+  -moz-animation-delay:2s;
+  -moz-animation-iteration-count: infinite;
+}
+
+@keyframes move {
+  0%{}
+}
+
+@keyframes blink {
+	0% { 
+    border-bottom: 0px solid #ffffff;
+    border-top: 0px solid #ffffff;  
+  }
+	5% { 
+    border-bottom:19px solid #ffffff;
+    border-top:25px solid #ffffff; 
+  }
+  
+  15% {
+    border-bottom:25px solid #ffffff;
+    border-top:25px solid #ffffff; 
+  }
+  
+  20%{
+    border-bottom:0px solid #ffffff;
+    border-top:0px solid #ffffff; 
+  }
+  
+  100%{
+    border-bottom: 0px solid #ffffff;
+    border-top: 0px solid #ffffff;  
+  }
+}
+
+@-webkit-keyframes blink {
+	0% { 
+    border-bottom: 0px solid #ffffff;
+    border-top: 0px solid #ffffff;  
+  }
+	5% { 
+    border-bottom:30px solid #ffffff;
+    border-top:30px solid #ffffff; 
+  }
+  
+  15% {
+    border-bottom:50px solid #ffffff;
+    border-top:50px solid #ffffff; 
+  }
+  
+  20% {
+    border-bottom:50px solid #ffffff;
+    border-top:50px solid #ffffff; 
+  }
+  
+  100% {
+    border-bottom: 50px solid #ffffff;
+    border-top: 50px solid #ffffff;  
+  }
+}
+
+@-moz-keyframes blink {
+	0% { 
+    border-bottom: 0px solid #ffffff;
+    border-top: 0px solid #ffffff;  
+  }
+	5% { 
+    border-bottom:22px solid #ffffff;
+    border-top:25px solid #ffffff; 
+  }
+  
+  15% {
+    border-bottom:25px solid #ffffff;
+    border-top:25px solid #ffffff; 
+  }
+  
+  20% {
+    border-bottom:0px solid #ffffff;
+    border-top:0px solid #ffffff; 
+  }
+  
+  100% {
+    border-bottom: 0px solid #ffffff;
+    border-top: 0px solid #ffffff;  
+  }
+}
+/*.ojo {
+    position: absolute;
+    top: 18.595%;  Adjust top position as needed 
+    left: 22.30%; /* Adjust left position as needed 
+
+    transform: translate(-50%, -50%);
+  }*/
+  .background-circles {
+    top: 0;
+    z-index: -9999;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
+  
+  .background-circles--blue {
+    background: #ffd51e;
+  }
+  

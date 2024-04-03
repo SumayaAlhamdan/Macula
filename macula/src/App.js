@@ -14,6 +14,7 @@ import SClassrooms from './pages/Sclassrooms';
 import Eviewcourse from "./Eviewcourse";
 import Sviewcourse from "./Sviewcourse";
 import ViewEngage from "./pages/ViewEngage";
+import Onboarding from "./pages/Onboarding";
 function App() {
   return (
     <div className="App">
@@ -36,6 +37,10 @@ function App() {
 
           </Routes>
         </Layout>
+        <Routes>
+        <Route path="/Onboarding" element={<Onboarding />} />
+
+        </Routes>
       </Router>
     </div>
   );

@@ -8,7 +8,7 @@ const Home = () => {
   // Check if the user is authenticated
   if (!user) {
     // If not authenticated, redirect to the login page
-    return <Navigate to="/login" />;
+    return <Navigate to="/Onboarding" />;
   }
 
   // Retrieve the user's role from local storage

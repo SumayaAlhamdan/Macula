@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const handleClick = () => {
     logout();
-    navigate('/login');
+    navigate('/Onboarding');
   };
 
   return (
