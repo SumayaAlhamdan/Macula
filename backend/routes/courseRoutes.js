@@ -3,6 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const Course = require('../models/course');
+const Student = require('../models/studentModel');
+
 
 router.get('/', async (req, res) => {
     try {
@@ -96,9 +98,27 @@ router.get('/sCourse', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+router.get('/sCourse/:courseCode/students', async (req, res) => {
+    try {
+        const { courseCode } = req.params;
+
+        // Find the course by its code
+        const course = await Course.findOne({ code: courseCode });
+        if (!course) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
+
+        // Retrieve students enrolled in the course
+        const students = await Student.find({ ID: { $in: course.students } });
+        console.log(students);
+        res.status(200).json({ students });
+    } catch (error) {
+        console.error('Error fetching students:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 
 
-  
 
 module.exports = router;

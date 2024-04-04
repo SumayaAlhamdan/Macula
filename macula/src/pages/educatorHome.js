@@ -12,36 +12,68 @@ const EducatorHome = () => {
     fetchClassrooms();
   }, []);
 
-    const fetchCourses = async () => {
-      try {
-        if (Ecourses.length === 0) {
-          const response = await axios.get('/api/courses/eCourse', {
-            params: {
-              educatorID: user.educator.ID
-            }
-          });
-          const courseCodes = response.data.map(course => course.code);
-          setEducatorCourses(courseCodes);
-        }
-      } catch (error) {
-        console.error('Error fetching courses:', error.message);
+  const fetchCourses = async () => {
+    try {
+      if (Ecourses.length === 0) {
+        const response = await axios.get('/api/courses/eCourse', {
+          params: {
+            educatorID: user.educator.ID
+          }
+        });
+        const courseCodes = response.data.map(course => course.code);
+        setEducatorCourses(courseCodes);
       }
-    };    
+    } catch (error) {
+      console.error('Error fetching courses:', error.message);
+    }
+  };
 
-    const fetchClassrooms = async () => {
-      try {
-        const response = await axios.get('/api/classrooms');
-        const classrooms = response.data.message;
-        setFetchedClassrooms(classrooms);
-      } catch (error) {
-        console.error('Error fetching classrooms:', error.message);
-      }
-    };
+  const fetchClassrooms = async () => {
+    try {
+      const response = await axios.get('/api/classrooms');
+      const classrooms = response.data.message;
+      setFetchedClassrooms(classrooms);
+    } catch (error) {
+      console.error('Error fetching classrooms:', error.message);
+    }
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
+
+//   const handleJoinClassroom = async (courseCode) => {
+//     window.open('http://localhost:3000/react-rtc-demo', '_blank');
+//     try {
+//         const res = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
+//         console.log(res.data); // Handle the response data accordingly
+//     } catch (error) {
+//         console.error('Error retrieving students:', error);
+//         // Handle the error
+//     }
+// };
+const handleJoinClassroom = async (courseCode) => {
+  window.open('http://localhost:3000/react-rtc-demo', '_blank');
+  try {
+      // Fetch students enrolled in the class
+      const studentResponse = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
+      const students = studentResponse.data.students;
+
+      // Fetch attendance records for each student
+      const attendanceRecords = [];
+      for (const student of students) {
+          const attendanceResponse = await axios.get(`/api/attendance/report?studentId=${student.ID}`);
+          attendanceRecords.push({ student, attendance: attendanceResponse.data.data });
+      }
+
+      console.log(attendanceRecords);
+      // Handle the attendance records accordingly
+  } catch (error) {
+      console.error('Error retrieving students or attendance records:', error);
+      // Handle the error
+  }
+};
 
   return (
     <div className="educator-home">
@@ -58,11 +90,17 @@ const EducatorHome = () => {
                     <p>
                       {classroom.courseID}: {classroom.title}
                       <div className="joindiv">
+                        {/* Pass the classroom ID to the handleJoinClassroom function */}
+                        <button onClick={async () => { handleJoinClassroom(classroom.courseID) }} className="join-link">
+                          Join <FaArrowRight className="arrow-icon" />
+                        </button>
+                      </div>
+                      {/* <div className="joindiv">
                         <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
                           Join<FaArrowRight className="arrow-icon" />
                         </a>
-                      </div>
-                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
+                      </div> */}
+                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
                     </p>
                     {index !== fetchedClassrooms.length - 1 && <hr />}
                   </div>

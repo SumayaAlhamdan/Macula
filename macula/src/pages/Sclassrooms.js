@@ -95,30 +95,32 @@ const SClassrooms = () => {
         </div>
       </div>
       <div className="big-attendance-container">
-      <h3 className='h3'><FaDesktop className='desktop-icon' /> Attendance</h3>
-      <div className="classroom-container">
-        {fetchedClassrooms.length > 0 ? (
-          fetchedClassrooms
-            .filter(classroom => new Date(classroom.date) < currentDate) // Filter classes that have passed
-            .filter(classroom => classroom.courseID === courseCode) // Filter classes for the specific course
-            .map((classroom, index) => (
-              <div key={classroom._id} className="classroom-box">
+  <h3 className='h3'><FaDesktop className='desktop-icon' /> Attendance</h3>
+  <div className="classroom-container">
+    {fetchedClassrooms.length > 0 ? (
+      fetchedClassrooms
+        .filter(classroom => new Date(classroom.date) < currentDate) // Filter classes that have passed
+        .filter(classroom => classroom.courseID === courseCode) // Filter classes for the specific course
+        .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort classrooms from newest to oldest
+        .map((classroom, index) => (
+          <div key={classroom._id} className="classroom-box">
+            <p>
+              {classroom.title}
+              <div className="attendance-status">
                 <p>
-                  {classroom.title}
-                  <div className="attendance-status">
-                    <p>
-                      Attendance Status: <label className='usernametitle' style={{ display: 'inline-block', marginLeft: '5px' }}>{getClassAttendanceStatus(classroom._id)}</label>
-                    </p>
-                  </div>
+                  Attendance Status: <label className='usernametitle' style={{ display: 'inline-block', marginLeft: '5px' }}>{getClassAttendanceStatus(classroom._id)}</label>
                 </p>
-                {index !== fetchedClassrooms.length - 1 && <hr />}
               </div>
-            ))
-        ) : (
-          <p className='classesEmptyState'>No classes available</p>
-        )}
-      </div>
-    </div>
+            </p>
+            {index !== fetchedClassrooms.length - 1 && <hr />}
+          </div>
+        ))
+    ) : (
+      <p className='classesEmptyState'>No classes available</p>
+    )}
+  </div>
+</div>
+
       {selectedClassroomID && <FaceDetection classroomID={selectedClassroomID} studentID={user.student.ID} onStartVideo={handleStartVideo} onCloseModal={handleCloseModal} />}
 
     </div>
