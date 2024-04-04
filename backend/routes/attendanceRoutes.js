@@ -66,6 +66,18 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+router.get('/report', async (req, res) => {
+    try {
+        const studentId = req.query.studentId; // Extract student ID from query parameters
 
+        // Fetch attendance records that match the student ID
+        const attendanceRecords = await Record.find({ student_id: studentId });
+        
+        res.status(200).json({ success: true, data: attendanceRecords });
+    } catch (error) {
+        console.error('Error fetching attendance records:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
 
 module.exports = router;

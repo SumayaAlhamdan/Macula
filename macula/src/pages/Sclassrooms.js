@@ -11,8 +11,11 @@ const SClassrooms = () => {
   const { courseCode } = useParams();
   const [fetchedClassrooms, setFetchedClassrooms] = useState([]);
   const [selectedClassroomID, setSelectedClassroomID] = useState(null); // State to store the selected classroom ID
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const currentDate=new Date();
   useEffect(() => {
     fetchClassrooms();
+    fetchAttendanceRecords();
   }, []);
 
   async function fetchClassrooms() {
@@ -25,6 +28,21 @@ const SClassrooms = () => {
       console.error('Error fetching classrooms:', error);
     }
   }
+  async function fetchAttendanceRecords() {
+    try {
+      const response = await axios.get(`/api/attendance/report?studentId=${user.student.ID}`);
+      const records = response.data.data;
+      setAttendanceRecords(records);
+      console.log("Fetched attendance records:", records);
+    } catch (error) {
+      console.error('Error fetching attendance records:', error);
+    }
+  }
+  const getClassAttendanceStatus = (classroomID) => {
+    const record = attendanceRecords.find(record => record.classroom_id === classroomID);
+
+    return record ? 'Present' : 'Absent';
+  };
 
   // Function to format date
   const formatDate = (dateString) => {
@@ -76,6 +94,31 @@ const SClassrooms = () => {
           )}
         </div>
       </div>
+      <div className="big-attendance-container">
+      <h3 className='h3'><FaDesktop className='desktop-icon' /> Attendance</h3>
+      <div className="classroom-container">
+        {fetchedClassrooms.length > 0 ? (
+          fetchedClassrooms
+            .filter(classroom => new Date(classroom.date) < currentDate) // Filter classes that have passed
+            .filter(classroom => classroom.courseID === courseCode) // Filter classes for the specific course
+            .map((classroom, index) => (
+              <div key={classroom._id} className="classroom-box">
+                <p>
+                  {classroom.title}
+                  <div className="attendance-status">
+                    <p>
+                      Attendance Status: <label className='usernametitle' style={{ display: 'inline-block', marginLeft: '5px' }}>{getClassAttendanceStatus(classroom._id)}</label>
+                    </p>
+                  </div>
+                </p>
+                {index !== fetchedClassrooms.length - 1 && <hr />}
+              </div>
+            ))
+        ) : (
+          <p className='classesEmptyState'>No classes available</p>
+        )}
+      </div>
+    </div>
       {selectedClassroomID && <FaceDetection classroomID={selectedClassroomID} studentID={user.student.ID} onStartVideo={handleStartVideo} onCloseModal={handleCloseModal} />}
 
     </div>

@@ -19,16 +19,21 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
 
     React.useEffect(() => {
         const loadModels = async () => {
-
-
-            await Promise.all([
-                faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
-                faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-                faceapi.nets.faceLandmark68Net.loadFromUri('/models')
-            ]).then(setModelsLoaded(true));
-        }
+            try {
+                await Promise.all([
+                    faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
+                    faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+                    faceapi.nets.faceLandmark68Net.loadFromUri('/models')
+                ]);
+                setModelsLoaded(true); // Set modelsLoaded state when models are loaded
+            } catch (error) {
+                console.error('Error loading face detection models:', error);
+                // Handle model loading error
+            }
+        };
         loadModels();
     }, []);
+    
     useEffect(() => {
         if (modelsLoaded && onStartVideo) {
             onStartVideo(startVideo);
@@ -52,12 +57,12 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
 
     const handleVideoOnPlay = async () => {
         if (!videoRef.current) return;
-
+        console.log('`12345678987654321345`');
         // Wait for the video metadata to load
         await new Promise(resolve => {
             videoRef.current.addEventListener('loadedmetadata', resolve);
         });
-
+        console.log('`2222222222`');
         // Wait for the video to finish loading
         await new Promise(resolve => {
             videoRef.current.addEventListener('canplaythrough', resolve, { once: true });
@@ -139,11 +144,13 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
                 if (student.ID === studentId) { // Filter by student ID
                     console.log(student.ID + studentId);
                     const img = await faceapi.fetchImage(student.image);
+                    console.log('--------------');
                     const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-
+                    console.log('+++++++++++++++');
                     if (detections) {
                         descriptions.push(new faceapi.LabeledFaceDescriptors(student.ID, [detections.descriptor]));
                         console.log(descriptions);
+                        console.log('33333333333333');
                     } else {
                         console.warn('No face detected for student:', student.ID);
                     }

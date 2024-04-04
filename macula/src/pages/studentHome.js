@@ -3,12 +3,16 @@ import axios from 'axios';
 import { FaDesktop, FaArrowRight } from 'react-icons/fa';
 import "../educatorHome.css";
 import FaceDetection from '../FaceDetection';
+//import { useHistory } from 'react-router-dom';
 
 const StudentHome = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [fetchedClassrooms, setFetchedClassrooms] = useState([]);
   const [fetchedCourses, setFetchedCourses] = useState([]);
   const [selectedClassroomID, setSelectedClassroomID] = useState(null); // State to store the selected classroom ID
+  //const history = useHistory();
+
+ 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -23,7 +27,7 @@ const StudentHome = () => {
         console.error('Error fetching courses:', error.message);
       }
     };
-    
+
     fetchCourses();
   }, [user.student.ID]);
 
@@ -42,10 +46,15 @@ const StudentHome = () => {
     }
   }
 
+  const handleViewAttendance = (courseCode) => {
+    // Redirect the user to the course page
+    window.location.href = `http://localhost:3000/Sclassrooms/${courseCode}`;
+};
+
   const openLinks = () => {
     window.open('http://localhost:3000/react-rtc-demo', '_blank');
     window.open('http://127.0.0.1:5000', '_blank');
-};
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -59,50 +68,81 @@ const StudentHome = () => {
   };
   const handleStartVideo = (startVideo) => {
     startVideo(); // Call the startVideo function when available
-};
+  };
 
-
+  
+  
   return (
     <div className="educator-home">
       <h2>Welcome, <span className='usernametitle'>{user.student.name} </span></h2>
       <div className="upcoming-classes-container">
-      <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
-      <div className="classroom-container">
-        {fetchedClassrooms.length > 0 && fetchedCourses.length > 0 ? (
-          fetchedClassrooms.map((classroom, index) => {
-            const matchingCourse = fetchedCourses.find(course => course.code === classroom.courseID);
-            if (matchingCourse) {
-              return (
-                <div key={classroom._id} className="classroom-box">
-                  <p>
-                    {classroom.courseID}: {classroom.title}
-                    <div className="joindiv"> 
+        <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
+        <div className="classroom-container">
+          {fetchedClassrooms.length > 0 && fetchedCourses.length > 0 ? (
+            fetchedClassrooms.map((classroom, index) => {
+              const matchingCourse = fetchedCourses.find(course => course.code === classroom.courseID);
+              if (matchingCourse) {
+                return (
+                  <div key={classroom._id} className="classroom-box">
+                    <p>
+                      {classroom.courseID}: {classroom.title}
+                      <div className="joindiv">
                         {/* Pass the classroom ID to the handleJoinClassroom function */}
                         <button onClick={() => handleJoinClassroom(classroom._id)} className="join-link">
                           Join <FaArrowRight className="arrow-icon" />
                         </button>
                       </div>
-                    {/* <div className="joindiv"> 
+                      {/* <div className="joindiv"> 
                     <a href="http://localhost:3000/react-rtc-demo" target="_blank" className="join-link">
                     Join <FaArrowRight className="arrow-icon" />
                     </a>
                     </div> */}
-                    <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div> 
+                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                    </p>
+                    {index !== fetchedClassrooms.length - 1 && <hr />}
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })
+          ) : (
+            <p className='classesEmptyState'>No Upcoming classes</p>
+          )}
+        </div>
+
+      </div>
+      <div className="big-attendance-container">
+        <h3 className='h3'><FaDesktop className='desktop-icon' /> Attendance</h3>
+        <div className="classroom-container">
+          {fetchedCourses.length > 0 ? (
+            fetchedCourses.map((course,index) => {
+              return (
+                <div key={course._id} className="classroom-box">
+                  <p>
+                    {course.code}: {course.title}
+                    <div className="joindiv">
+                        {/* Pass the classroom ID to the handleJoinClassroom function */}
+                        <button  onClick={() => handleViewAttendance(course.code)} className="join-link">
+                          View <FaArrowRight className="arrow-icon" />
+                        </button>
+                      </div>
                   </p>
-                  {index !== fetchedClassrooms.length - 1 && <hr />}
+                  {index !== fetchedCourses.length - 1 && <hr />}
+                  {/* <div className="attendance">
+                    <span>Attendance: {formatAttendance(course.attendance)}</span>
+                  </div> */}
                 </div>
               );
-            } else {
-              return null;
-            }
-          })
-        ) : (
-          <p className='classesEmptyState'>No Upcoming classes</p>
-        )}
+            })
+          ) : (
+            <p className='classesEmptyState'>No courses registered</p>
+          )}
+        </div>
+
       </div>
-      </div>
-      {selectedClassroomID && <FaceDetection classroomID={selectedClassroomID} studentID={user.student.ID} onStartVideo={handleStartVideo} onCloseModal={handleCloseModal}/>}
-    
+      {selectedClassroomID && <FaceDetection classroomID={selectedClassroomID} studentID={user.student.ID} onStartVideo={handleStartVideo} onCloseModal={handleCloseModal} />}
+
     </div>
   );
 };
