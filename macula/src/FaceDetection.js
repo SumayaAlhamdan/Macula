@@ -33,7 +33,7 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
         };
         loadModels();
     }, []);
-    
+
     useEffect(() => {
         if (modelsLoaded && onStartVideo) {
             onStartVideo(startVideo);
@@ -57,12 +57,10 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
 
     const handleVideoOnPlay = async () => {
         if (!videoRef.current) return;
-        console.log('`12345678987654321345`');
         // Wait for the video metadata to load
         await new Promise(resolve => {
             videoRef.current.addEventListener('loadedmetadata', resolve);
         });
-        console.log('`2222222222`');
         // Wait for the video to finish loading
         await new Promise(resolve => {
             videoRef.current.addEventListener('canplaythrough', resolve, { once: true });
@@ -99,16 +97,18 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
                     resizedDetections.forEach(async (detection) => {
                         const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
                         if (bestMatch._label === studentID) { // Check if the label matches the student ID
-                            const box = detection.detection.box;
-                            const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
-                            drawBox.draw(canvasRef.current);
+                            // const box = detection.detection.box;
+                            // const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
+                            // drawBox.draw(canvasRef.current);
 
                             // Make an HTTP request to mark the student present in the database
                             try {
+                                closeWebcam();
                                 await axios.post('http://localhost:4000/api/attendance', { studentID, classroomID });
                                 console.log('Student marked present:', studentID);
                                 window.open('http://localhost:3000/react-rtc-demo', '_blank');
                                 window.open('http://127.0.0.1:5000', '_blank');
+
 
                                 // window.location.href ="http://localhost:3000/react-rtc-demo";
                             } catch (error) {
