@@ -37,7 +37,7 @@ const Classrooms = () => {
             const response = await axios.get('/api/classrooms');
             const classrooms = response.data.message;
             setFetchedClassrooms(classrooms);
-            const classroomsForCourse1 = fetchedClassrooms.filter(classroom => classroom.courseID === courseCode);
+            const classroomsForCourse1 = fetchedClassrooms.filter(classroom => classroom.courseID == courseCode);
             setCourseClasses(classroomsForCourse1);
             console.log("Fetched classrooms:", classrooms);
             console.log(`C:${classroomsForCourse1}`);
