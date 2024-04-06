@@ -18,7 +18,8 @@ const Classrooms = () => {
     const [successPopup, setSuccessPopup] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
     const [errorMessage, setErrorMessage] = useState('');
-    const [classroomsForCourse,setCourseClasses]=useState('');
+    const [classroomsForCourse,setCourseClasses]=useState([]);
+    const [selectedClassroomID, setSelectedClassroomID] = useState(null);
     const [formData, setFormData] = useState({
         courseID: courseCode,
         educatorID: user.educator.ID,
@@ -27,6 +28,7 @@ const Classrooms = () => {
         time: '',
         duration: ''
     });
+    const currentDate=new Date();
 
     useEffect(() => {
         fetchClassrooms();
@@ -37,10 +39,7 @@ const Classrooms = () => {
             const response = await axios.get('/api/classrooms');
             const classrooms = response.data.message;
             setFetchedClassrooms(classrooms);
-            const classroomsForCourse1 = fetchedClassrooms.filter(classroom => classroom.courseID === courseCode);
-            setCourseClasses(classroomsForCourse1);
             console.log("Fetched classrooms:", classrooms);
-            console.log(`C:${classroomsForCourse1}`);
         } catch (error) {
             console.error('Error fetching classrooms:', error);
         }
@@ -108,23 +107,35 @@ const Classrooms = () => {
                 <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
 
                 <div className="classroom-container">
-                    {
-                    classroomsForCourse.length > 0 ? (
-                        classroomsForCourse.map((classroom, index) => (
-                            <div key={classroom._id} className="classroom-box">
-                                <p>
-                                    {classroom.title}
-                                    <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank" className="join-link">
-                                        Join<FaArrowRight className="arrow-icon" />
-                                    </a></div>
-                                    <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
-                                </p>
-                                {index !== classroomsForCourse.length - 1 && <hr />}
-                            </div>
-                        ))
-                    ) : (
-                        <p>No Upcoming classrooms for this course</p>
-                    )}
+                {fetchedClassrooms.length > 0 ? (
+            fetchedClassrooms
+            .filter(classroom => new Date(classroom.date).toISOString().split('T')[0] >= currentDate.toISOString().split('T')[0] ) // Filter classes that have passed
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .map((classroom, index) => (
+              classroom.courseID === courseCode ? (
+                <div key={classroom._id} className="classroom-box">
+                  <p>
+                    {classroom.title}
+                    <div className="joindiv">
+                      {/* Pass the classroom ID to the handleJoinClassroom function */}
+                      <button className="join-link">
+                        Join <FaArrowRight className="arrow-icon" />
+                      </button>
+                    </div>
+                    {/* <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
+                          Join<FaArrowRight className="arrow-icon" />
+                        </a>
+                        </div> */}
+                    <div>
+                      {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                  </p>
+                  {index !== fetchedClassrooms.length - 1 && <hr />}
+                </div>
+              ) : null
+            ))
+          ) : (
+            <p>No Upcoming classes for this course</p>
+          )}
                 </div>
                 <div className="button-container">
                     <BlackButton className="create-classroom" onClick={() => setButtonPopup(true)} text="Create classroom" />
