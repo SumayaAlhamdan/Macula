@@ -30,4 +30,19 @@ router.get('/:courseID', async (req, res) => {
   }
 });
 
+// Get engagement records based on student ID
+router.get('/student/:studentID', async (req, res) => {
+  try {
+    const { studentID } = req.params;
+
+    // Fetch engagement records based on the student ID
+    const engagementRecords = await Engagement.find({ studentID });
+
+    res.json({ engagementRecords });
+  } catch (error) {
+    console.error('Error fetching engagement records:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;

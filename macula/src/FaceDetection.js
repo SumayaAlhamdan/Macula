@@ -107,10 +107,10 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
                             try {
                                 await axios.post('http://localhost:4000/api/attendance', { studentID, classroomID });
                                 console.log('Student marked present:', studentID);
-                                window.open('http://localhost:3000/react-rtc-demo', '_blank');
-                                window.open('http://127.0.0.1:5000', '_blank');
+                                // window.open('http://localhost:3000/react-rtc-demo', '_blank');
+                                // window.open('http://127.0.0.1:5000', '_blank');
 
-                                // window.location.href ="http://localhost:3000/react-rtc-demo";
+                                window.location.href ="http://localhost:3000/react-rtc-demo";
                             } catch (error) {
                                 console.error('Error marking student present:', error);
                                 // Handle error marking student present
