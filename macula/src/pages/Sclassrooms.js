@@ -67,7 +67,10 @@ const SClassrooms = () => {
         <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
         <div className="classroom-container">
           {fetchedClassrooms.length > 0 ? (
-            fetchedClassrooms.map((classroom, index) => (
+            fetchedClassrooms
+            .filter(classroom => new Date(classroom.date).toISOString().split('T')[0] >= currentDate.toISOString().split('T')[0]) // Filter classes that have passed
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .map((classroom, index) => (
               classroom.courseID === courseCode ? (
                 <div key={classroom._id} className="classroom-box">
                   <p>

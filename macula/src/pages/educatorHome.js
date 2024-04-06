@@ -7,6 +7,7 @@ const EducatorHome = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [fetchedClassrooms, setFetchedClassrooms] = useState([]);
   const [Ecourses, setEducatorCourses] = useState([]);
+  const currentDate=new Date();
   useEffect(() => {
     fetchCourses();
     fetchClassrooms();
@@ -82,7 +83,10 @@ const handleJoinClassroom = async (courseCode) => {
         <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
         <div className="classroom-container">
           {Ecourses.length > 0 ? (
-            fetchedClassrooms.map((classroom, index) => {
+            fetchedClassrooms
+            .filter(classroom => new Date(classroom.date).toISOString().split('T')[0] >= currentDate.toISOString().split('T')[0])
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .map((classroom, index) => {
               const matchingCourse = Ecourses.find(course => course === classroom.courseID);
               if (matchingCourse) {
                 return (
