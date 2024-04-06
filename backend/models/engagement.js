@@ -3,32 +3,31 @@
 const mongoose = require('mongoose');
 mongoose.pluralize(null);
 
-
 const engagementSchema = new mongoose.Schema({
   studentID: {
     type: String,
     required: true
   },
-  courseID: {
+  classroomID: {
     type: String,
     required: true
   },
-  timestamp: {
-    type: Date,
-    default: Date.now
-  },
   engagementStatus: {
     type: String,
-    enum: ['Focused', 'Distracted'],
+    enum: ['Focused', 'Distracted', 'Away'],
     required: true
   },
   focusDuration: {
     type: Number,
-    required: true
+    default: 0 // Default value is 0
+  },
+  totalDistractionDuration: {
+    type: Number,
+    default: 0 // Default value is 0
   },
   longestFocusDuration: {
     type: Number,
-    required: true
+    default: 0 // Default value is 0
   }
 });
 
