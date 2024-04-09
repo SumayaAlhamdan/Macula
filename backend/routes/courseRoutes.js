@@ -118,6 +118,25 @@ router.get('/sCourse/:courseCode/students', async (req, res) => {
     }
 });
 
+router.put('/:courseId', async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        const { status } = req.body;
+
+        // Find the course by ID and update its status
+        const updatedCourse = await Course.findByIdAndUpdate(courseId, { status }, { new: true });
+
+        if (!updatedCourse) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        res.status(200).json({ message: 'Course status updated successfully', course: updatedCourse });
+    } catch (error) {
+        console.error('Error updating course status:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 
 
 

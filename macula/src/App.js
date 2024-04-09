@@ -3,6 +3,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './pages/layout'; // Import your Layout component
+import AdminLayout from "./pages/Adminlayout";
 import Home from './pages/Home';
 import Login from './pages/login';
 import StudentHome from './pages/studentHome';
@@ -15,6 +16,8 @@ import Eviewcourse from "./Eviewcourse";
 import Sviewcourse from "./Sviewcourse";
 import ViewEngage from "./pages/ViewEngage";
 import Onboarding from "./pages/Onboarding";
+import AdminLogin from "./pages/adminLogin";
+import AdminHome from "./pages/adminHome" ;
 function App() {
   return (
     <div className="App">
@@ -34,13 +37,15 @@ function App() {
             <Route path="/Eviewcourse" element={<Eviewcourse />} />
             <Route path="/Sviewcourse" element={<Sviewcourse />} />
             <Route path="/ViewEngage" element={<ViewEngage />} />
-
           </Routes>
         </Layout>
+        <AdminLayout>
         <Routes>
+        <Route path="/adminHome" element={<AdminHome />} />
+        <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="/Onboarding" element={<Onboarding />} />
-
         </Routes>
+        </AdminLayout>
       </Router>
     </div>
   );

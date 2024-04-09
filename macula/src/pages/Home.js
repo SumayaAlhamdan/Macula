@@ -13,13 +13,23 @@ const Home = () => {
 
   // Retrieve the user's role from local storage
   const storedUser = JSON.parse(localStorage.getItem('user'));
-  const userRole = storedUser ? storedUser.student ? 'student' : 'educator' : null;
+  const userRole = storedUser
+  ? storedUser.student
+    ? 'student'
+    : storedUser.educator
+    ? 'educator'
+    : storedUser.admin
+    ? 'admin'
+    : null
+  : null;
 
   // Redirect based on the user's role
   if (userRole === 'student') {
     return <Navigate to="/student-home" />;
   } else if (userRole === 'educator') {
     return <Navigate to="/educator-home" />;
+  }  else if(userRole==='admin'){
+return <Navigate to="/adminHome" /> ;
   } else {
     // Handle other roles or unexpected scenarios
     return (

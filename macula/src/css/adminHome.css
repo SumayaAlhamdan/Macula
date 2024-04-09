@@ -1,0 +1,82 @@
+table {
+    border-collapse: collapse;
+    width: 60%;
+  }
+  
+  th, td {
+    border: 0.5px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  th {
+    background-color: #FFFFFF;
+    font-weight: 400;
+  }
+  .AdminHome{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 70px;
+  }
+  .pagination {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Add space between table and pagination */
+  }
+  
+  .pagination button {
+    background-color: #ffffff; /* Green */
+    color: black;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+  
+  .pagination button.active {
+    background-color: #f2f2f2; /* Darker green */
+  }
+   
+  .active {
+    background-color: rgb(206, 255, 206);
+    color: darkgreen;
+    text-align: center;
+    border-radius: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 13px;
+  }
+  
+  .inactive {
+    text-align: center;
+    background-color: #ffcccc;
+    color: darkred;
+  }
+
+  .actionbutton{
+    text-align: center;
+    border-radius: 5px;
+    border: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .activeButton {
+    background-color: rgba(252, 0, 0, 0.251); /* Light red color for active buttons */
+    color: darkred;
+  }
+  
+  .activeButton:hover {
+    background-color: rgb(238, 112, 112); /* Darker red color when hovered */
+  }
+  
+  .inactiveButton {
+    background-color: rgb(206, 255, 206); /* Light green color for inactive buttons */
+  }
+  
+  .inactiveButton:hover {
+    background-color: rgb(172, 253, 172); /* Darker green color when hovered */
+  }
