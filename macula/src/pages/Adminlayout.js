@@ -12,10 +12,13 @@ const AdminLayout = ({ children }) => {
   const isAdmin = () => {
     return location.pathname === '/adminLogin' ;
   };
+  const isAdminHome = () => {
+    return location.pathname === '/adminHome' ;
+  };
   return (
     <div>
       {/* Render Navbar only if the current page is not the Onboarding page */}
-      {!isOnboardingPage() && !isAdmin() &&  <AdminNavbar />}
+      {!isOnboardingPage() && !isAdmin() && isAdminHome() &&  <AdminNavbar />}
       {children}
     </div>
   );
