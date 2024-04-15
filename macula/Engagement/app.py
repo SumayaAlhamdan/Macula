@@ -11,7 +11,10 @@ def index():
     student_id = "1"
     class_id = "1" 
     # Specify the path to the Python script you want to run
-    script_path = r"C:\Users\alham\OneDrive\Desktop\Macula\macula\Engagement\engage.py"
+    #script_path = r"C:\Users\alham\OneDrive\Desktop\Macula\macula\Engagement\engage.py"
+
+    script_path = r"C:\Users\alham\OneDrive\Desktop\attentionDTECTION\Driver-Drowsiness-Detection-master\detect.py"
+
 
     # Run the Python script using subprocess
     try:

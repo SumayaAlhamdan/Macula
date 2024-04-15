@@ -55,6 +55,30 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
             });
     }
 
+    const sendDataToBackend = (studentID, classroomID) => {
+        const data = {
+          studentID: studentID,
+          classroomID: classroomID
+        };
+      
+        fetch(' http://127.0.0.1:5000', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data); // Handle response from Flask backend
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      };
+      
+      
+
     const handleVideoOnPlay = async () => {
         if (!videoRef.current) return;
         console.log('`12345678987654321345`');
@@ -110,6 +134,7 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
                                 // window.open('http://localhost:3000/react-rtc-demo', '_blank');
                                 // window.open('http://127.0.0.1:5000', '_blank');
 
+                                sendDataToBackend(studentID, classroomID);
                                 window.location.href ="http://localhost:3000/react-rtc-demo";
                             } catch (error) {
                                 console.error('Error marking student present:', error);

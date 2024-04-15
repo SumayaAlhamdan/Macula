@@ -42,7 +42,7 @@ def detect_attentiveness(student_id, classroom_id):
     cap = cv2.VideoCapture(0)
 
     prev_face_location = None
-    movement_threshold = 50  # Adjust according to sensitivity of movement detection
+    movement_threshold = 8  # Adjust according to sensitivity of movement detection
 
     while True:
         ret, frame = cap.read()
@@ -70,7 +70,7 @@ def detect_attentiveness(student_id, classroom_id):
         else:
             status = 'away'
             if prev_face_location is not None:
-                update_attendance_log(status)
+           #     update_attendance_log(status)
 
                 # Update MongoDB collection
                 engagement_data = {
@@ -96,10 +96,13 @@ def detect_attentiveness(student_id, classroom_id):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-        time.sleep(15)  # Wait for 15 seconds before updating status
+        # time.sleep(15)  # Wait for 15 seconds before updating status
 
     cap.release()
     cv2.destroyAllWindows()
 
-# Call the detect_attentiveness function directly
-detect_attentiveness('1', '5678')
+# Directly integrating the functionality into the script
+student_id = '1'
+classroom_id = '5678'
+detect_attentiveness(student_id, classroom_id)
+

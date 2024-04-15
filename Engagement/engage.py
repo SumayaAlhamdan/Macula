@@ -27,7 +27,7 @@ def analyze_face(frame):
     
     # Display the focus status on the frame
     status_text = "Focused" if prediction > 0.5 else "Distracted"
-   # print(status_text)
+    print("Focus Status:", status_text)
     cv2.putText(frame, status_text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     
     return frame
@@ -46,8 +46,7 @@ while True:
 
     # Display the analyzed frame
     cv2.imshow('Facial Analysis', analyzed_frame[0])
-    cv2.resizeWindow('Facial Analysis', 400, 400)  # Adjust the size as needed
-
+    cv2.resizeWindow('Facial Analysis', 800, 600)  # Adjust the size as needed
 
     # Break the loop if 'q' key is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):

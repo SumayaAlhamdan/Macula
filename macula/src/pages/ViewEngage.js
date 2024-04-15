@@ -1,123 +1,93 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Chart from 'chart.js/auto';
 
-const EngagementRecords = () => {
-  const [courseID, setCourseID] = useState('');
+function ViewEngage() {
+  const [classID, setClassID] = useState('');
   const [engagementRecords, setEngagementRecords] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [studentsFocusStatus, setStudentsFocusStatus] = useState({});
-  const chartRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('Fetching engagement records...');
-    if (courseID.trim() !== '') { // Only fetch if courseID is not empty
-      fetchEngagementRecords();
-    }
-  }, [courseID]);
-
-  useEffect(() => {
-    console.log('Updating students focus status...');
-    updateStudentsFocusStatus();
-  }, [engagementRecords]);
-
-  useEffect(() => {
-    console.log('Drawing chart...');
-    drawChart(); // Call drawChart function once engagement records are fetched
-  }, [engagementRecords]);
-
-  const fetchEngagementRecords = async () => {
-    try {
+    if (classID) {
       setLoading(true);
-      const response = await axios.get(`/api/engagement/${courseID}`);
-      setEngagementRecords(response.data.engagementRecords); // Access 'engagementRecords' array
-      console.log(response.data.engagementRecords);
-      setLoading(false);
-      setError('');
-    } catch (error) {
-      console.error('Error fetching engagement records:', error);
-      setError('Error fetching engagement records');
-      setLoading(false);
-      setEngagementRecords([]); // Reset engagementRecords on error
-    }
-  };
-
-  const updateStudentsFocusStatus = () => {
-    console.log('Updating students focus status...');
-    const focusStatus = {};
-    engagementRecords.forEach(record => {
-      focusStatus[record.studentID] = record['Engagement Status'];
-    });
-    setStudentsFocusStatus(focusStatus);
-  };
-
-  const handleChange = (e) => {
-    console.log('Course ID changed:', e.target.value);
-    setCourseID(e.target.value);
-  };
-
-  const drawChart = () => {
-    console.log('Drawing chart...');
-    if (chartRef.current) {
-      chartRef.current.destroy(); // Destroy previous chart
-    }
-
-    const ctx = document.getElementById('engagementChart');
-    if (!ctx) return;
-
-    const labels = engagementRecords.map(record => record.studentID);
-    const data = engagementRecords.map(record => record['Focus Duration']);
-
-    chartRef.current = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Focus Duration (seconds)',
-          data: data,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
+      axios.get(`/api/engagement/${classID}`)
+        .then(response => {
+          // Check if response contains engagementRecords array
+          if (Array.isArray(response.data.engagementRecords)) {
+            setEngagementRecords(response.data.engagementRecords);
+            setError('');
+          } else {
+            setError('No data available');
+            setEngagementRecords([]);
           }
-        }
-      }
-    });
-  };
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching engagement data:', error);
+          setError('Error fetching engagement data. Please try again.');
+          setEngagementRecords([]);
+          setLoading(false);
+        });
+    } else {
+      setEngagementRecords([]);
+      setError('');
+    }
+  }, [classID]);
 
   return (
-    <div>
-      <h2>Engagement Records</h2>
-      <div>
-        <label htmlFor="courseID">Enter Course ID:</label>
-        <input
-          type="text"
-          id="courseID"
-          value={courseID}
-          onChange={handleChange}
-          placeholder="Course ID"
-        />
-        <button onClick={fetchEngagementRecords}>Search</button>
+    <div className="App">
+      <header>
+        <div className="container">
+          <h1>Student Engagement Dashboard</h1>
+          <nav>
+            <input
+              type="text"
+              placeholder="Enter Class ID"
+              value={classID}
+              onChange={(e) => setClassID(e.target.value)}
+            />
+            <button onClick={() => setClassID('')}>Clear</button>
+          </nav>
+        </div>
+      </header>
+
+      <div className="pages">
+        <div className="home">
+          <div className="student-list">
+            <h2>Students and Engagement Data</h2>
+            {loading && <p>Loading...</p>}
+            {error && <p className="error">{error}</p>}
+            {Array.isArray(engagementRecords) && engagementRecords.length > 0 ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Engagement Status</th>
+                    <th>Focus Duration</th>
+                    <th>Distracted Duration</th>
+                    <th>Longest Focus Duration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {engagementRecords.map(record => (
+                    <tr key={record._id}>
+                      <td>{record.studentID}</td>
+                      <td>{record['Engagement Status'] || 'N/A'}</td>
+                      <td>{record['Focus Duration'] || 'N/A'}</td>
+                      <td>{record['Total Distraction Duration'] || 'N/A'}</td>
+                      <td>{record['Longest Focus Duration'] || 'N/A'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>{error || 'No data available'}</p>
+            )}
+          </div>
+        </div>
       </div>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      <h3>Students Focus Status</h3>
-      <ul>
-        {Object.entries(studentsFocusStatus).map(([studentID, status]) => (
-          <li key={studentID}>
-            Student ID: {studentID}, Focus Status: {status}
-          </li>
-        ))}
-      </ul>
-      <canvas id="engagementChart" width="400" height="400"></canvas>
     </div>
   );
-};
+}
 
-export default EngagementRecords;
+export default ViewEngage;

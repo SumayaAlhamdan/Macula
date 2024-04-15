@@ -14,9 +14,10 @@
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.2",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "face-api.js": "^0.22.2",
     "gsap": "^3.12.5",
+    "mongodb": "^6.5.0",
     "mongoose": "^8.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
@@ -25,6 +26,7 @@
     "react-router-dom": "^6.22.0",
     "react-scripts": "^5.0.1",
     "react-tabs": "^6.0.2",
+    "text-encoding-utf-8": "^1.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -50,5 +52,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "supertest": "^6.3.4"
+  },
+  "jest" : {
   }
 }

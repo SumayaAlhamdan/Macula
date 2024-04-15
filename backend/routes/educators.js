@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Educator = require('../models/educatorModel');
+const Educator = require('../models/educatorModel') ;
 const jwt = require('jsonwebtoken');
 
 // Route to register a new educator

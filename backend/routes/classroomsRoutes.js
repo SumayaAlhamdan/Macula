@@ -40,4 +40,19 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Fetch a specific classroom by ID
+router.get('/:classroomID', async (req, res) => {
+    try {
+        const { classroomID } = req.params;
+        const classroom = await Classroom.findById(classroomID);
+        if (!classroom) {
+            return res.status(404).json({ message: 'Classroom not found' });
+        }
+        res.status(200).json({ message: classroom });
+    } catch (error) {
+        console.error('Error fetching classroom:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 module.exports = router;
