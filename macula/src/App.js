@@ -18,6 +18,7 @@ import ViewEngage from "./pages/ViewEngage";
 import Onboarding from "./pages/Onboarding";
 import AdminLogin from "./pages/adminLogin";
 import AdminHome from "./pages/adminHome" ;
+import RealtimeEngage from "./pages/RealtimeEngage";
 function App() {
   return (
     <div className="App">
@@ -37,6 +38,8 @@ function App() {
             <Route path="/Eviewcourse" element={<Eviewcourse />} />
             <Route path="/Sviewcourse" element={<Sviewcourse />} />
             <Route path="/ViewEngage" element={<ViewEngage />} />
+            <Route path="/realtime" element={<RealtimeEngage />} />
+
           </Routes>
         </Layout>
         <AdminLayout>

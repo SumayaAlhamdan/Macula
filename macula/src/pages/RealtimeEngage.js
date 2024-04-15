@@ -8,45 +8,34 @@ function RealtimeEngage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log('Class ID:', classID); // Log class ID
     if (classID) {
       setLoading(true);
-      axios.get(`/api/classrooms/${classID}`)
+      axios.get(`/api/engagement/${classID}`)
         .then(response => {
-          setStudents(response.data.students);
+          console.log('Response:', response.data); // Log response data
+          // Fix typo in "Engagement Status"
+          const updatedStudents = response.data.engagementRecords.map(record => {
+            return {
+              ...record,
+              'Engagement Status': record['Engagement Status'] === 'FOUCESED' ? 'FOCUSED' : record['Engagement Status']
+            };
+          });
+          setStudents(updatedStudents);
           setError('');
           setLoading(false);
         })
         .catch(error => {
           console.error('Error fetching classroom data:', error);
           setError('Error fetching classroom data. Please try again.');
-          setStudents([]);
+          setStudents([]); // Set to empty array in case of error
           setLoading(false);
         });
     } else {
-      setStudents([]);
+      setStudents([]); // Set to empty array when classID is cleared
       setError('');
     }
   }, [classID]);
-
-  useEffect(() => {
-    // Connect to WebSocket server
-    const socket = new WebSocket('ws://localhost:8000'); // Replace with your WebSocket server URL
-
-    // Listen for messages from WebSocket server
-    socket.onmessage = event => {
-      const updatedStudent = JSON.parse(event.data);
-      setStudents(prevStudents =>
-        prevStudents.map(student =>
-          student._id === updatedStudent._id ? updatedStudent : student
-        )
-      );
-    };
-
-    // Cleanup function
-    return () => {
-      socket.close();
-    };
-  }, []);
 
   const getStatusColor = status => {
     switch (status) {
@@ -59,33 +48,32 @@ function RealtimeEngage() {
     }
   };
 
+  const handleClassIDChange = event => {
+    setClassID(event.target.value);
+  };
+
   return (
     <div className="App">
-      <header>
-        <div className="container">
-          <h1>Student Engagement Dashboard</h1>
-          <nav>
-            <input
-              type="text"
-              placeholder="Enter Class ID"
-              value={classID}
-              onChange={(e) => setClassID(e.target.value)}
-            />
-            <button onClick={() => setClassID('')}>Clear</button>
-          </nav>
-        </div>
-      </header>
-
+      {/* Header and input elements */}
       <div className="pages">
         <div className="home">
           <div className="student-list">
             <h2>Students and Engagement Status</h2>
+            <div>
+              <label htmlFor="classIDInput">Enter Class ID:</label>
+              <input
+                id="classIDInput"
+                type="text"
+                value={classID}
+                onChange={handleClassIDChange}
+              />
+            </div>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
             <ul>
-              {students.map(student => (
-                <li key={student._id} style={{ color: getStatusColor(student.engagementData?.['Engagement Status']) }}>
-                  {`${student._id} - ${student.name} - ${student.engagementData?.['Engagement Status'] || 'Unknown'}`}
+              {students && students.map(student => (
+                <li key={student._id} style={{ color: getStatusColor(student['Engagement Status']) }}>
+                  {`${student.studentID} - ${student['Engagement Status']} - ${student['Distracted Duration'] || 0} s`}
                 </li>
               ))}
             </ul>

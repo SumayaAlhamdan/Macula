@@ -62,7 +62,6 @@ function ViewEngage() {
                 <thead>
                   <tr>
                     <th>Student ID</th>
-                    <th>Engagement Status</th>
                     <th>Focus Duration</th>
                     <th>Distracted Duration</th>
                     <th>Longest Focus Duration</th>
@@ -72,7 +71,6 @@ function ViewEngage() {
                   {engagementRecords.map(record => (
                     <tr key={record._id}>
                       <td>{record.studentID}</td>
-                      <td>{record['Engagement Status'] || 'N/A'}</td>
                       <td>{record['Focus Duration'] || 'N/A'}</td>
                       <td>{record['Total Distraction Duration'] || 'N/A'}</td>
                       <td>{record['Longest Focus Duration'] || 'N/A'}</td>
