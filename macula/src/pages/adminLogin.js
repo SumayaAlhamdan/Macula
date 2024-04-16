@@ -83,11 +83,10 @@ const AdminLogin = () => {
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
         </div>
+        {error && <div className="error-message">{error}</div>}
       <button className="Adminbutton"
       disabled={isLoading}>
         Login</button>
-        {error && <div className="error">{error}</div>}
-      <a href="#" class="resetPassword"><p >Reset password </p></a>
     </form>
     </div>
   );
