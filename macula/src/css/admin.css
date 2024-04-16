@@ -5,7 +5,7 @@
     max-width: 360px;
     max-height: 400px;
     margin: 0 auto 100px;
-    padding: 45px;
+    padding: 45px 45px 55px 45px;
     top: 10px;
     /*text-align: center; */
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -53,4 +53,3 @@
   .background-circles--blue {
     background: #ffd51e;
   }
-  
