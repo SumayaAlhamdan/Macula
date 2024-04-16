@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaDesktop, FaArrowRight } from 'react-icons/fa';
 import "../educatorHome.css";
+import { Link } from 'react-router-dom';
+
+
 
 const EducatorHome = () => {
+  
   const user = JSON.parse(localStorage.getItem('user'));
   const [fetchedClassrooms, setFetchedClassrooms] = useState([]);
   const [Ecourses, setEducatorCourses] = useState([]);
@@ -54,27 +58,31 @@ const EducatorHome = () => {
 //         // Handle the error
 //     }
 // };
-const handleJoinClassroom = async (courseCode) => {
-  window.open('http://localhost:3000/react-rtc-demo', '_blank');
+const handleJoinClassroom = async (courseCode, classroomID) => {
+  window.location.href = `/realtime/${classroomID}`;
   try {
-      // Fetch students enrolled in the class
-      const studentResponse = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
-      const students = studentResponse.data.students;
+    // Fetch students enrolled in the class
+    const studentResponse = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
+    const students = studentResponse.data.students;
 
-      // Fetch attendance records for each student
-      const attendanceRecords = [];
-      for (const student of students) {
-          const attendanceResponse = await axios.get(`/api/attendance/report?studentId=${student.ID}`);
-          attendanceRecords.push({ student, attendance: attendanceResponse.data.data });
-      }
+    // Fetch attendance records for each student in the original window
+    const attendanceRecords = [];
+    for (const student of students) {
+      const attendanceResponse = await axios.get(`/api/attendance/report?studentId=${student.ID}`);
+      attendanceRecords.push({ student, attendance: attendanceResponse.data.data });
+    }
 
-      console.log(attendanceRecords);
-      // Handle the attendance records accordingly
+    console.log(attendanceRecords);
+    // Handle the attendance records accordingly
   } catch (error) {
-      console.error('Error retrieving students or attendance records:', error);
-      // Handle the error
+    console.error('Error retrieving students or attendance records:', error);
+    // Handle the error
   }
+  
+  // Open another window after fetching attendance records
+  window.open('http://localhost:3000/react-rtc-demo', '_blank');
 };
+
 
   return (
     <div className="educator-home">
@@ -95,7 +103,7 @@ const handleJoinClassroom = async (courseCode) => {
                       {classroom.courseID}: {classroom.title}
                       <div className="joindiv">
                         {/* Pass the classroom ID to the handleJoinClassroom function */}
-                        <button onClick={async () => { handleJoinClassroom(classroom.courseID) }} className="join-link">
+                        <button onClick={async () => { handleJoinClassroom(classroom.courseID, classroom._id ) }} className="join-link">
                           Join <FaArrowRight className="arrow-icon" />
                         </button>
                       </div>

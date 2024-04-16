@@ -1,7 +1,7 @@
 // App.js
 
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Switch } from 'react-router-dom';
 import Layout from './pages/layout'; // Import your Layout component
 import AdminLayout from "./pages/Adminlayout";
 import Home from './pages/Home';
@@ -19,6 +19,7 @@ import Onboarding from "./pages/Onboarding";
 import AdminLogin from "./pages/adminLogin";
 import AdminHome from "./pages/adminHome" ;
 import RealtimeEngage from "./pages/RealtimeEngage";
+
 function App() {
   return (
     <div className="App">
@@ -39,6 +40,7 @@ function App() {
             <Route path="/Sviewcourse" element={<Sviewcourse />} />
             <Route path="/ViewEngage" element={<ViewEngage />} />
             <Route path="/realtime" element={<RealtimeEngage />} />
+            <Route path="/realtime/:classroomID" component={RealtimeEngage} />
 
           </Routes>
         </Layout>

@@ -1,41 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-function RealtimeEngage() {
-  const [classID, setClassID] = useState('');
+const RealtimeEngage = () => {
+  const { classroomID: initialClassroomID } = useParams();
+  const [classroomID, setClassroomID] = useState(initialClassroomID || ''); // Initialize with the classroomID from the URL
   const [students, setStudents] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('Class ID:', classID); // Log class ID
-    if (classID) {
+    if (classroomID) {
       setLoading(true);
-      axios.get(`/api/engagement/${classID}`)
-        .then(response => {
-          console.log('Response:', response.data); // Log response data
-          // Fix typo in "Engagement Status"
-          const updatedStudents = response.data.engagementRecords.map(record => {
-            return {
-              ...record,
-              'Engagement Status': record['Engagement Status'] === 'FOUCESED' ? 'FOCUSED' : record['Engagement Status']
-            };
-          });
-          setStudents(updatedStudents);
-          setError('');
-          setLoading(false);
+      // Step 1: Fetch all engagement records for the given classroomID
+      axios.get(`/api/engagement/${classroomID}`)
+        .then(async response => {
+          console.log('Engagement Records:', response.data);
+          const engagementRecords = response.data.engagementRecords;
+
+          // Step 2: Extract studentIDs from the engagement records
+          const studentIDs = engagementRecords.map(record => record.studentID);
+
+          // Step 3: Fetch student data for each studentID
+          const studentDataPromises = studentIDs.map(studentID =>
+            axios.get(`/api/students/${studentID}`)
+          );
+
+          try {
+            const studentResponses = await Promise.all(studentDataPromises);
+            const students = studentResponses.map(response => response.data);
+
+            // Log fetched student data
+            console.log('Fetched Students:', students);
+
+            // Step 4: Combine engagement records with fetched student data
+            const updatedStudents = engagementRecords.map((record, index) => {
+              const student = students[index]; // Assuming the order of students matches the order of engagement records
+              return {
+                ...record,
+                studentID: student ? student.ID : '', // Add student ID
+                studentName: student ? student.name : 'Unknown' // Assuming student has a "name" field
+              };
+            });
+            
+
+            setStudents(updatedStudents);
+            setLoading(false);
+            setError('');
+          } catch (error) {
+            console.error('Error fetching student data:', error);
+            setError('Error fetching student data. Please try again.');
+            setLoading(false);
+            setStudents([]);
+          }
         })
         .catch(error => {
-          console.error('Error fetching classroom data:', error);
-          setError('Error fetching classroom data. Please try again.');
-          setStudents([]); // Set to empty array in case of error
+          console.error('Error fetching engagement records:', error);
+          setError('Error fetching engagement records. Please try again.');
           setLoading(false);
+          setStudents([]);
         });
     } else {
-      setStudents([]); // Set to empty array when classID is cleared
+      setStudents([]);
       setError('');
     }
-  }, [classID]);
+  }, [classroomID]);
 
   const getStatusColor = status => {
     switch (status) {
@@ -48,40 +77,55 @@ function RealtimeEngage() {
     }
   };
 
-  const handleClassIDChange = event => {
-    setClassID(event.target.value);
+  const handleClassroomIDChange = (event) => {
+    setClassroomID(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Reload data based on the new classroomID
   };
 
   return (
     <div className="App">
-      {/* Header and input elements */}
       <div className="pages">
         <div className="home">
           <div className="student-list">
             <h2>Students and Engagement Status</h2>
-            <div>
-              <label htmlFor="classIDInput">Enter Class ID:</label>
-              <input
-                id="classIDInput"
-                type="text"
-                value={classID}
-                onChange={handleClassIDChange}
-              />
-            </div>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Classroom ID:
+                <input type="text" value={classroomID} onChange={handleClassroomIDChange} />
+              </label>
+              <button type="submit">Load Data</button>
+            </form>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
-            <ul>
-              {students && students.map(student => (
-                <li key={student._id} style={{ color: getStatusColor(student['Engagement Status']) }}>
-                  {`${student.studentID} - ${student['Engagement Status']} - ${student['Distracted Duration'] || 0} s`}
-                </li>
-              ))}
-            </ul>
+            <table>
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Student ID</th>
+                  <th>Engagement Status</th>
+                </tr>
+              </thead>
+              <tbody>
+              {students.map(student => (
+  <tr key={student._id} style={{ color: getStatusColor(student['Engagement Status']) }}>
+    <td>{student.studentName}</td>
+    <td>{student._id}</td> {/* Use _id as studentID */}
+    <td>{student['Engagement Status']}</td>
+  </tr>
+))}
+
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default RealtimeEngage;
+
