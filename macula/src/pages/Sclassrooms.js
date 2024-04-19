@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { FaDesktop, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
+import { FaDesktop, FaCalendarAlt, FaArrowRight,FaUserCheck } from 'react-icons/fa';
 import BlackButton from "../components/BlackButton";
 import "../css/classrooms.css";
 import FaceDetection from '../FaceDetection';
@@ -98,7 +98,7 @@ const SClassrooms = () => {
         </div>
       </div>
       <div className="big-attendance-container">
-  <h3 className='h3'><FaDesktop className='desktop-icon' /> Attendance</h3>
+  <h3 className='h3'><FaUserCheck className='desktop-icon'/> Attendance</h3>
   <div className="classroom-container">
     {fetchedClassrooms.length > 0 ? (
       fetchedClassrooms

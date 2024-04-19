@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaDesktop, FaArrowRight } from 'react-icons/fa';
+import { FaDesktop, FaArrowRight,FaUserCheck } from 'react-icons/fa';
 import "../educatorHome.css";
 import FaceDetection from '../FaceDetection';
 //import { useHistory } from 'react-router-dom';
@@ -117,7 +117,7 @@ const StudentHome = () => {
 
       </div>
       <div className="big-attendance-container">
-        <h3 className='h3'><FaDesktop className='desktop-icon' /> Attendance</h3>
+        <h3 className='h3'><FaUserCheck className='desktop-icon'/> Attendance</h3>
         <div className="classroom-container">
           {fetchedCourses.length > 0 ? (
             fetchedCourses.map((course,index) => {
