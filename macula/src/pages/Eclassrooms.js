@@ -18,7 +18,7 @@ const Classrooms = () => {
     const [successPopup, setSuccessPopup] = useState(false);
     const user = JSON.parse(localStorage.getItem('user'));
     const [errorMessage, setErrorMessage] = useState('');
-    const [classroomsForCourse,setCourseClasses]=useState([]);
+    const [classroomsForCourse, setCourseClasses] = useState([]);
     const [selectedClassroomID, setSelectedClassroomID] = useState(null);
     const [formData, setFormData] = useState({
         courseID: courseCode,
@@ -28,7 +28,7 @@ const Classrooms = () => {
         time: '',
         duration: ''
     });
-    const currentDate=new Date();
+    const currentDate = new Date();
 
     useEffect(() => {
         fetchClassrooms();
@@ -46,8 +46,34 @@ const Classrooms = () => {
     }
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+    
+        // Validate duration input to ensure it falls within the range of 1 to 300
+        if (name === 'duration') {
+            const intValue = parseInt(value); // Convert input value to integer
+            if (intValue < 1 || intValue > 300) {
+                // If input value is outside of the range, set it to the nearest boundary
+                setFormData({ ...formData, [name]: intValue < 1 ? '1' : '300' });
+            } else {
+                // If input value is within the range, update the state normally
+                setFormData({ ...formData, [name]: intValue.toString() });
+            }
+        } else {
+            // Regular expression to allow only alphanumeric characters and spaces
+            const regex = /^[a-zA-Z0-9\s]*$/;
+    
+            // Check if the input value matches the regular expression
+            if (name === 'title' && !regex.test(value)) {
+                setErrorMessage('Title should not contain special characters');
+            } else {
+                // For other input fields, update the state normally
+                setFormData({ ...formData, [name]: value });
+                setErrorMessage(''); // Clear error message if input is valid
+            }
+        }
     };
+    
+    
 
     const resetForm = () => {
         setErrorMessage('');
@@ -107,35 +133,35 @@ const Classrooms = () => {
                 <h3 className='h3'><FaDesktop className='desktop-icon' /> Upcoming Virtual Classes</h3>
 
                 <div className="classroom-container">
-                {fetchedClassrooms.length > 0 ? (
-            fetchedClassrooms
-            .filter(classroom => new Date(classroom.date).toISOString().split('T')[0] >= currentDate.toISOString().split('T')[0] ) // Filter classes that have passed
-        .sort((a, b) => new Date(a.date) - new Date(b.date))
-        .map((classroom, index) => (
-              classroom.courseID === courseCode ? (
-                <div key={classroom._id} className="classroom-box">
-                  <p>
-                    {classroom.title}
-                    <div className="joindiv">
-                      {/* Pass the classroom ID to the handleJoinClassroom function */}
-                      <button className="join-link">
-                        Join <FaArrowRight className="arrow-icon" />
-                      </button>
-                    </div>
-                    {/* <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
+                    {fetchedClassrooms.length > 0 ? (
+                        fetchedClassrooms
+                            .filter(classroom => new Date(classroom.date).toISOString().split('T')[0] >= currentDate.toISOString().split('T')[0]) // Filter classes that have passed
+                            .sort((a, b) => new Date(a.date) - new Date(b.date))
+                            .map((classroom, index) => (
+                                classroom.courseID === courseCode ? (
+                                    <div key={classroom._id} className="classroom-box">
+                                        <p>
+                                            {classroom.title}
+                                            <div className="joindiv">
+                                                {/* Pass the classroom ID to the handleJoinClassroom function */}
+                                                <button className="join-link">
+                                                    Join <FaArrowRight className="arrow-icon" />
+                                                </button>
+                                            </div>
+                                            {/* <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
                           Join<FaArrowRight className="arrow-icon" />
                         </a>
                         </div> */}
-                    <div>
-                      {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
-                  </p>
-                  {index !== fetchedClassrooms.length - 1 && <hr />}
-                </div>
-              ) : null
-            ))
-          ) : (
-            <p>No Upcoming classes for this course</p>
-          )}
+                                            <div>
+                                                {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                                        </p>
+                                        {index !== fetchedClassrooms.length - 1 && <hr />}
+                                    </div>
+                                ) : null
+                            ))
+                    ) : (
+                        <p>No Upcoming classes for this course</p>
+                    )}
                 </div>
                 <div className="button-container">
                     <BlackButton className="create-classroom" onClick={() => setButtonPopup(true)} text="Create classroom" />
@@ -146,7 +172,8 @@ const Classrooms = () => {
                 <div className="classroom">
                     <h2>New Classroom</h2>
                     <label>Title:</label>
-                    <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Enter Classroom title" required />
+                    <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Enter Classroom title" required maxLength="50" // Restriction of 50 characters
+ />
                     <div className="horizontal-container">
                         <div className="horizontal-date">
                             <label>Date:</label>
@@ -158,7 +185,7 @@ const Classrooms = () => {
                         </div>
                         <div className="horizontal-duration">
                             <label>Duration:</label>
-                            <input type="text" name="duration" value={formData.duration} onChange={handleChange} placeholder="Enter duration in minutes" required />
+                            <input type="number" name="duration" value={formData.duration} onChange={handleChange} min="1"  max="300" placeholder="Enter duration in minutes" required />
                         </div>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                     </div>
