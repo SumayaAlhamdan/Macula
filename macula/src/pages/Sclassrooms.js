@@ -109,6 +109,8 @@ const SClassrooms = () => {
           <div key={classroom._id} className="classroom-box">
             <p>
               {classroom.title}
+              <div>
+                                            {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
               <div className="attendance-status">
                 <p>
                   Attendance Status: <label className='usernametitle' style={{ display: 'inline-block', marginLeft: '5px' }}>{getClassAttendanceStatus(classroom._id)}</label>
