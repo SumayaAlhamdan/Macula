@@ -19,6 +19,7 @@ import Onboarding from "./pages/Onboarding";
 import AdminLogin from "./pages/adminLogin";
 import AdminHome from "./pages/adminHome" ;
 import RealtimeEngage from "./pages/RealtimeEngage";
+import AttendanceTable from "./pages/reports";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path="/Eviewcourse" element={<Eviewcourse />} />
             <Route path="/Sviewcourse" element={<Sviewcourse />} />
             <Route path="/ViewEngage" element={<ViewEngage />} />
+            <Route path="/Reports" element={<AttendanceTable />} />
             <Route path="/realtime" element={<RealtimeEngage />} />
             <Route path="/realtime/:classroomID" component={RealtimeEngage} />
 

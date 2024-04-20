@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaDesktop, FaArrowRight } from 'react-icons/fa';
+import { FaDesktop, FaArrowRight ,FaFileAlt} from 'react-icons/fa';
 import "../educatorHome.css";
 import { Link } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ const EducatorHome = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [fetchedClassrooms, setFetchedClassrooms] = useState([]);
   const [Ecourses, setEducatorCourses] = useState([]);
+  const [fetchedCourses, setFetchedCourses] = useState([]);
   const currentDate=new Date();
   useEffect(() => {
     fetchCourses();
@@ -25,6 +26,7 @@ const EducatorHome = () => {
             educatorID: user.educator.ID
           }
         });
+        setFetchedCourses(response.data);
         const courseCodes = response.data.map(course => course.code);
         setEducatorCourses(courseCodes);
       }
@@ -59,7 +61,8 @@ const EducatorHome = () => {
 //     }
 // };
 const handleJoinClassroom = async (courseCode, classroomID) => {
-  window.location.href = `/realtime/${classroomID}`;
+
+  //window.location.href = `/realtime/${classroomID}`;
   try {
     // Fetch students enrolled in the class
     const studentResponse = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
@@ -68,7 +71,7 @@ const handleJoinClassroom = async (courseCode, classroomID) => {
     // Fetch attendance records for each student in the original window
     const attendanceRecords = [];
     for (const student of students) {
-      const attendanceResponse = await axios.get(`/api/attendance/report?studentId=${student.ID}`);
+      const attendanceResponse = await axios.get(`/api/attendance/report?studentId=${student.ID}&classroomId=${classroomID}`);
       attendanceRecords.push({ student, attendance: attendanceResponse.data.data });
     }
 
@@ -80,9 +83,12 @@ const handleJoinClassroom = async (courseCode, classroomID) => {
   }
   
   // Open another window after fetching attendance records
-  window.open('http://localhost:3000/react-rtc-demo', '_blank');
+  //window.open('http://localhost:3000/react-rtc-demo', '_blank');
 };
-
+const handleViewAttendance = (courseCode) => {
+  // Redirect the user to the course page
+  window.location.href = `http://localhost:3000/Eclassrooms/${courseCode}`;
+};
 
   return (
     <div className="educator-home">
@@ -124,7 +130,36 @@ const handleJoinClassroom = async (courseCode, classroomID) => {
             <p className='classesEmptyState'>No Upcoming classrooms</p> // Changed the message here
           )}
         </div>
+        
       </div>
+      <div className="big-attendance-container">
+        <h3 className='h3'><FaFileAlt className='desktop-icon'/> Reports</h3>
+        <div className="classroom-container">
+          {fetchedCourses.length > 0 ? (
+            fetchedCourses.map((course,index) => {
+              return (
+                <div key={course._id} className="classroom-box">
+                  <p>
+                    {course.code}: {course.title}
+                    <div className="joindiv">
+                        {/* Pass the classroom ID to the handleJoinClassroom function */}
+                        <button onClick={()=>{handleViewAttendance(course.code)}} className="join-link">
+                          View <FaArrowRight className="arrow-icon" />
+                        </button>
+                      </div>
+                  </p>
+                  {index !== fetchedCourses.length - 1 && <hr />}
+                  {/* <div className="attendance">
+                    <span>Attendance: {formatAttendance(course.attendance)}</span>
+                  </div> */}
+                </div>
+              );
+            })
+          ) : (
+            <p className='classesEmptyState'>No courses registered</p>
+          )}
+        </div>
+        </div>
     </div>
   );
 };

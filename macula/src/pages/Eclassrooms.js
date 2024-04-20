@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { FaDesktop, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
+import { FaDesktop, FaCalendarAlt, FaArrowRight, FaFileAlt } from 'react-icons/fa';
 import BlackButton from "../components/BlackButton";
 import OrangeButton from "../components/OrangeButton";
 import WhiteButton from "../components/WhiteButton";
@@ -47,7 +47,7 @@ const Classrooms = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         // Validate duration input to ensure it falls within the range of 1 to 300
         if (name === 'duration') {
             const intValue = parseInt(value); // Convert input value to integer
@@ -61,7 +61,7 @@ const Classrooms = () => {
         } else {
             // Regular expression to allow only alphanumeric characters and spaces
             const regex = /^[a-zA-Z0-9\s]*$/;
-    
+
             // Check if the input value matches the regular expression
             if (name === 'title' && !regex.test(value)) {
                 setErrorMessage('Title should not contain special characters');
@@ -72,8 +72,8 @@ const Classrooms = () => {
             }
         }
     };
-    
-    
+
+
 
     const resetForm = () => {
         setErrorMessage('');
@@ -163,8 +163,48 @@ const Classrooms = () => {
                         <p>No Upcoming classes for this course</p>
                     )}
                 </div>
+
                 <div className="button-container">
                     <BlackButton className="create-classroom" onClick={() => setButtonPopup(true)} text="Create classroom" />
+                </div>
+
+            </div>
+            <div className="big-attendance-container">
+                <h3 className='h3'><FaFileAlt className='desktop-icon' /> Reports</h3>
+                <div className="classroom-container">
+                    {fetchedClassrooms.length > 0 ? (
+                        fetchedClassrooms
+                            .filter(classroom => new Date(classroom.date) < currentDate) // Filter classes that have passed
+                            .filter(classroom => classroom.courseID === courseCode) // Filter classes for the specific course
+                            .sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort classrooms from newest to oldest
+                            .map((classroom, index) => (
+                                <div key={classroom._id} className="classroom-box">
+                                    <p>
+                                        {classroom.title}
+                                        <div className="joindiv">
+                                            {/* Pass the classroom ID to the handleJoinClassroom function */}
+                                            <button onClick={() => {
+                                                window.location.href = `/Reports?courseCode=${courseCode}&classroomID=${classroom._id}`
+                                            }} className="join-link">
+                                                View <FaArrowRight className="arrow-icon" />
+                                            </button>
+
+                                        </div>
+                                        <div>
+                                            {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+
+                                        <div className="attendance-status">
+                                            {/* <p>
+                                                Attendance Status: <label className='usernametitle' style={{ display: 'inline-block', marginLeft: '5px' }}>{getClassAttendanceStatus(classroom._id)}</label>
+                                            </p> */}
+                                        </div>
+                                    </p>
+                                    {index !== fetchedClassrooms.length - 1 && <hr />}
+                                </div>
+                            ))
+                    ) : (
+                        <p className='classesEmptyState'>No classes available</p>
+                    )}
                 </div>
             </div>
 
@@ -173,7 +213,7 @@ const Classrooms = () => {
                     <h2>New Classroom</h2>
                     <label>Title:</label>
                     <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Enter Classroom title" required maxLength="50" // Restriction of 50 characters
- />
+                    />
                     <div className="horizontal-container">
                         <div className="horizontal-date">
                             <label>Date:</label>
@@ -185,7 +225,7 @@ const Classrooms = () => {
                         </div>
                         <div className="horizontal-duration">
                             <label>Duration:</label>
-                            <input type="number" name="duration" value={formData.duration} onChange={handleChange} min="1"  max="300" placeholder="Enter duration in minutes" required />
+                            <input type="number" name="duration" value={formData.duration} onChange={handleChange} min="1" max="300" placeholder="Enter duration in minutes" required />
                         </div>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
                     </div>
@@ -196,6 +236,7 @@ const Classrooms = () => {
                 </div>
             </Popup>
             <Success trigger={successPopup} setTrigger={setSuccessPopup} text="Your Classroom has been created successfully" />
+
         </div>
     );
 };
