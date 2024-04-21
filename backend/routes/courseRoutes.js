@@ -118,13 +118,13 @@ router.get('/sCourse/:courseCode/students', async (req, res) => {
     }
 });
 
-router.put('/:courseId', async (req, res) => {
+router.patch('/status/:courseCode', async (req, res) => {
     try {
-        const { courseId } = req.params;
-        const { status } = req.body;
+        const { courseCode } = req.params; // Extract courseCode from URL parameter
+        const { status } = req.body; // Extract status from request body
 
-        // Find the course by ID and update its status
-        const updatedCourse = await Course.findByIdAndUpdate(courseId, { status }, { new: true });
+        // Find the course by code and update its status
+        const updatedCourse = await Course.findOneAndUpdate({ code: courseCode }, { status }, { new: true });
 
         if (!updatedCourse) {
             return res.status(404).json({ message: 'Course not found' });
