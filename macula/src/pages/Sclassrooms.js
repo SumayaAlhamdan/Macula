@@ -86,7 +86,7 @@ const SClassrooms = () => {
                         </a>
                         </div> */}
                     <div>
-                      {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                      {formatDate(classroom.date)}, {classroom.time}, {classroom.duration} minutes</div>
                   </p>
                   {index !== fetchedClassrooms.length - 1 && <hr />}
                 </div>

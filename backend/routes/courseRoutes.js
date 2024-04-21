@@ -77,7 +77,7 @@ router.post('/register', async (req, res) => {
 router.get('/eCourse', async (req, res) => {
     try {
         // Fetch only the 'code' field from courses with the same educatorID
-        const courses = await Course.find({ educatorID: req.query.educatorID }, { code: 1, title: 1, _id: 0 });
+        const courses = await Course.find({ educatorID: req.query.educatorID }, { code: 1, title: 1, status: 1 , _id: 0 });
 
         res.status(200).json(courses);
     } catch (error) {
@@ -90,7 +90,7 @@ router.get('/sCourse', async (req, res) => {
     try {
         const studentId = req.query.studentID; 
         // Fetch only the 'code' field from courses that have the specified student
-        const courses = await Course.find({ students: { $in: [studentId] } }, { code: 1, title: 1, _id: 0 });
+        const courses = await Course.find({ students: { $in: [studentId] } }, { code: 1, title: 1, status: 1 , _id: 0 });
 
         res.status(200).json({message:courses});
     } catch (error) {
