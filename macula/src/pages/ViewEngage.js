@@ -1,91 +1,105 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './view.css';
 
-function ViewEngage() {
-  const [classID, setClassID] = useState('');
-  const [engagementRecords, setEngagementRecords] = useState([]);
+
+const ViewEngage = () => {
+  const [students, setStudents] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (classID) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseCode = urlParams.get('courseCode');
+    const classroomID = urlParams.get('classroomID');
+
+    if (courseCode && classroomID) {
       setLoading(true);
-      axios.get(`/api/engagement/${classID}`)
-        .then(response => {
-          // Check if response contains engagementRecords array
-          if (Array.isArray(response.data.engagementRecords)) {
-            setEngagementRecords(response.data.engagementRecords);
+      axios.get(`/api/engagement/${classroomID}`)
+        .then(async response => {
+          console.log('Engagement Records:', response.data);
+          const engagementRecords = response.data.engagementRecords;
+          const studentIDs = engagementRecords.map(record => record.studentID);
+          const studentDataPromises = studentIDs.map(studentID =>
+            axios.get(`/api/students/${studentID}`)
+          );
+
+          try {
+            const studentResponses = await Promise.all(studentDataPromises);
+            const students = studentResponses.map(response => response.data);
+            console.log('Fetched Students:', students);
+
+            const updatedStudents = engagementRecords.map((record, index) => {
+              const studentData = students[index];
+              const student = studentData && studentData.student;
+              return {
+                ...record,
+                studentID: student ? student.ID : '',
+                studentName: student ? student.name : 'Unknown',
+                focusDuration: (record['Focus Duration'] / 60).toFixed(1) || 'N/A', // Converted to minutes and rounded to 1 decimal place
+                distractedDuration: (record['Distracted Duration'] / 60).toFixed(1) || 'N/A', // Converted to minutes and rounded to 1 decimal place
+                longestFocusDuration: (record['Longest Focus Duration'] / 60).toFixed(1) || 'N/A' // Converted to minutes and rounded to 1 decimal place
+              };
+            });
+
+            setStudents(updatedStudents);
+            setLoading(false);
             setError('');
-          } else {
-            setError('No data available');
-            setEngagementRecords([]);
+          } catch (error) {
+            console.error('Error fetching student data:', error);
+            setError('Error fetching student data. Please try again.');
+            setLoading(false);
+            setStudents([]);
           }
-          setLoading(false);
         })
         .catch(error => {
-          console.error('Error fetching engagement data:', error);
-          setError('Error fetching engagement data. Please try again.');
-          setEngagementRecords([]);
+          console.error('Error fetching engagement records:', error);
+          setError('Error fetching engagement records. Please try again.');
           setLoading(false);
+          setStudents([]);
         });
     } else {
-      setEngagementRecords([]);
+      setStudents([]);
       setError('');
     }
-  }, [classID]);
+  }, []);
 
   return (
     <div className="App">
-      <header>
-        <div className="container">
-          <h1>Student Engagement Dashboard</h1>
-          <nav>
-            <input
-              type="text"
-              placeholder="Enter Class ID"
-              value={classID}
-              onChange={(e) => setClassID(e.target.value)}
-            />
-            <button onClick={() => setClassID('')}>Clear</button>
-          </nav>
-        </div>
-      </header>
-
       <div className="pages">
         <div className="home">
           <div className="student-list">
             <h2>Students and Engagement Data</h2>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
-            {Array.isArray(engagementRecords) && engagementRecords.length > 0 ? (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Student ID</th>
-                    <th>Focus Duration</th>
-                    <th>Distracted Duration</th>
-                    <th>Longest Focus Duration</th>
+            <table>
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Student ID</th>
+                  <th>Focus Duration (mins)</th>
+                  <th>Distracted Duration (mins)</th>
+                  <th>Longest Focus Duration (mins)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map(student => (
+                  <tr key={student._id}>
+                    <td>{student.studentName}</td>
+                    <td>{student.studentID}</td>
+                    <td>{student.focusDuration}</td>
+                    <td>{student.distractedDuration}</td>
+                    <td>{student.longestFocusDuration}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {engagementRecords.map(record => (
-                    <tr key={record._id}>
-                      <td>{record.studentID}</td>
-                      <td>{record['Focus Duration'] || 'N/A'}</td>
-                      <td>{record['Total Distraction Duration'] || 'N/A'}</td>
-                      <td>{record['Longest Focus Duration'] || 'N/A'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <p>{error || 'No data available'}</p>
-            )}
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default ViewEngage;
+
