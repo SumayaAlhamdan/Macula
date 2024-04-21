@@ -23,7 +23,7 @@ const StudentHome = () => {
           }
         });
         console.log('courses', response.data);
-        setFetchedCourses(response.data.message); // Updated to set the courses correctly
+        setFetchedCourses(response.data.message.filter(course => course.status === "active")); // Updated to set the courses correctly
       } catch (error) {
         console.error('Error fetching courses:', error.message);
       }
@@ -101,7 +101,7 @@ const StudentHome = () => {
                     Join <FaArrowRight className="arrow-icon" />
                     </a>
                     </div> */}
-                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration} minutes</div>
                     </p>
                     {index !== fetchedClassrooms.length - 1 && <hr />}
                   </div>

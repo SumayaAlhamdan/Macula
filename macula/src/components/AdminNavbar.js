@@ -23,7 +23,7 @@ const AdminNavbar = () => {
           {user && (
             <div className="user-info">
               <Link to="/home">Home</Link>
-              <Link to="/profile">
+              <Link to="/adminProfile">
                 <span>{user.admin ? user.admin.name : "error"}</span>
               </Link>
               <button onClick={handleClick}>Log out</button>

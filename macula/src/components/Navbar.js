@@ -1,40 +1,51 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { FiLogOut, FiUser } from 'react-icons/fi'; // Import logout and profile icons
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
+import './Navbar.css'; // Import the CSS file
 
 const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleLogout = () => {
     logout();
     navigate('/Onboarding');
   };
 
   return (
-    <header>
+    <header className="header">
       <div className="container">
-        <Link to="/">
-          <img src={require('../assets/unnamed.png')} alt="Macula Logo" style={{ width: '250px', height: 'auto' }} />
-        </Link>
+        <div>
+          <Link to="/">
+            <img src={require('../assets/unnamed.png')} alt="Macula Logo" className="logo" />
+          </Link>
+        </div>
         <nav>
-          {user && (
-            <div className="user-info">
-              <Link to="/home">Home</Link>
-              <Link to="/courses">Courses</Link>
-              <Link to="/profile">
-                <span>{user.student ? user.student.name : user.educator.name}</span>
-              </Link>
-              <button onClick={handleClick}>Log out</button>
-            </div>
-          )}
-          {!user && (
-            <div>
-              <Link to="/login">Login</Link>
-            </div>
-          )}
+          <ul className="nav-links">
+            <li>
+              <NavLink to="/home" activeClassName="active-link" className="nav-link">Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/courses" activeClassName="active-link" className="nav-link">Courses</NavLink>
+            </li>
+            {user && (
+              <>
+                <li>
+                  <NavLink to="/profile" activeClassName="active-link" className="nav-link">
+                    <FiUser className="icon" />
+                  </NavLink>
+                </li>
+                <li>
+                  <button onClick={handleLogout} className="logout-btn">
+                    <FiLogOut className="icon" />
+                  </button>
+                </li>
+              </>
+            )}
+          </ul>
         </nav>
       </div>
     </header>

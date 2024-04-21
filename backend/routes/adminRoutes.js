@@ -33,4 +33,38 @@ router.post('/login', async (req, res) => {
     }
   });
   
+  router.post('/reset', async (req, res) => {
+    try {
+      const { email, newPassword } = req.body;
+  
+      // Check if all fields are provided
+      if (!email || !newPassword) {
+        return res.status(400).json({ message: 'All fields must be filled' });
+      }
+  
+      // Find the admin in the database by ID
+      const admin = await Admin.findOne({ email });
+  
+      // If admin is not found, return 404 error
+      if (!admin) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+  
+      // Update admin's password with the new password
+      admin.password = newPassword;
+  
+      // Save the updated admin document in the database
+      await admin.save();
+  
+      // Send success response
+      res.status(200).json({ message: 'Password reset successfully' });
+    } catch (error) {
+      console.error('Error during reset password:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
+
+
+
   module.exports = router;

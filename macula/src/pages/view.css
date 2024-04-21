@@ -1,0 +1,82 @@
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set font-family */
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.educator-dashboard {
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 10px; /* softer edges */
+  padding: 20px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.navigation button {
+  background-color: #109ba8; /* primary color */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 5px; /* softer edges */
+}
+
+.navigation button:hover {
+  background-color: #0e8390; /* darker shade of primary color */
+}
+
+.page-content {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px; /* softer edges */
+  background-color: white; /* white background */
+}
+
+.attendance-page,
+.student-list {
+  margin-bottom: 20px;
+}
+
+.attendance-page h1,
+.student-list h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f2f2f2;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}

@@ -191,7 +191,7 @@ const Classrooms = () => {
 
                                         </div>
                                         <div>
-                                            {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                                            {formatDate(classroom.date)}, {classroom.time}, {classroom.duration} minutes</div>
 
                                         <div className="attendance-status">
                                             {/* <p>

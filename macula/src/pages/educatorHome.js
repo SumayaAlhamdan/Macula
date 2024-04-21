@@ -27,7 +27,7 @@ const EducatorHome = () => {
           }
         });
         setFetchedCourses(response.data);
-        const courseCodes = response.data.map(course => course.code);
+        const courseCodes = response.data.filter(course => course.status === "active").map(course => course.code) ;
         setEducatorCourses(courseCodes);
       }
     } catch (error) {
@@ -118,7 +118,7 @@ const handleViewAttendance = (courseCode) => {
                           Join<FaArrowRight className="arrow-icon" />
                         </a>
                       </div> */}
-                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
+                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration} minutes</div>
                     </p>
                     {index !== fetchedClassrooms.length - 1 && <hr />}
                   </div>
