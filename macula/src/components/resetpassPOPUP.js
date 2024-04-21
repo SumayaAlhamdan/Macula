@@ -37,13 +37,13 @@ const ResetPasswordPopup = () => {
 
   const handleResetPassword = async () => {
     try {
-      await axios.post('/api/admins/reset', { email: 'admin@admin.com', password: newPassword });
+      await axios.post('/api/admins/reset', { email: 'admin@admin.com', newPassword: newPassword });
       setMessage('Password reset successfully');
     } catch (error) {
       console.error('Error resetting password:', error);
       setMessage('Failed to reset password');
     }
-  };
+  }; // this doesnt work
   
   return (
     <div>
