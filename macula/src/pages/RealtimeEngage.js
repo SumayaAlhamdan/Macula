@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import './view.css';
+
 
 const RealtimeEngage = () => {
-  const { classroomID: initialClassroomID } = useParams();
-  const [classroomID, setClassroomID] = useState(initialClassroomID || ''); // Initialize with the classroomID from the URL
   const [students, setStudents] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (classroomID) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseCode = urlParams.get('courseCode');
+    const classroomID = urlParams.get('classroomID');
+
+    if (courseCode && classroomID) {
       setLoading(true);
-      // Step 1: Fetch all engagement records for the given classroomID
       axios.get(`/api/engagement/${classroomID}`)
         .then(async response => {
           console.log('Engagement Records:', response.data);
           const engagementRecords = response.data.engagementRecords;
-
-          // Step 2: Extract studentIDs from the engagement records
           const studentIDs = engagementRecords.map(record => record.studentID);
-
-          // Step 3: Fetch student data for each studentID
           const studentDataPromises = studentIDs.map(studentID =>
             axios.get(`/api/students/${studentID}`)
           );
@@ -29,19 +27,18 @@ const RealtimeEngage = () => {
           try {
             const studentResponses = await Promise.all(studentDataPromises);
             const students = studentResponses.map(response => response.data);
-
-            // Log fetched student data
             console.log('Fetched Students:', students);
 
-            // Step 4: Combine engagement records with fetched student data
             const updatedStudents = engagementRecords.map((record, index) => {
-              const student = students[index]; // Assuming the order of students matches the order of engagement records
+              const studentData = students[index]; // Access the object at index
+              const student = studentData && studentData.student; // Access the student object within the object at index
               return {
                 ...record,
-                studentID: student ? student.ID : '', // Add student ID
-                studentName: student ? student.name : 'Unknown' // Assuming student has a "name" field
+                studentID: student ? student.ID : '', // Access student ID as student.ID
+                studentName: student ? student.name : 'Unknown' // Access student name as student.name
               };
             });
+            
             
 
             setStudents(updatedStudents);
@@ -64,11 +61,11 @@ const RealtimeEngage = () => {
       setStudents([]);
       setError('');
     }
-  }, [classroomID]);
+  }, []);
 
   const getStatusColor = status => {
     switch (status) {
-      case 'FOCUSED':
+      case 'FOUCESED':
         return 'green';
       case 'DISTRACTED':
         return 'red';
@@ -77,28 +74,12 @@ const RealtimeEngage = () => {
     }
   };
 
-  const handleClassroomIDChange = (event) => {
-    setClassroomID(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Reload data based on the new classroomID
-  };
-
   return (
     <div className="App">
       <div className="pages">
         <div className="home">
           <div className="student-list">
             <h2>Students and Engagement Status</h2>
-            <form onSubmit={handleSubmit}>
-              <label>
-                Classroom ID:
-                <input type="text" value={classroomID} onChange={handleClassroomIDChange} />
-              </label>
-              <button type="submit">Load Data</button>
-            </form>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
             <table>
@@ -110,14 +91,13 @@ const RealtimeEngage = () => {
                 </tr>
               </thead>
               <tbody>
-              {students.map(student => (
-  <tr key={student._id} style={{ color: getStatusColor(student['Engagement Status']) }}>
-    <td>{student.studentName}</td>
-    <td>{student._id}</td> {/* Use _id as studentID */}
-    <td>{student['Engagement Status']}</td>
-  </tr>
-))}
-
+                {students.map(student => (
+                  <tr key={student._id} style={{ color: getStatusColor(student['Engagement Status']) }}>
+                    <td>{student.studentName}</td>
+                    <td>{student._id}</td>
+                    <td>{student['Engagement Status']}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -128,4 +108,3 @@ const RealtimeEngage = () => {
 };
 
 export default RealtimeEngage;
-
