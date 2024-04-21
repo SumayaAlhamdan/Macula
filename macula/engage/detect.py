@@ -33,8 +33,8 @@ def record_time(new_status):
         # Record the duration based on the previous status
         if status == 'FOUCESED':
             focused_duration += current_time - start_time
-            if focused_duration > max_focused_duration:
-                max_focused_duration = focused_duration
+            if (current_time - start_time) > max_focused_duration:
+                max_focused_duration = (current_time - start_time)
         elif status == 'DISTRACTED':
             distraction_duration += current_time - start_time
         elif status == 'AWAY':
