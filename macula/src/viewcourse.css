@@ -1,0 +1,25 @@
+/* educatorHome.css */
+
+/* Remove the styles conflicting with the centered-content class */
+.upcoming-classes-container {
+    width: auto; /* Set the width to auto */
+    margin-right: auto; /* Set the margin to auto to center horizontally */
+    margin-left: auto; /* Set the margin to auto to center horizontally */
+  }
+  
+  /* Remove unnecessary width and margin styles from .big-attendance-container */
+  .big-attendance-container {
+    float: none; /* Remove the float property */
+    width: auto; /* Set the width to auto */
+    margin-right: auto; /* Set the margin to auto to center horizontally */
+    margin-left: auto; /* Set the margin to auto to center horizontally */
+    margin-top: 0; /* Remove the top margin */
+  }
+  
+  /* Remove unnecessary width and margin styles from .attendance-container */
+  .attendance-container {
+    float: none; /* Remove the float property */
+    width: auto; /* Set the width to auto */
+    margin-left: 0; /* Remove the left margin */
+  }
+  
