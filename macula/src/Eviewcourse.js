@@ -395,7 +395,7 @@ const Eviewcourse = () => {
   async function fetchCourses() {
     try {
       const response = await axios.get('http://localhost:4000/api/courses');
-      const courses = response.data.message;
+      const courses = response.data.message.filter(course => course.status === "active");
       setFetchedCourses(courses);
       console.log("Fetched courses:", courses);
     } catch (error) {
