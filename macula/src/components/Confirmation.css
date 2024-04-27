@@ -15,7 +15,7 @@
     position: relative;
     padding: 32px;
     width: 300px;
-    height: 125px;
+    height: 200px;
     max-width: 640px;
     background-color: #FFF;
     justify-content: center;
@@ -23,4 +23,27 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+}
+
+.buttons-container {
+    display: flex;
+ justify-content:space-between;  /* Add space between buttons */
+  margin-top: 16px; /* Add margin for spacing */
+
+}
+
+  button.White-Button{
+    flex: 1; /* Make buttons flex items to share available space equally */
+    margin-right: 4px; /* Adjust margin to control the space between buttons */
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer; /* Add a cursor style to indicate it's clickable */
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 24px; /* Adjust font size as needed */
 }
