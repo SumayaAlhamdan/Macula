@@ -3,7 +3,7 @@ import axios from 'axios';
 import ResetPasswordPopup from '../components/resetpassPOPUP';
 
 const AdminProfile = () => {
-  const admin = JSON.parse(localStorage.getItem('admin'));
+  const user = JSON.parse(localStorage.getItem('user'));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showResetPasswordPopup, setShowResetPasswordPopup] = useState(false);
@@ -24,15 +24,15 @@ const AdminProfile = () => {
         <div className="profile-data">
           <div className="profile-field">
             <label>ID:</label>
-            <span>{admin?.ID}</span>
+            <span>{user.admin?.ID}</span>
           </div>
           <div className="profile-field">
             <label>Name:</label>
-            <span>{admin?.name}</span>
+            <span>{user.admin?.name}</span>
           </div>
           <div className="profile-field">
             <label>Email:</label>
-            <span>{admin?.email}</span>
+            <span>{user.admin?.email}</span>
           </div>
         </div>
       </div>

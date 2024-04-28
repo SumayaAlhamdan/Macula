@@ -1,14 +1,15 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { FiLogOut, FiUser } from 'react-icons/fi'; // Import logout and profile icons
 
 const AdminNavbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleLogout = () => {
     logout();
     navigate('/Onboarding');
   };
@@ -16,24 +17,29 @@ const AdminNavbar = () => {
   return (
     <header>
       <div className="container">
-        <Link to="/">
-          <img src={require('../assets/unnamed.png')} alt="Macula Logo" style={{ width: '250px', height: 'auto' }} />
-        </Link>
-        <nav>
-          {user && (
-            <div className="user-info">
-              <Link to="/home">Home</Link>
-              <Link to="/adminProfile">
-                <span>{user.admin ? user.admin.name : "error"}</span>
-              </Link>
-              <button onClick={handleClick}>Log out</button>
-            </div>
-          )}
-          {!user && (
-            <div>
-              <Link to="/login">Login</Link>
-            </div>
-          )}
+      <Link to="/">
+            <img src={require('../assets/unnamed.png')} alt="Macula Logo" className="logo" />
+          </Link>
+          <nav>
+          <ul className="nav-links">
+            <li>
+              <NavLink to="/home" activeClassName="active-link" className="nav-link">Home</NavLink>
+            </li>
+            {user && (
+              <>
+                <li>
+                  <NavLink to="/adminProfile" activeClassName="active-link" className="nav-link">
+                    <FiUser className="icon" />
+                  </NavLink>
+                </li>
+                <li>
+                  <button onClick={handleLogout} className="logout-btn">
+                    <FiLogOut className="icon" />
+                  </button>
+                </li>
+              </>
+            )}
+          </ul>
         </nav>
       </div>
     </header>

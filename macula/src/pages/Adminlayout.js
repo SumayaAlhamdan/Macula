@@ -13,7 +13,7 @@ const AdminLayout = ({ children }) => {
     return location.pathname === '/adminLogin' ;
   };
   const isAdminHome = () => {
-    return location.pathname === '/adminHome' ;
+    return location.pathname === '/adminHome' || location.pathname === '/adminProfile' ;
   };
   return (
     <div>
