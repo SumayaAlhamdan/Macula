@@ -10,6 +10,8 @@ function EducatorDashboard() {
   const [loading, setLoading] = useState(false);
   const [courseCode, setCourseCode] = useState('');
   const [classroomID, setClassroomID] = useState('');
+  const [classroom, setClassroom] = useState([]);
+
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -18,6 +20,8 @@ function EducatorDashboard() {
     if (code && id) {
       setCourseCode(code);
       setClassroomID(id);
+      console.log('classroomID and CourseCode',classroomID, courseCode)
+      fetchClassroomDetails(id);
       if (currentPage === 'attendance') {
         fetchAttendanceData(code, id);
       } else if (currentPage === 'engage') {
@@ -56,6 +60,8 @@ function EducatorDashboard() {
       setError('Error fetching attendance data. Please try again.');
       setLoading(false);
     }
+    console.log('classroomID and CourseCode',classroomID, courseCode)
+
   };
 
   const fetchEngagementData = async (classroomID) => {
@@ -89,12 +95,40 @@ function EducatorDashboard() {
     }
   };
 
+  const fetchClassroomDetails = async (id) => {
+    try {
+      const response = await axios.get(`/api/classrooms/${id}`);
+      setClassroom(response.data.message);
+      setLoading(false);
+      console.log('responds',response.data.message)
+      console.log('classroom',classroom) 
+
+    } catch (error) {
+      console.error('Error fetching classroom details:', error);
+      setError('Error fetching classroom details. Please try again.');
+      setLoading(false);
+    }
+  }
+
   const handlePageChange = page => {
     setCurrentPage(page);
   };
 
   return (
     <div className="educator-dashboard">
+      <div className="classroom-details">
+      <h2>Classroom Details</h2>
+      {classroom.length > 0 ? (
+        <div>
+          <p><strong>Course ID:</strong> {classroom.courseID}</p>
+          <p><strong>Title:</strong> {classroom.title}</p>
+          <p><strong>Date:</strong> {new Date(classroom.date).toLocaleDateString()}</p>
+          <p><strong>Time:</strong> {classroom.time}</p>
+        </div>
+      ) : (
+        <p>No classroom details available</p>
+      )}
+    </div>
       <div className="navigation">
         <button onClick={() => handlePageChange('attendance')}>Attendance</button>
         <button onClick={() => handlePageChange('engage')}>Engagement</button>
@@ -125,7 +159,7 @@ function EducatorDashboard() {
         )}
         {currentPage === 'engage' && (
           <div className="student-list">
-            <h2>Engagement Report</h2>
+            <h1>Engagement Report</h1>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
             <table>

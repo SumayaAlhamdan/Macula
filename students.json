@@ -1,0 +1,73 @@
+[
+    {
+      "ID": "442200001",
+      "name": "Student 1",
+      "email": "student1@example.com",
+      "password": "123456",
+      "image": "https://example.com/student1.jpg"
+    },
+    {
+      "ID": "442200002",
+      "name": "Student 2",
+      "email": "student2@example.com",
+      "password": "123456",
+      "image": "https://example.com/student2.jpg"
+    },
+    {
+      "ID": "442200003",
+      "name": "Student 3",
+      "email": "student3@example.com",
+      "password": "123456",
+      "image": "https://example.com/student3.jpg"
+    },
+    {
+      "ID": "442200004",
+      "name": "Student 4",
+      "email": "student4@example.com",
+      "password": "123456",
+      "image": "https://example.com/student4.jpg"
+    },
+    {
+      "ID": "442200005",
+      "name": "Student 5",
+      "email": "student5@example.com",
+      "password": "123456",
+      "image": "https://example.com/student5.jpg"
+    },
+    {
+      "ID": "442200006",
+      "name": "Student 6",
+      "email": "student6@example.com",
+      "password": "123456",
+      "image": "https://example.com/student6.jpg"
+    },
+    {
+      "ID": "442200007",
+      "name": "Student 7",
+      "email": "student7@example.com",
+      "password": "123456",
+      "image": "https://example.com/student7.jpg"
+    },
+    {
+      "ID": "442200008",
+      "name": "Student 8",
+      "email": "student8@example.com",
+      "password": "123456",
+      "image": "https://example.com/student8.jpg"
+    },
+    {
+      "ID": "442200009",
+      "name": "Student 9",
+      "email": "student9@example.com",
+      "password": "123456",
+      "image": "https://example.com/student9.jpg"
+    },
+    {
+      "ID": "442200010",
+      "name": "Student 10",
+      "email": "student10@example.com",
+      "password": "123456",
+      "image": "https://example.com/student10.jpg"
+    }
+  ]
+  

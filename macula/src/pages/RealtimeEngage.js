@@ -65,7 +65,7 @@ const RealtimeEngage = () => {
 
   const getStatusColor = status => {
     switch (status) {
-      case 'FOUCESED':
+      case 'FOCUSED':
         return 'green';
       case 'DISTRACTED':
         return 'red';
@@ -79,7 +79,7 @@ const RealtimeEngage = () => {
       <div className="pages">
         <div className="home">
           <div className="student-list">
-            <h2>Students and Engagement Status</h2>
+            <h2>Students Engagement Status</h2>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
             <table>

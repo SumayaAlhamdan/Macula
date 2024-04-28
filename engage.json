@@ -1,0 +1,103 @@
+[
+    {
+      "studentID": "442200001",
+      "courseID": "234",
+      "Engagement Status": "FOCUSED",
+      "Focus Duration (secs)": 4560,
+      "Distracted Duration (secs)": 1020,
+      "Longest Focus Duration (secs)": 6080,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 1250
+    },
+    {
+      "studentID": "442200002",
+      "courseID": "234",
+      "Engagement Status": "DISTRACTED",
+      "Focus Duration (secs)": 3580,
+      "Distracted Duration (secs)": 2540,
+      "Longest Focus Duration (secs)": 4020,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 2890
+    },
+    {
+      "studentID": "442200003",
+      "courseID": "234",
+      "Engagement Status": "AWAY",
+      "Focus Duration (secs)": 0,
+      "Distracted Duration (secs)": 0,
+      "Longest Focus Duration (secs)": 0,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 0
+    },
+    {
+      "studentID": "442200004",
+      "courseID": "234",
+      "Engagement Status": "FOCUSED",
+      "Focus Duration (secs)": 5020,
+      "Distracted Duration (secs)": 870,
+      "Longest Focus Duration (secs)": 5530,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 980
+    },
+    {
+      "studentID": "442200005",
+      "courseID": "234",
+      "Engagement Status": "DISTRACTED",
+      "Focus Duration (secs)": 3050,
+      "Distracted Duration (secs)": 3560,
+      "Longest Focus Duration (secs)": 3210,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 3720
+    },
+    {
+      "studentID": "442200006",
+      "courseID": "234",
+      "Engagement Status": "AWAY",
+      "Focus Duration (secs)": 0,
+      "Distracted Duration (secs)": 0,
+      "Longest Focus Duration (secs)": 0,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 0
+    },
+    {
+      "studentID": "442200007",
+      "courseID": "234",
+      "Engagement Status": "FOCUSED",
+      "Focus Duration (secs)": 4730,
+      "Distracted Duration (secs)": 1260,
+      "Longest Focus Duration (secs)": 5380,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 1420
+    },
+    {
+      "studentID": "442200008",
+      "courseID": "234",
+      "Engagement Status": "DISTRACTED",
+      "Focus Duration (secs)": 2560,
+      "Distracted Duration (secs)": 4590,
+      "Longest Focus Duration (secs)": 2890,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 4930
+    },
+    {
+      "studentID": "442200009",
+      "courseID": "234",
+      "Engagement Status": "AWAY",
+      "Focus Duration (secs)": 0,
+      "Distracted Duration (secs)": 0,
+      "Longest Focus Duration (secs)": 0,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 0
+    },
+    {
+      "studentID": "442200010",
+      "courseID": "234",
+      "Engagement Status": "FOCUSED",
+      "Focus Duration (secs)": 5590,
+      "Distracted Duration (secs)": 540,
+      "Longest Focus Duration (secs)": 6020,
+      "classroomID": "661cd87d22277fbea0aa75ce",
+      "totalDistractionDuration (secs)": 710
+    }
+  ]
+  
