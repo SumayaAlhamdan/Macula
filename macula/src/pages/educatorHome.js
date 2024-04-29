@@ -4,8 +4,6 @@ import { FaDesktop, FaArrowRight ,FaFileAlt} from 'react-icons/fa';
 import "../educatorHome.css";
 import { Link } from 'react-router-dom';
 
-
-
 const EducatorHome = () => {
   
   const user = JSON.parse(localStorage.getItem('user'));
@@ -50,19 +48,7 @@ const EducatorHome = () => {
     return date.toLocaleDateString();
   };
 
-//   const handleJoinClassroom = async (courseCode) => {
-//     window.open('http://localhost:3000/react-rtc-demo', '_blank');
-//     try {
-//         const res = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
-//         console.log(res.data); // Handle the response data accordingly
-//     } catch (error) {
-//         console.error('Error retrieving students:', error);
-//         // Handle the error
-//     }
-// };
 const handleJoinClassroom = async (courseCode, classroomID) => {
-
-  //window.location.href = `/realtime/${classroomID}`;
   try {
     // Fetch students enrolled in the class
     const studentResponse = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
@@ -74,7 +60,7 @@ const handleJoinClassroom = async (courseCode, classroomID) => {
       const attendanceResponse = await axios.get(`/api/attendance/report?studentId=${student.ID}&classroomId=${classroomID}`);
       attendanceRecords.push({ student, attendance: attendanceResponse.data.data });
     }
-
+ 
     console.log(attendanceRecords);
     // Handle the attendance records accordingly
   } catch (error) {
@@ -82,13 +68,12 @@ const handleJoinClassroom = async (courseCode, classroomID) => {
     // Handle the error
   }
   
-  // Open another window after fetching attendance records
-  //window.open('http://localhost:3000/react-rtc-demo', '_blank');
+window.open(`/realtime?courseCode=${courseCode}&classroomID=${classroomID}`, '_blank');
+window.open('http://localhost:3001/react-rtc-demo');
 };
 const handleViewAttendance = (courseCode) => {
-  // Redirect the user to the course page
-  window.location.href = `http://localhost:3000/Eclassrooms/${courseCode}`;
-};
+ window.location.href = `http://localhost:3000/Eclassrooms/${courseCode}`;
+  };
 
   return (
     <div className="educator-home">
@@ -108,16 +93,13 @@ const handleViewAttendance = (courseCode) => {
                     <p>
                       {classroom.courseID}: {classroom.title}
                       <div className="joindiv">
-                        {/* Pass the classroom ID to the handleJoinClassroom function */}
-                        <button onClick={async () => { handleJoinClassroom(classroom.courseID, classroom._id ) }} className="join-link">
-                          Join <FaArrowRight className="arrow-icon" />
-                        </button>
+                      <button onClick={async () => {
+  const result = await handleJoinClassroom(classroom.courseID, classroom._id);
+  // Now use the result here
+}} className="join-link">
+  Join <FaArrowRight className="arrow-icon" />
+</button>
                       </div>
-                      {/* <div className="joindiv">
-                        <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
-                          Join<FaArrowRight className="arrow-icon" />
-                        </a>
-                      </div> */}
                       <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration} minutes</div>
                     </p>
                     {index !== fetchedClassrooms.length - 1 && <hr />}
@@ -133,7 +115,7 @@ const handleViewAttendance = (courseCode) => {
         
       </div>
       <div className="big-attendance-container">
-        <h3 className='h3'><FaFileAlt className='desktop-icon'/> Reports</h3>
+        <h3 className='h3'><FaFileAlt className='desktop-icon'/> Courses</h3>
         <div className="classroom-container">
           {fetchedCourses.length > 0 ? (
             fetchedCourses.map((course,index) => {
@@ -142,10 +124,19 @@ const handleViewAttendance = (courseCode) => {
                   <p>
                     {course.code}: {course.title}
                     <div className="joindiv">
-                        {/* Pass the classroom ID to the handleJoinClassroom function */}
-                        <button onClick={()=>{handleViewAttendance(course.code)}} className="join-link">
-                          View <FaArrowRight className="arrow-icon" />
-                        </button>
+                    <button onClick={async () => {
+  try {
+    const result = await handleViewAttendance(course.code);
+    // Now use the result here
+  } catch (error) {
+    // Handle errors here
+    console.error("Error:", error);
+  }
+}} className="join-link">
+  View <FaArrowRight className="arrow-icon" />
+</button>
+
+
                       </div>
                   </p>
                   {index !== fetchedCourses.length - 1 && <hr />}

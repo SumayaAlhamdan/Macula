@@ -119,6 +119,12 @@ const Classrooms = () => {
         return date.toLocaleDateString(); // Returns only the date part
     };
 
+    const handleJoinClassroom = async (courseCode, classroomID) => {
+        // Redirect to the first page
+      //  window.open(`/realtime?courseCode=${courseCode}&classroomID=${classroomID}`, '_blank');
+      //  window.open('http://localhost:3001/react-rtc-demo');
+      };
+      
     // Get today's date in YYYY-MM-DD format
     const today = new Date().toISOString().split('T')[0];
 
@@ -143,7 +149,7 @@ const Classrooms = () => {
                                         <p>
                                             {classroom.title}
                                             <div className="joindiv">
-                                                {/* Pass the classroom ID to the handleJoinClassroom function */}
+                                                {handleJoinClassroom(courseCode, classroom._id)}
                                                 <button className="join-link">
                                                     Join <FaArrowRight className="arrow-icon" />
                                                 </button>
@@ -160,7 +166,7 @@ const Classrooms = () => {
                                 ) : null
                             ))
                     ) : (
-                        <p>No Upcoming classes for this course</p>
+                        <p className='classesEmptyState'>No Upcoming classes for this cours</p>
                     )}
                 </div>
 
@@ -184,7 +190,7 @@ const Classrooms = () => {
                                         <div className="joindiv">
                                             {/* Pass the classroom ID to the handleJoinClassroom function */}
                                             <button onClick={() => {
-                                                window.location.href = `/Reports?courseCode=${courseCode}&classroomID=${classroom._id}`
+                                                window.location.href = `/EducatorDashboard?courseCode=${courseCode}&classroomID=${classroom._id}`
                                             }} className="join-link">
                                                 View <FaArrowRight className="arrow-icon" />
                                             </button>

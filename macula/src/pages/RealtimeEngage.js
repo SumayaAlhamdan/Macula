@@ -82,7 +82,7 @@ const RealtimeEngage = () => {
             <h2>Students Engagement Status</h2>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
-            <table>
+            <table style={{ margin: '0 auto' }}>
               <thead>
                 <tr>
                   <th>Student Name</th>

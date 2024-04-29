@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { FiLogOut, FiUser } from 'react-icons/fi'; // Import logout and profile icons
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
@@ -9,6 +9,7 @@ const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -26,15 +27,15 @@ const Navbar = () => {
         <nav>
           <ul className="nav-links">
             <li>
-              <NavLink to="/home" activeClassName="active-link" className="nav-link">Home</NavLink>
+              <NavLink to="/home" activeClassName="active-link" isActive={() => location.pathname === "/home"} className="nav-link">Home</NavLink>
             </li>
             <li>
-              <NavLink to="/courses" activeClassName="active-link" className="nav-link">Courses</NavLink>
+              <NavLink to="/courses" activeClassName="active-link" isActive={() => location.pathname === "/courses"} className="nav-link">Courses</NavLink>
             </li>
             {user && (
               <>
                 <li>
-                  <NavLink to="/profile" activeClassName="active-link" className="nav-link">
+                  <NavLink to="/profile" activeClassName="active-link" isActive={() => location.pathname === "/profile"} className="nav-link">
                     <FiUser className="icon" />
                   </NavLink>
                 </li>
