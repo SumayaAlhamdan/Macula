@@ -11,7 +11,7 @@ export const useLogin = () => {
     setError(null); // Clear the error state before making the request
 
     try {
-      const response = await fetch(`/api/${userType}s/login`, {  // Adjust the endpoint based on your backend routes
+      const response = await fetch(`/api/${userType}/login`, {  // Adjust the endpoint based on your backend routes
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ID, password }),

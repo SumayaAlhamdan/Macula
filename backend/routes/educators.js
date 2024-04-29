@@ -75,21 +75,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Route to get a specific educator by ID
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    // Find an educator by ID in the database
-    const educator = await Educator.findOne({ _id: req.params.id });
-
+    const educator = await Educator.findOne({ ID: req.params.id });
     if (!educator) {
-      return res.status(404).json({ message: 'Educator not found' });
+      return res.status(404).json({ message: "Educator not found" });
     }
-
-    res.json({ educator });
+    res.json(educator);
   } catch (error) {
-    console.error('Error getting educator by ID:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error getting educator by ID:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 module.exports = router;
