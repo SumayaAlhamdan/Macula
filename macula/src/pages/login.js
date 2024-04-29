@@ -7,6 +7,7 @@ import "../css/admin.css"
 import { Link } from "react-router-dom";
 import BlackButton from "../components/BlackButton";
 import WhiteButton from "../components/WhiteButton";
+import TermsAndConditions from "./terms";
 
 const Login = () => {
   const [ID, setID] = useState("");
@@ -118,6 +119,7 @@ const Login = () => {
         </div>
         {error && <div className="error-message">{error}</div>}
       <button className="Adminbutton">Login</button>
+      <TermsAndConditions></TermsAndConditions>
     </form>
     </div>
   );

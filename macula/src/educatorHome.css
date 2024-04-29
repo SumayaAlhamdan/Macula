@@ -29,7 +29,7 @@
   .big-attendance-container {
     float: right;
     width: 500px; /* Adjust the width as needed */
-    margin-right: 100px; 
+    margin-right: 150px; 
     margin-left: 0px;/* Add some space between the upcoming classes and the classroom container */
     margin-top: -66px;
     
@@ -40,6 +40,20 @@
     margin-left: 150px;/* Add some space between the upcoming classes and the classroom container */
     
   }
+  .courses-container {
+    width: 500px; /* Set the fixed width */
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: 500px; /* Set the maximum height for scrolling */
+  
+  }
+  
+  .big-courses-container {
+    width: 500px; /* Adjust the width as needed */
+   
+    margin-left: auto; /* Align the container to the center */
+    margin-right: auto; /* Align the container to the center */
+  }
+  
   .classesEmptyState{
     font-size: x-large;
     text-align: center;
@@ -60,5 +74,6 @@
   .register {
     margin-left: 100px;
   }
+  
   
 /* educatorHome.css */

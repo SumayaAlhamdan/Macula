@@ -10,6 +10,7 @@ import "../css/classrooms.css";
 import "../components/popup.css";
 import Success from '../components/Success';
 import "../components/Success.css";
+// import "../educatorHome.css"; 
 
 const Classrooms = () => {
     const { courseCode } = useParams();
@@ -168,11 +169,10 @@ const Classrooms = () => {
                     ) : (
                         <p className='classesEmptyState'>No Upcoming classes for this cours</p>
                     )}
+                    
                 </div>
 
-                <div className="button-container">
-                    <BlackButton className="create-classroom" onClick={() => setButtonPopup(true)} text="Create classroom" />
-                </div>
+              
 
             </div>
             <div className="big-attendance-container">
@@ -213,7 +213,8 @@ const Classrooms = () => {
                     )}
                 </div>
             </div>
-
+            
+           
             <Popup trigger={buttonPopup} setTrigger={setButtonPopup} onClose={resetForm}>
                 <div className="classroom">
                     <h2>New Classroom</h2>
@@ -242,8 +243,11 @@ const Classrooms = () => {
                 </div>
             </Popup>
             <Success trigger={successPopup} setTrigger={setSuccessPopup} text="Your Classroom has been created successfully" />
-
+            <div className="button-container">
+                    <BlackButton className="create-classroom" onClick={() => setButtonPopup(true)} text="Create classroom" />
+                </div>
         </div>
+        
     );
 };
 

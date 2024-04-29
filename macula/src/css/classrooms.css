@@ -9,6 +9,14 @@
 h3 {
   margin-left: 19px;
 }
+.button-container {
+  text-align: center;
+  display: block;
+  margin-top: 435px; /* Adjust the margin as needed */
+  margin-left: 150px;
+  
+}
+
 
 .classroom-container {
   margin-left: 0px;
@@ -35,10 +43,11 @@ h3 {
 }
 
 .create-classroom {
-  display: flex;
+  /* display: flex; */
   justify-content: center; /* Horizontally center */
   align-items: center; /* Vertically center */
   height: 100vh; /* Adjust the height as needed */
+ 
 }
 
 .error-message {

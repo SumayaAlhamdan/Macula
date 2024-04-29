@@ -468,9 +468,9 @@ const Eviewcourse = () => {
 
   return (
     <div className="educator-home">
-      <div className="upcoming-classes-container">
+      <div className="big-courses-container">
         <h3 className='h3'><FaCalendarAlt className='desktop-icon' /> Courses</h3>
-        <div className="classroom-container">
+        <div className="courses-container">
           {fetchedCourses.map((course, index) =>
             course.educatorID === user.educator.ID ? (
               <div key={course._id} className="classroom-box">

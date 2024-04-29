@@ -123,9 +123,9 @@ const FaceDetection = ({ classroomID, studentID, onStartVideo, onCloseModal }) =
                     resizedDetections.forEach(async (detection) => {
                         const bestMatch = faceMatcher.findBestMatch(detection.descriptor);
                         if (bestMatch._label === studentID) { // Check if the label matches the student ID
-                            const box = detection.detection.box;
-                            const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
-                            drawBox.draw(canvasRef.current);
+                            // const box = detection.detection.box;
+                            // const drawBox = new faceapi.draw.DrawBox(box, { label: bestMatch.toString() });
+                            // drawBox.draw(canvasRef.current);
 
                             // Make an HTTP request to mark the student present in the database
                             try {
