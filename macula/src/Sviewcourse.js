@@ -32,34 +32,6 @@ const Sviewcourse = () => {
     }
   }
 
-  // const handleRegisterCourse = async () => {
-  //   try {
-  //     if (!courseCode) {
-  //       setErrorMessage('Please fill in course code.');
-  //       return;
-  //     }
-
-  //     const isCourseExists = fetchedCourses.some(course => course.code === courseCode);
-    
-  //     if (!isCourseExists) {
-  //       setErrorMessage('Course does not exist.');
-  //       return;
-  //     }
-
-  //     const response = await axios.post('http://localhost:4000/api/courses/register', {
-  //       code: courseCode, // Sending the course code
-  //       student: user.student.ID // Sending the student name
-  //     });
-  
-  //     console.log('Course registered successfully:', response.data);
-  //     await fetchCourses();
-  //     setCourseCode('');
-  //     setErrorMessage('');
-  //     setButtonPopup(false);
-  //   } catch (error) {
-  //     console.error('Error registering course:', error);
-  //   }
-  // };
   const handleRegisterCourse = async () => {
     try {
 
@@ -123,9 +95,9 @@ const Sviewcourse = () => {
 
   return (
     <div className="educator-home">
-      <div className="upcoming-classes-container">
+      <div className="big-courses-container">
         <h3 className='h3'><FaCalendarAlt className='desktop-icon' /> Courses</h3>
-        <div className="classroom-container">
+        <div className="courses-container">
           {fetchedCourses.map((course, index) => {
             // Check if the course is registered for the student
             if (course.students.includes(user.student.ID)) {
@@ -146,9 +118,9 @@ const Sviewcourse = () => {
             }
           })}
         </div>
-
+        <div style={{ marginLeft: '342px', marginTop: '14px' }}>
         <BlackButton className="register" onClick={() => setButtonPopup(true)} text="Register for course" />
-
+</div>
         {/* Register course pop up */}
         <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
           <h3>Register for a Course</h3>
@@ -164,6 +136,8 @@ const Sviewcourse = () => {
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
           <div className="buttons-container">
+          {/* <WhiteButton text="Cancel" onClick={() => setButtonPopup(false)} /> */}
+
             <OrangeButton text="Register" onClick={handleRegisterCourse} />
           </div>
         </Popup>

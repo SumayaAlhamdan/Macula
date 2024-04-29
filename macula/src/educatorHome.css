@@ -1,16 +1,7 @@
 .desktop-icon{
   color: #EF5423 ;
 }
-/*
-.horizontal-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .horizontal-item {
-    flex-basis: calc(33.33% - 10px);  Adjust the width of each item 
-   }  */ 
+
    .classroom-container {
     width: 300px; /* Set the fixed width */
     overflow-y: auto; /* Enable vertical scrolling */
@@ -44,15 +35,21 @@
     width: 500px; /* Set the fixed width */
     overflow-y: auto; /* Enable vertical scrolling */
     height: 500px; /* Set the maximum height for scrolling */
+    border: 1px solid #8e8a8a; /* Add a border around the container */
+    padding: 5px; /* Add padding for better spacing */
+
+
   
   }
-  
+
   .big-courses-container {
     width: 500px; /* Adjust the width as needed */
-   
     margin-left: auto; /* Align the container to the center */
     margin-right: auto; /* Align the container to the center */
+
+
   }
+  
   
   .classesEmptyState{
     font-size: x-large;
@@ -71,9 +68,8 @@
     float: right
   }
   
-  .register {
-    margin-left: 100px;
-  }
+  
+
   
   
 /* educatorHome.css */

@@ -1,0 +1,33 @@
+.popup-content {
+  font-size: 14px; /* Set the font size for the popup content */
+}
+
+.small-text {
+  font-size: 12px; /* Set the font size for small text */
+}
+
+.buttons-container button {
+  font-size: 12px; /* Set the font size for buttons */
+  padding: 8px 16px; /* Adjust padding to make the buttons smaller */
+  margin-right: 5px; /* Add space between buttons */
+}
+
+.popup-inner {
+  width: 350px; /* Set the width of the popup */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reset-button {
+  color: #EF5423;
+  font-weight: bold; /* Make the text bold */
+  margin-left: 400px ; /* Align the text to the right */
+  
+}
+
+.reset-button:hover {
+  text-decoration: underline; /* Underline the text on hover */
+}
+
