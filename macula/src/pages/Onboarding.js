@@ -18,7 +18,6 @@ const Onboarding = () => {
         <p></p><Link to="/login">
           <BlackButton text="Login" />
         </Link>
-        <Link to="/adminLogin"><p className="AdminLogin">Login as an Admin</p></Link>
          </div>
          <Link to="/Onboarding" className="Main">Main</Link> <span className="Aboutus">About Us</span> <span className="Features">Features</span> <Link to="/login" className="LoginOnboarding">Login</Link>
         <svg height="100%" width="100%" version="1.1" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
