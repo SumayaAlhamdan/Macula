@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FaMedal } from 'react-icons/fa';
+import { FaMedal, FaRegUserCircle, FaRegUser,} from 'react-icons/fa';
 import axios from 'axios';
+import "./profile.css"; // Import the CSS file
+import { RiMedalLine } from "react-icons/ri";
+
 
 const Profile = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -130,9 +133,9 @@ const Profile = () => {
 
   return (
     <div className="profile-page">
-      <h1>Profile</h1>
+      <h1 ><FaRegUser className='desktop-icon' />Profile</h1>
+      <h3 className='profile-heading'><FaRegUserCircle className='desktop-icon'/>  Personal Information</h3>
       <div className="profile-container">
-        <h2>Personal Information</h2>
         <div className="profile-data">
           <div className="profile-field">
             <label>ID:</label>
@@ -148,12 +151,15 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <h3 className='profile-heading2'><RiMedalLine className='desktop-icon'/>  Rewards</h3>
+
       {user.student && (
+        
         <div className="rewards-container">
           
-  <h2>Rewards</h2>
   <div className="medal-container">
-    {/* Render the earned medals */}
+  {/* Render the earned medals for 10 minutes focus streaks */}
+  {_10minClassroomIDs.length > 0 ? (
     <div>
       <h3>10 minutes focus streaks</h3>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -161,20 +167,28 @@ const Profile = () => {
           const classroom = fetchedClassrooms.find(c => c._id === classroomID);
           return (
             <div key={index} style={{ margin: '0 10px' }}>
-              <FaMedal color="#EF5423" size={80} />
-              {/* <p>{classroomID}</p> */}
+              <RiMedalLine color="#EF5423" size={80} />
               {classroom && (
-                <div style={{ fontSize: '14px', textAlign: 'center' }}>
-                  <p style={{ fontSize: '12px', marginBottom: '5px' }}>{classroom.courseID}</p>
-                  <p style={{ fontSize: '12px', marginBottom: '5px' }}>{classroom.title}</p>
-                </div>
-              )}
+  <div style={{ fontSize: '14px', textAlign: 'center' }}>
+    <p style={{ fontSize: '12px', marginBottom: '5px' }}>{classroom.courseID}</p>
+    <p style={{ fontSize: '12px', padding: '0', margin: '0' }}>{classroom.title}</p>
+  </div>
+)}
+
             </div>
           );
         })}
       </div>
     </div>
-    
+  ) : (
+    <div>
+      <h3>10 minutes focus streaks</h3>
+      <p>No rewards earned</p>
+    </div>
+  )}
+
+  {/* Render the earned medals for 5 minutes focus streaks */}
+  {_5minClassroomIDs.length > 0 ? (
     <div>
       <h3>5 minutes focus streaks</h3>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -182,22 +196,28 @@ const Profile = () => {
           const classroom = fetchedClassrooms.find(c => c._id === classroomID);
           return (
             <div key={index} style={{ margin: '0 10px' }}>
-              <FaMedal color="#109BA8" size={80} />
-              {/* <p>{classroomID}</p> */}
+              <RiMedalLine color="#109BA8" size={80} />
               {classroom && (
-                <div style={{ fontSize: '14px', textAlign: 'center' }}>
-                  <p style={{ fontSize: '12px', marginBottom: '5px' }}>{classroom.courseID}</p>
-                  <p style={{ fontSize: '12px', marginBottom: '5px' }}>{classroom.title}</p>
-                </div>
-              )}
+  <div style={{ fontSize: '14px', textAlign: 'center' }}>
+    <p style={{ fontSize: '12px', marginBottom: '5px' }}>{classroom.courseID}</p>
+    <p style={{ fontSize: '12px', padding: '0', margin: '0' }}>{classroom.title}</p>
+  </div>
+)}
+
             </div>
           );
         })}
       </div>
     </div>
-  </div>
+  ) : (
+    <div>
+      <h3>5 minutes focus streaks</h3>
+      <p>No rewards earned</p>
+    </div>
+  )}
 </div>
-// </div>
+
+</div>
 
       )}
     </div>

@@ -1,0 +1,27 @@
+.profile-container{
+    width: 20%;
+}
+
+.rewards-container {
+  width: 60%; /* Adjust the width as needed */
+  margin: auto; /* Center the container horizontally */
+  padding: 20px; /* Add some padding */
+  border: 1px solid #ccc; /* Add a border for visual separation */
+  border-radius: 8px; /* Add some border radius for rounded corners */
+}
+
+.medal-container {
+  margin-top: 20px; /* Add some margin at the top */
+}
+
+.medal-container h3 {
+  text-align: center; /* Center the heading */
+}
+.profile-heading {
+    text-align: left;
+    margin-left: 610px; /* Adjust the margin as needed */
+  }
+  .profile-heading2 {
+    text-align: left;
+    margin-left: 310px; /* Adjust the margin as needed */
+  }

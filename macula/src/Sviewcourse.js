@@ -135,7 +135,7 @@ const Sviewcourse = () => {
           />
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <div className="buttons-container">
+          <div className="buttons-container" style={{ marginLeft: '230px'}}>
           {/* <WhiteButton text="Cancel" onClick={() => setButtonPopup(false)} /> */}
 
             <OrangeButton text="Register" onClick={handleRegisterCourse} />
