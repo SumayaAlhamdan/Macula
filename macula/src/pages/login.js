@@ -32,6 +32,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (ID === "" || password === "") {
+      setError("All fields should be filled");
+      return false;
+    }
+    
     // Check if the ID starts with numbers (assuming student IDs start with numbers)
     const firstChar = ID.charAt(0);
     const isStudent = !isNaN(firstChar);
@@ -42,9 +47,10 @@ const Login = () => {
         const loginSuccessful = await login(ID, password, "students");
         if (loginSuccessful) {
           navigate("/home");
-          return;
+          return true;
         } else {
-          setError("Invalid student credentials.");
+          setError("Invalid credentials.");
+          return false;
         }
       } else {
         // Check if the ID belongs to an educator
@@ -56,10 +62,10 @@ const Login = () => {
             const loginSuccessful = await login(ID, password, "educators");
             if (loginSuccessful) {
               navigate("/home");
-              return;
+              return true;
             } else {
-              setError("Invalid educator credentials.");
-              return; // Return after setting error
+              setError("Invalid credentials.");
+              return false; // Return after setting error
             }
           } else if (response.status === 404) {
             // Educator not found, proceed with admin login directly
@@ -67,25 +73,25 @@ const Login = () => {
             console.log('inside admin:', response);
             if (adminLoginSuccessful) {
               navigate("/adminHome");
-              return;
+              return true;
             } else {
-              setError("Invalid admin credentials.");
-              return; // Return after setting error
+              setError("Invalid credentials.");
+              return false; // Return after setting error
             }
           }
         } catch (error) {
           console.error("Error fetching educator:", error);
-          setError("An error occurred while fetching educator.");
+          setError("An error occurred. Please try again.");
         }
     
         // If the request fails or an error occurs, proceed with admin login
         const adminLoginSuccessful = await login(ID, password, "admins");
         if (adminLoginSuccessful) {
           navigate("/adminHome");
-          return;
+          return true;
         } else {
-          setError("Invalid admin credentials.");
-          return; // Return after setting error
+          setError("Invalid credentials.");
+          return false; // Return after setting error
         }
       }
     } catch (error) {
@@ -116,11 +122,13 @@ const Login = () => {
         </svg>
       </div>
       <h3 className="Admintitle">Log In into your account</h3>
-      <form className="Admin-form" onSubmit={handleSubmit}>
+      <form className="Admin-form" onSubmit={handleSubmit}      novalidate="novalidate"     data-testid="LoginForm"
+>
         <label>ID</label>
         <input
           type="text"
           placeholder="ID"
+          data-testid="ID"
           onChange={handleIDChange}
         />
         <label>Password</label>
@@ -131,6 +139,7 @@ const Login = () => {
             value={password}
             required
             placeholder="Password"
+            data-testid="password"
           />
           <button
             type="button"
@@ -141,7 +150,8 @@ const Login = () => {
           </button>
         </div>
         {error && <div className="error-message">{error}</div>}
-      <button className="Adminbutton">Login</button>
+      <button className="Adminbutton"             data-testid="Login"
+>Login</button>
       <TermsAndConditions></TermsAndConditions>
     </form>
     </div>
