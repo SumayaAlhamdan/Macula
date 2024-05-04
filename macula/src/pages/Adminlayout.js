@@ -7,7 +7,7 @@ const AdminLayout = ({ children }) => {
 
   // Function to check if the current route is the Onboarding page
   const isOnboardingPage = () => {
-    return location.pathname === '/Onboarding';
+    return location.pathname === '/Onboarding' || location.pathname === '/Aboutus' || location.pathname === '/Features';
   };
   const isAdmin = () => {
     return location.pathname === '/adminLogin' ;
