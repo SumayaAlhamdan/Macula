@@ -218,4 +218,109 @@
   .background-circles--blue {
     background: #ffd51e;
   }
+  .titleIn{
+    padding-top: 0%;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 40px;
+    text-align: left;
+    color:#000000;
+
+   }
+   .titleOut {
+    position: absolute;
+    top: 17%; /* Adjust the top position as needed */
+    left: 30%; /* Center horizontally */
+    transform: translateX(-50%);
+    z-index: 1; /* Ensure the text appears above the SVG */
+    font-size: 55px;
+   font-weight:600;
+    color: #109ba8;
+    width: 750px;
+  }
+  .orange-brackets {
+    font-size: 24px; /* Adjust the font size as needed */
+    color: orange;
+  }
+
+  .FeatureCard1 {
+    position: absolute;
+    z-index: 1;
+    background: #FFFFFF;
+    width: 250px;
+    height: 300px;
+    margin: 0 auto; /* Center horizontally */
+    top: 50%; /* Position it vertically in the center */
+    left: 15%;
+    transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+    padding: 45px 45px 55px 45px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    justify-content: center;
+  }
+  .FeatureCard2 {
+    position: absolute;
+    z-index: 1;
+    background: #FFFFFF;
+    width: 250px;
+    height: 300px;
+    margin: 0 auto; /* Center horizontally */
+    top: 50%; /* Position it vertically in the center */
+    left: 38.5%;
+    transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+    padding: 45px 45px 55px 45px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    justify-content: center;
+  }
+  .FeatureCard3 {
+    position: absolute;
+    z-index: 1;
+    background: #FFFFFF;
+    width: 250px;
+    height: 300px;
+    margin: 0 auto; /* Center horizontally */
+    top: 50%; /* Position it vertically in the center */
+    left: 62%;
+    transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+    padding: 45px 45px 55px 45px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    justify-content: center;
+  }
+
+  .FeatureCard4 {
+    position: absolute;
+    z-index: 1;
+    background: #FFFFFF;
+    width: 250px;
+    height: 300px;
+    margin: 0 auto; /* Center horizontally */
+    top: 50%; /* Position it vertically in the center */
+    left: 85%;
+    transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+    padding: 45px 45px 55px 45px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    justify-content: center;
+  }
+
+  .FeaturesTitle{
+    text-align: center;
+    z-index: 1;
+    margin-top: 120px;
+    font-size: 35px;
+    color: #EF5423;
+    font-weight: 600;
+  }
+
+  .CardTitle{
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .FeatureIcon{
+    text-align: center;
+    font-size: 45px;
+    margin-top: 30px;
+    color: #EF5423;
+  }
+  
   

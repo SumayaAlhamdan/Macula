@@ -6,6 +6,7 @@ import { TweenMax, Power2 } from "gsap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import TermsAndConditions from "./terms";
+import "../css/admin.css"
 
 
 const Login = () => {
@@ -114,8 +115,8 @@ const Login = () => {
     <div className="admin-login-container">
       <div className="background-circles background-circles--blue background-circles--animated">
         <Link to="/Onboarding" className="Main">Main</Link>
-        <span className="Aboutus">About Us</span>
-        <span className="Features">Features</span>
+        <Link to="/Aboutus" className="Aboutus">About Us</Link>
+        <Link to="/Features" className="Features">Features </Link>
         <Link to="/login" className="LoginOnboarding">Login</Link>
         <svg height="100%" width="100%" version="1.1" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
           <circle className="circle-top" cx="90px" cy="-50px" r="200" fill="#ffffff" />

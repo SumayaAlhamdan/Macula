@@ -22,6 +22,8 @@ import RealtimeEngage from "./pages/RealtimeEngage";
 import AttendanceTable from "./pages/reports";
 import AdminProfilePage from "./pages/adminProfile";
 import EducatorDashboard  from "./pages/eduDash";
+import Aboutus from "./pages/Aboutus";
+import Features from "./pages/Features";
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
             <Route path="/Reports" element={<AttendanceTable />} />
             <Route path="/realtime" element={<RealtimeEngage />} />
             <Route path="/EducatorDashboard" element={<EducatorDashboard />} />
+            <Route path="/Aboutus" element={<Aboutus />} />
+            <Route path="/Features" element={<Features />} />
 
           </Routes>
         </Layout>
