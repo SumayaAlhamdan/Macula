@@ -32,7 +32,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!my-library-dir)/' " , 
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!my-library-dir)/' --env=jsdom  ",
+    "coverage": "react-scripts test --env=jsdom --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -55,8 +56,19 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
+    "babel-jest": "^29.7.0",
     "jest": "^27.5.1",
+    "jsdom": "^24.0.0",
     "supertest": "^6.3.4"
   },
-  "jest": {}
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^axios$": "axios/dist/node/axios.cjs"
+    }
+  }
 }

@@ -31,6 +31,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('handleSubmit called');
 
     if (ID === "" || password === "") {
       setError("All fields should be filled");
@@ -46,7 +47,7 @@ const Login = () => {
         // Login as a student
         const loginSuccessful = await login(ID, password, "students");
         if (loginSuccessful) {
-          navigate("/home");
+          navigate("/");
           return true;
         } else {
           setError("Invalid credentials.");
@@ -61,7 +62,7 @@ const Login = () => {
             // ID belongs to an educator, login as an educator
             const loginSuccessful = await login(ID, password, "educators");
             if (loginSuccessful) {
-              navigate("/home");
+              navigate("/");
               return true;
             } else {
               setError("Invalid credentials.");
@@ -72,7 +73,7 @@ const Login = () => {
             const adminLoginSuccessful = await login(ID, password, "admins");
             console.log('inside admin:', response);
             if (adminLoginSuccessful) {
-              navigate("/adminHome");
+              navigate("/");
               return true;
             } else {
               setError("Invalid credentials.");
@@ -122,8 +123,7 @@ const Login = () => {
         </svg>
       </div>
       <h3 className="Admintitle">Log In into your account</h3>
-      <form className="Admin-form" onSubmit={handleSubmit}      novalidate="novalidate"     data-testid="LoginForm"
->
+      <form className="Admin-form" onSubmit={handleSubmit} noValidate data-testid="LoginForm">
         <label>ID</label>
         <input
           type="text"
@@ -144,14 +144,14 @@ const Login = () => {
           <button
             type="button"
             onClick={handleTogglePassword}
+            data-testid="toggle-password-button"
             className="view-password"
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
         {error && <div className="error-message">{error}</div>}
-      <button className="Adminbutton"             data-testid="Login"
->Login</button>
+      <button className="Adminbutton"data-testid="Login">Login</button>
       <TermsAndConditions></TermsAndConditions>
     </form>
     </div>
