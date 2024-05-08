@@ -31,7 +31,7 @@ def record_time(new_status):
     # Check if the status has changed
     if new_status != status:
         # Record the duration based on the previous status
-        if status == 'FOUCESED':
+        if status == 'FOCUSED': 
             focused_duration += current_time - start_time
             if (current_time - start_time) > max_focused_duration:
                 max_focused_duration = (current_time - start_time)
@@ -185,8 +185,8 @@ while True:
             # otherwise, the eye aspect ratio is not below the blink
             # threshold, so reset the counter and alarm
         else:
-            STATUS = 'FOUCESED'
-            record_time('FOUCESED')
+            STATUS = 'FOCUSED'
+            record_time('FOCUSED')
             COUNTER1 = 0
 
         mouth = shape[mStart:mEnd]
@@ -210,8 +210,8 @@ while True:
             record_time('DISTRACTED')
             cv2.putText(frame, "Looking away!", (20, 800), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         else: 
-            STATUS = 'FOUCESED'
-            record_time('FOUCESED')
+            STATUS = 'FOCUSED'
+            record_time('FOCUSED')
 
 
         # Draw text if mouth is open
@@ -221,8 +221,8 @@ while True:
             #cv2.putText(frame, "Yawning!", (800, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
             
         else:
-            STATUS = 'FOUCESED'
-            record_time('FOUCESED')
+            STATUS = 'FOCUSED'
+            record_time('FOCUSED')
 
         # loop over the (x, y)-coordinates for the facial landmarks
         # and draw each of them
@@ -296,7 +296,7 @@ while True:
             end_point_alt) = getHeadTiltAndCoords(size, image_points, frame_height)
 
         cv2.line(frame, start_point, end_point, (255, 0, 0), 2)
-        cv2.line(frame, start_point, end_point_alt, (0, 0, 255), 2)
+        cv2.line(frame, start_point, end_point_alt, (0, 0, 255), 2) 
 
         if head_tilt_degree:
             cv2.putText(frame, 'Head Tilt Degree: ' + str(head_tilt_degree[0]), (170, 20),

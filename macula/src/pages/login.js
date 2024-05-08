@@ -1,20 +1,21 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useLogin } from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import { TweenMax, Power2 } from "gsap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import TermsAndConditions from "./terms";
-import "../css/admin.css"
-
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Login = () => {
   const [ID, setID] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error, isLoading, setError } = useLogin();
-  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { dispatch } = useAuthContext();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -32,78 +33,73 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('handleSubmit called');
+    console.log(`handleSubmit has been called with '${ID}' + '${password}'`);
 
     if (ID === "" || password === "") {
       setError("All fields should be filled");
       return false;
     }
     
-    // Check if the ID starts with numbers (assuming student IDs start with numbers)
     const firstChar = ID.charAt(0);
     const isStudent = !isNaN(firstChar);
-
+  
     try {
+      let loginSuccessful = false;
       if (isStudent) {
-        // Login as a student
-        const loginSuccessful = await login(ID, password, "students");
-        if (loginSuccessful) {
-          navigate("/");
-          return true;
-        } else {
-          setError("Invalid credentials.");
-          return false;
-        }
+        loginSuccessful = await login(ID, password, "students");
       } else {
-        // Check if the ID belongs to an educator
         try {
           const response = await axios.get(`/api/educators/${ID}`);
-          console.log('response:', response);
           if (response.status === 200) {
-            // ID belongs to an educator, login as an educator
-            const loginSuccessful = await login(ID, password, "educators");
-            if (loginSuccessful) {
-              navigate("/");
-              return true;
-            } else {
-              setError("Invalid credentials.");
-              return false; // Return after setting error
-            }
+            loginSuccessful = await login(ID, password, "educators");
           } else if (response.status === 404) {
-            // Educator not found, proceed with admin login directly
-            const adminLoginSuccessful = await login(ID, password, "admins");
-            console.log('inside admin:', response);
-            if (adminLoginSuccessful) {
-              navigate("/");
-              return true;
-            } else {
-              setError("Invalid credentials.");
-              return false; // Return after setting error
-            }
+            loginSuccessful = await login(ID, password, "admins");
           }
         } catch (error) {
           console.error("Error fetching educator:", error);
           setError("An error occurred. Please try again.");
-        }
-    
-        // If the request fails or an error occurs, proceed with admin login
-        const adminLoginSuccessful = await login(ID, password, "admins");
-        if (adminLoginSuccessful) {
-          navigate("/adminHome");
-          return true;
-        } else {
-          setError("Invalid credentials.");
-          return false; // Return after setting error
+          return false;
         }
       }
+  
+      if (loginSuccessful) {
+        navigate("/");
+        return true;
+      } else {
+        setError("Invalid credentials.");
+        return false;
+      }
     } catch (error) {
-      setError("An error occurred. Please try again.");
       console.error("Error:", error);
+      setError("An error occurred. Please try again.");
+      return false;
     }
-    
-    
-
   };
+
+  const login = async (ID, password, userType) => {
+    setIsLoading(true);
+    setError(null); // Clear the error state before making the request
+  
+    try {
+      const response = await axios.post(`/api/${userType}/login`, { ID, password });
+  
+      if (response.status !== 200) {
+        setError(response.data.message);
+        return false; // Return false for a failed login
+      } else {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        dispatch({ type: 'LOGIN', payload: response.data });
+        return true; // Return true for a successful login
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('An error occurred during login.');
+      return false; // Return false for any error during login
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
 
   useEffect(() => {
     // Perform animations after component is mounted
@@ -128,6 +124,7 @@ const Login = () => {
         <label>ID</label>
         <input
           type="text"
+          value={ID}
           placeholder="ID"
           data-testid="ID"
           onChange={handleIDChange}
@@ -152,9 +149,9 @@ const Login = () => {
           </button>
         </div>
         {error && <div className="error-message">{error}</div>}
-      <button className="Adminbutton"data-testid="Login">Login</button>
-      <TermsAndConditions></TermsAndConditions>
-    </form>
+        <button className="Adminbutton" data-testid="Login">Login</button>
+        <TermsAndConditions />
+      </form>
     </div>
   );
 };
