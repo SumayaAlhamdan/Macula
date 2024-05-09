@@ -34,31 +34,35 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(`handleSubmit has been called with '${ID}' + '${password}'`);
-
+  
     if (ID === "" || password === "") {
       setError("All fields should be filled");
       return false;
     }
-    
+  
     const firstChar = ID.charAt(0);
     const isStudent = !isNaN(firstChar);
   
+    let loginSuccessful = false;
+  
     try {
-      let loginSuccessful = false;
       if (isStudent) {
         loginSuccessful = await login(ID, password, "students");
       } else {
         try {
           const response = await axios.get(`/api/educators/${ID}`);
+          console.log('Response status:', response.status);
+          
           if (response.status === 200) {
             loginSuccessful = await login(ID, password, "educators");
-          } else if (response.status === 404) {
+          } else {
+            // Attempt admin login if educator not found
             loginSuccessful = await login(ID, password, "admins");
           }
         } catch (error) {
           console.error("Error fetching educator:", error);
-          setError("An error occurred. Please try again.");
-          return false;
+          // Attempt admin login if there's an error fetching educator
+          loginSuccessful = await login(ID, password, "admins");
         }
       }
   
@@ -75,6 +79,8 @@ const Login = () => {
       return false;
     }
   };
+  
+  
 
   const login = async (ID, password, userType) => {
     setIsLoading(true);
