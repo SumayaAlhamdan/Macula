@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ResetPassword from '../testing/resetPassword';
+import ResetPassword from '../testing/resetpassword';
 import '@testing-library/jest-dom/extend-expect'; // This import adds the toBeInTheDocument matcher
 import { act } from 'react-dom/test-utils'; // Import act from react-dom/test-utils
 
