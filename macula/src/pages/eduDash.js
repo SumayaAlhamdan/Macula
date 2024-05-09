@@ -137,6 +137,7 @@ function EducatorDashboard() {
               <thead>
                 <tr>
                   <th>Student ID</th>
+                  <th>Student name</th>
                   <th>Attendance Status</th>
                   <th>Focus Duration (mins)</th>
                   <th>Distracted Duration (mins)</th>
@@ -147,6 +148,7 @@ function EducatorDashboard() {
                 {engagementData.map(student => (
                   <tr key={student.studentID}>
                     <td>{student.studentID}</td>
+                    <td>{student.studentName}</td>
                     <td>{student.attendance}</td>
                     <td>{student.focusDuration}</td>
                     <td>{student.distractedDuration}</td>
