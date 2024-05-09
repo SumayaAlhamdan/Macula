@@ -6,6 +6,7 @@ import OrangeButton from "../components/OrangeButton";
 import WhiteButton from "../components/WhiteButton";
 import "./AdminProfile.css"; // Import the CSS file
 
+
 const AdminProfile = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [buttonPopup, setButtonPopup] = useState(false);
@@ -65,6 +66,7 @@ const AdminProfile = () => {
           <div className="profile-field">
             <label>ID:</label>
             <span>{user.admin?.ID}</span>
+
           </div>
           <div className="profile-field">
             <label>Name:</label>

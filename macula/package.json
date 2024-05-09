@@ -1,77 +1,80 @@
 {
-  "proxy": "http://localhost:4000",
-  "name": "macula",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.5.2",
-    "@tensorflow/tfjs": "^4.17.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@zoom/meetingsdk": "^3.1.6",
-    "@zoomus/websdk": "^2.18.3",
-    "axios": "^1.6.7",
-    "bootstrap": "^5.3.3",
-    "chart.js": "^4.4.2",
-    "express": "^4.19.2",
-    "face-api.js": "^0.22.2",
-    "gsap": "^3.12.5",
-    "mongodb": "^6.5.0",
-    "mongoose": "^8.2.0",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.10.1",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.0.1",
-    "react-router-dom": "^6.22.3",
-    "react-scripts": "^5.0.1",
-    "react-tabs": "^6.0.2",
-    "text-encoding-utf-8": "^1.0.2",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!my-library-dir)/' --env=jsdom  ",
-    "coverage": "react-scripts test --env=jsdom --watchAll=false --coverage",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@babel/preset-env": "^7.24.5",
-    "@babel/preset-react": "^7.24.1",
-    "babel-jest": "^29.7.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-15": "^1.4.4",
-    "enzyme-adapter-react-16": "^1.15.8",
-    "jest": "^27.5.1",
-    "jsdom": "^24.0.0",
-    "supertest": "^6.3.4"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+    "proxy": "http://localhost:4000",
+    "name": "macula",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "@fortawesome/fontawesome-free": "^6.5.2",
+      "@tensorflow/tfjs": "^4.17.0",
+      "@testing-library/jest-dom": "^5.16.5",
+      "@testing-library/react": "^13.4.0",
+      "@testing-library/user-event": "^13.5.0",
+      "@zoom/meetingsdk": "^3.1.6",
+      "@zoomus/websdk": "^2.18.3",
+      "axios": "^1.6.7",
+      "bootstrap": "^5.3.3",
+      "chart.js": "^4.4.2",
+      "express": "^4.19.2",
+      "face-api.js": "^0.22.2",
+      "gsap": "^3.12.5",
+      "mongodb": "^6.5.0",
+      "mongoose": "^8.2.0",
+      "react": "^18.2.0",
+      "react-bootstrap": "^2.10.1",
+      "react-dom": "^18.2.0",
+      "react-icons": "^5.0.1",
+      "react-router-dom": "^6.22.3",
+      "react-scripts": "^5.0.1",
+      "react-tabs": "^6.0.2",
+      "text-encoding-utf-8": "^1.0.2",
+      "web-vitals": "^2.1.4"
     },
-    "moduleNameMapper": {
-      "^axios$": "axios/dist/node/axios.cjs"
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!my-library-dir)/' --env=jsdom  ",
+      "coverage": "react-scripts test --env=jsdom --watchAll=false --coverage",
+      "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+      "extends": [
+        "react-app",
+        "react-app/jest"
+      ]
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    },
+    "devDependencies": {
+      "@babel/preset-env": "^7.24.5",
+      "@babel/preset-react": "^7.24.1",
+      "babel-jest": "^29.7.0",
+      "enzyme": "^3.11.0",
+      "enzyme-adapter-react-15": "^1.4.4",
+      "enzyme-adapter-react-16": "^1.15.8",
+      "jest": "^27.5.1",
+      "jsdom": "^24.0.0",
+      "supertest": "^6.3.4"
+    },
+    "jest": {
+      "testEnvironment": "jsdom",
+      "transform": {
+        "^.+\\.jsx?$": "babel-jest"
+      },
+      "moduleNameMapper": {
+        "^axios$": "axios/dist/node/axios.cjs",
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "C:/Users/user/Documents/GitHub/Macula/macula/src/__mocks__/fileMock.js",
+      "\\.(css|less)$": "C:/Users/user/Documents/GitHub/Macula/macula/src/__mocks__/styleMock.js"
+
+      }
     }
   }
-}
