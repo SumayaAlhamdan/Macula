@@ -52,11 +52,6 @@ const SClassrooms = () => {
   const handleJoinClassroom = (classroomID, date, time) => {
     const classStartTime = new Date(`${date} ${time}`).getTime();
     const currentTime = new Date().getTime();
-    if (classStartTime - currentTime <= 30 * 60 * 1000) { // Check if less than 30 minutes remaining
-      setSelectedClassroomID(classroomID); // Set the selected classroom ID to trigger the FaceDetection popup
-    } else {
-      alert("You can join the classroom 30 minutes before the start time.");
-    }
   };
   const handleCloseModal = () => {
     setSelectedClassroomID(null); // Reset selectedClassroomID when the modal is closed
@@ -82,11 +77,12 @@ const SClassrooms = () => {
                   <p>
                     {classroom.title}
                     <div className="joindiv">
-                      {/* Pass the classroom ID to the handleJoinClassroom function */}
-                      <button onClick={() => handleJoinClassroom(classroom._id, classroom.date, classroom.time)} className="join-link">
-                        Join <FaArrowRight className="arrow-icon" />
-                      </button>
-                    </div>
+                                                {new Date(classroom.date) - new Date() <= 30 * 60 * 1000 && ( // Check if less than 30 minutes remaining
+                                                    <button onClick={() => handleJoinClassroom(courseCode, classroom._id)} className="join-link">
+                                                        Join <FaArrowRight className="arrow-icon" />
+                                                    </button>
+                                                )}
+                                            </div>
                     <div>
                       {formatDate(classroom.date)}, {classroom.time}, {classroom.duration} minutes</div>
                   </p>
