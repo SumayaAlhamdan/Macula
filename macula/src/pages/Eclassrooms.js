@@ -10,7 +10,6 @@ import "../css/classrooms.css";
 import "../components/popup.css";
 import Success from '../components/Success';
 import "../components/Success.css";
-// import "../educatorHome.css"; 
 
 const Classrooms = () => {
     const { courseCode } = useParams();
@@ -73,8 +72,6 @@ const Classrooms = () => {
             }
         }
     };
-
-
 
     const resetForm = () => {
         setErrorMessage('');
@@ -150,15 +147,12 @@ const Classrooms = () => {
                                         <p>
                                             {classroom.title}
                                             <div className="joindiv">
-                                                
-                                                <button onClick={() => handleJoinClassroom(courseCode, classroom._id)} className="join-link">
-                                                    Join <FaArrowRight className="arrow-icon" />
-                                                </button>
+                                                {new Date(classroom.date) - new Date() <= 30 * 60 * 1000 && ( // Check if less than 30 minutes remaining
+                                                    <button onClick={() => handleJoinClassroom(courseCode, classroom._id)} className="join-link">
+                                                        Join <FaArrowRight className="arrow-icon" />
+                                                    </button>
+                                                )}
                                             </div>
-                                            {/* <div className='joindiv'> <a href="http://localhost:3000/react-rtc-demo" target="_blank"  className="join-link">
-                          Join<FaArrowRight className="arrow-icon" />
-                        </a>
-                        </div> */}
                                             <div>
                                                 {formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
                                         </p>
