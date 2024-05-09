@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import TermsAndConditions from "./terms";
 import { useAuthContext } from '../hooks/useAuthContext';
+import './login.css'; 
 
 const Login = () => {
   const [ID, setID] = useState("");
