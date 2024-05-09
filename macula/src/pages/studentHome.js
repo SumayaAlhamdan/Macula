@@ -23,7 +23,8 @@ const StudentHome = () => {
           }
         });
         console.log('courses', response.data);
-        setFetchedCourses(response.data.message.filter(course => course.status === "active")); // Updated to set the courses correctly
+        console.log(currentDate.toISOString().split('T')[0]);
+        setFetchedCourses(response.data.message); // Updated to set the courses correctly
       } catch (error) {
         console.error('Error fetching courses:', error.message);
       }
@@ -84,6 +85,7 @@ const StudentHome = () => {
             .filter(classroom => new Date(classroom.date).toISOString().split('T')[0] >= currentDate.toISOString().split('T')[0]) // Filter classes that have passed
         .sort((a, b) => new Date(a.date) - new Date(b.date))
             .map((classroom, index) => {
+              console.log('Classroom Date:', new Date(classroom.date).toISOString().split('T')[0]);
               const matchingCourse = fetchedCourses.find(course => course.code === classroom.courseID);
               if (matchingCourse) {
                 return (
@@ -101,7 +103,7 @@ const StudentHome = () => {
                     Join <FaArrowRight className="arrow-icon" />
                     </a>
                     </div> */}
-                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration} minutes</div>
+                      <div>{formatDate(classroom.date)}, {classroom.time}, {classroom.duration}</div>
                     </p>
                     {index !== fetchedClassrooms.length - 1 && <hr />}
                   </div>

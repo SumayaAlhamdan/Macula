@@ -123,7 +123,7 @@ const Classrooms = () => {
     const handleJoinClassroom = async (courseCode, classroomID) => {
         // Redirect to the first page
       //  window.open(`/realtime?courseCode=${courseCode}&classroomID=${classroomID}`, '_blank');
-      //  window.open('http://localhost:3001/react-rtc-demo');
+       window.open('http://localhost:3001/react-rtc-demo');
       };
       
     // Get today's date in YYYY-MM-DD format
@@ -150,8 +150,8 @@ const Classrooms = () => {
                                         <p>
                                             {classroom.title}
                                             <div className="joindiv">
-                                                {handleJoinClassroom(courseCode, classroom._id)}
-                                                <button className="join-link">
+                                                
+                                                <button onClick={() => handleJoinClassroom(courseCode, classroom._id)} className="join-link">
                                                     Join <FaArrowRight className="arrow-icon" />
                                                 </button>
                                             </div>
