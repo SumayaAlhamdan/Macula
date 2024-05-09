@@ -17,7 +17,7 @@ const TermsAndConditions = () => {
                 </span>
             </p>
             {showTerms && (
-                <div style={{ marginTop: "10px", border: "1px solid #ccc", padding: "10px", borderRadius: "4px", backgroundColor: "white" ,fontSize:"12px" }}>
+                <div style={{ marginTop: "10px", border: "1px solid #ccc", padding: "10px", borderRadius: "4px", backgroundColor: "white" ,fontSize:"12px" ,width:"500px"}}>
                     <h3>Terms and Conditions</h3>
                     <p>
                         Our platform integrates with Learning Management Systems (LMS) and may access student information, including pictures, names, and IDs, provided by universities.
