@@ -1,50 +1,55 @@
 .header {
-    background-color: #F3F4F6;
-    padding: 10px 0;
-  }
-  
-  .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .logo {
-    width: 150px;
-    height: auto;
-  }
-  
-  .nav-links {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .nav-links li {
-    display: inline;
-    margin-right: 20px;
-  }
-  
-  .nav-link {
-    color: #333;
-    text-decoration: none;
-    font-size: 18px;
-  }
-  
-  
-  .icon {
-    color: #333;
-    font-size: 24px;
-  }
-  
-  .logout-btn {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  
-  .logout-btn:focus {
-    outline: none; /* Remove focus outline */
-  }
-  
+  background-color: #F3F4F6;
+  padding: 10px 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.nav-link,
+.icon,
+.logout-btn {
+  color: #333;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.icon:hover,
+.icon:focus,
+.logout-btn:hover,
+.logout-btn:focus {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.logout-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.logout-btn:focus {
+  outline: none; /* Remove focus outline */
+}

@@ -109,7 +109,7 @@ describe('Login Component', () => {
     login.props = { setIsLoading, setError, dispatch };
     const result = await login.handleSubmit(id, password);
     expect(result).toBe(false);
-  });
+  }); 
 
   test('handles invalid admin submission correctly', async () => {
     const setIsLoading = jest.fn();
@@ -121,7 +121,7 @@ describe('Login Component', () => {
     login.props = { setIsLoading, setError, dispatch };
     const result = await login.handleSubmit(id, password);
     expect(result).toBe(false);
-  });
+  }); 
 
   test('handles 404 error correctly', async () => {
     const setIsLoading = jest.fn();
@@ -131,8 +131,6 @@ describe('Login Component', () => {
     const password = 'invalidPassword';
     const login = new Login();
     login.props = { setIsLoading, setError, dispatch };
-
-    // Mock fetch to return a 404 error
     global.fetch = jest.fn().mockResolvedValue({
       status: 404,
       json: () => Promise.resolve({ message: 'User not found' }),
@@ -153,13 +151,10 @@ describe('Login Component', () => {
     const password = '12345678';
     const login = new Login();
     login.props = { setIsLoading, setError, dispatch };
-
-    // Mock fetch to return a successful login response
     global.fetch = jest.fn().mockResolvedValue({
       status: 200,
       json: () => Promise.resolve({ user: 'John Doe' }),
     });
-
     const result = await login.handleSubmit(id, password);
     expect(result).toBe(true);
   });
