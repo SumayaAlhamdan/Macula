@@ -34,7 +34,7 @@ const MyNavbar = () => {
             {user && (
               <>
                 <li>
-                  <NavLink to="/profile" className="nav-link">Profile</NavLink>
+                  <NavLink to="/profile" activeClassName="active-link" className="nav-link">Profile</NavLink>
                 </li>
                 <li>
                   <button onClick={handleLogout} className="logout-btn">Logout</button>

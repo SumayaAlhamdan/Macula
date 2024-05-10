@@ -39,10 +39,29 @@
 .icon:focus,
 .logout-btn:hover,
 .logout-btn:focus {
+    
   font-weight: bold;
   text-decoration: underline;
 }
 
+/* Remove default focus styling for NavLink */
+.nav-link:focus {
+    outline: none; /* Remove outline */
+  }
+  
+  /* Apply custom styling for active links */
+  .nav-link.active,
+  .nav-link.active:hover,
+  .nav-link.active:focus,
+  .active-link {
+    background-color: transparent;
+    font-size: inherit; /* Maintain the same font size */
+    font-weight: bold;
+    text-decoration: underline;
+    color: inherit; /* or specify the color you want */
+    outline: none; /* Remove outline */
+  }
+  
 .logout-btn {
   background-color: transparent;
   border: none;
