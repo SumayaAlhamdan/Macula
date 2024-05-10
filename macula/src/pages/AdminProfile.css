@@ -1,33 +1,40 @@
 .popup-content {
-  font-size: 14px; /* Set the font size for the popup content */
+  font-size: 1rem; /* Set the font size for the popup content using a relative unit */
 }
 
 .small-text {
-  font-size: 12px; /* Set the font size for small text */
+  font-size: 0.857rem; /* Set the font size for small text using a relative unit */
 }
 
 .buttons-container button {
-  font-size: 12px; /* Set the font size for buttons */
-  padding: 8px 16px; /* Adjust padding to make the buttons smaller */
-  margin-right: 5px; /* Add space between buttons */
+  font-size: 0.857rem; /* Set the font size for buttons using a relative unit */
+  padding: 0.571rem 1.143rem; /* Adjust padding using relative units */
+  margin-right: 0.357rem; /* Add space between buttons using a relative unit */
 }
 
 .popup-inner {
-  width: 350px; /* Set the width of the popup */
+  width: 90%; /* Set the width of the popup as a percentage */
+  max-width: 350px; /* Set a maximum width for the popup */
   background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1.429rem; /* Adjust padding using relative units */
+  border-radius: 0.571rem; /* Adjust border radius using a relative unit */
+  box-shadow: 0 0 1.071rem rgba(0, 0, 0, 0.1); /* Adjust box shadow using relative units */
 }
 
 .reset-button {
   color: #EF5423;
   font-weight: bold; /* Make the text bold */
-  margin-left: 120px ; /* Align the text to the right */
-  
+  font-size: 1rem; /* Set the font size for the reset button using a relative unit */
+  margin-left: auto; /* Align the text to the right by setting margin-left to auto */
 }
 
 .reset-button:hover {
   text-decoration: underline; /* Underline the text on hover */
 }
 
+/* Media query for adjusting styles for smaller screens */
+@media screen and (max-width: 600px) {
+  .popup-inner {
+    width: 95%; /* Adjust popup width for smaller screens */
+  }
+}
