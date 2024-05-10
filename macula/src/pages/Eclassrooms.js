@@ -119,7 +119,7 @@ const Classrooms = () => {
 
     const handleJoinClassroom = async (courseCode, classroomID) => {
         // Redirect to the first page
-      //  window.open(`/realtime?courseCode=${courseCode}&classroomID=${classroomID}`, '_blank');
+       window.open(`/realtime?courseCode=${courseCode}&classroomID=${classroomID}`, '_blank');
        window.open('http://localhost:3001/react-rtc-demo');
       };
       
