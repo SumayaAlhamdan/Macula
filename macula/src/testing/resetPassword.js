@@ -13,8 +13,13 @@ class ResetPassword extends Component {
     };
   }
 
-  // Inside the ResetPassword component
 
+  // Email validation function
+  isValidEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
   handleSendOTP = async () => {
     const { email } = this.state;
     if (!email) {
@@ -26,7 +31,7 @@ class ResetPassword extends Component {
       this.setState({ error: 'Invalid email format' });
       return;
     }
-
+  
     try {
       this.setState({ isLoading: true, error: null });
       const response = await fetch('/api/send-otp', {
@@ -35,8 +40,8 @@ class ResetPassword extends Component {
         body: JSON.stringify({ email }),
       });
       if (response.status === 200) {
-        this.setState({ isLoading: false });
-        // Handle success
+        // Set success state to true
+        this.setState({ isLoading: false, success: true });
       } else {
         const json = await response.json();
         this.setState({ isLoading: false, error: json.message });
@@ -46,13 +51,7 @@ class ResetPassword extends Component {
       this.setState({ isLoading: false, error: 'An error occurred while sending OTP.' });
     }
   };
-
-  // Email validation function
-  isValidEmail = (email) => {
-    // Regular expression for email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  
 
   handleVerifyOTP = async () => {
     const { email, otp } = this.state;
@@ -83,21 +82,10 @@ class ResetPassword extends Component {
     }
   };
 
+  
   handleResetPassword = async () => {
     const { email, newPassword } = this.state;
-    
-    // Validate newPassword
-    if (!newPassword) {
-      this.setState({ error: 'Password is required' });
-      return;
-    }
-  
-    // Check if newPassword is less than 8 characters
-    if (newPassword.length < 8) {
-      this.setState({ error: 'Password must be at least 8 characters long' });
-      return;
-    }
-    
+   
     try {
       this.setState({ isLoading: true, error: null });
       const response = await fetch('/api/reset-password', {
@@ -106,7 +94,9 @@ class ResetPassword extends Component {
         body: JSON.stringify({ email, newPassword }),
       });
       if (response.status === 200) {
-        this.setState({ isLoading: false });
+        // Set success state to true
+        this.setState({ isLoading: false, success: true }); 
+  
         // Handle success
       } else {
         const json = await response.json();
@@ -117,6 +107,7 @@ class ResetPassword extends Component {
       this.setState({ isLoading: false, error: 'An error occurred while resetting password.' });
     }
   };
+  
   
   render() {
     const { email, otp, newPassword, isLoading, error, success } = this.state;
@@ -130,6 +121,7 @@ class ResetPassword extends Component {
           onChange={(e) => this.setState({ email: e.target.value })}
           placeholder="Enter your email"
         />
+        {success && <p>OTP sent successfully</p>}
         <input
           type="text"
           value={otp}

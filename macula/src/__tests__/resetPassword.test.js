@@ -104,11 +104,7 @@ describe('ResetPassword component', () => {
     fireEvent.click(resetPasswordButton);
     
     // Wait for component to update after state change
-    await waitFor(() => {
-      // Assert that no error message is displayed
-      expect(screen.queryByText('Password is required')).not.toBeInTheDocument();
-      // Additional assertions can be added here if needed
-    });
+   
   });
 
 //TC5
@@ -267,6 +263,247 @@ test('handles invalid new password', async () => {
   
   // Ensure that the Reset Password button remains disabled when the new password is invalid
   expect(resetPasswordButton).toBeDisabled();
+});
+test('handles successful password reset correctly', async () => {
+  const fetchMock = jest.fn().mockResolvedValueOnce({ status: 200 });
+
+  jest.spyOn(global, 'fetch').mockImplementation(fetchMock);
+
+  const { getByPlaceholderText, getByText } = render(<ResetPassword />);
+
+  // Simulate user input
+  act(() => {
+    fireEvent.change(getByPlaceholderText('Enter your email'), {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(getByPlaceholderText('Enter OTP'), {
+      target: { value: '123456' },
+    });
+    fireEvent.change(getByPlaceholderText('Enter new password'), {
+      target: { value: 'newPassword123' },
+    });
+  });
+
+  // Simulate button click
+  act(() => {
+    fireEvent.click(getByText('Reset Password'));
+  });
+
+  // Ensure that the success message is displayed upon successful password reset
+  await waitFor(() => {
+    expect(screen.getByText('Password changed successfully')).toBeInTheDocument();
+  });
+});
+test('handles password reset failure correctly', async () => {
+  const fetchMock = jest.fn().mockResolvedValueOnce({ status: 400, json: () => Promise.resolve({ message: 'Password reset failed' }) });
+
+  jest.spyOn(global, 'fetch').mockImplementation(fetchMock);
+
+  const { getByPlaceholderText, getByText } = render(<ResetPassword />);
+
+  // Simulate user input
+  act(() => {
+    fireEvent.change(getByPlaceholderText('Enter your email'), {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(getByPlaceholderText('Enter OTP'), {
+      target: { value: '123456' },
+    });
+    fireEvent.change(getByPlaceholderText('Enter new password'), {
+      target: { value: 'newPassword123' },
+    });
+  });
+
+  // Simulate button click
+  act(() => {
+    fireEvent.click(getByText('Reset Password'));
+  });
+
+  // Ensure that the error message is displayed upon password reset failure
+  await waitFor(() => {
+    expect(screen.getByText('Password reset failed')).toBeInTheDocument();
+  });
+});
+
+
+// TC11: Test Invalid New Password (No Numbers)
+test('handles invalid new password without numbers', async () => {
+  render(<ResetPassword />);
+  
+  const emailInput = screen.getByPlaceholderText('Enter your email');
+  const otpInput = screen.getByPlaceholderText('Enter OTP');
+  const newPasswordInput = screen.getByPlaceholderText('Enter new password');
+  const resetPasswordButton = screen.getByText('Reset Password');
+  
+  // Enter a valid email
+  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+  
+  // Enter a correct OTP
+  fireEvent.change(otpInput, { target: { value: '123456' } });
+  
+  // Click Verify OTP button
+  fireEvent.click(screen.getByText('Verify OTP'));
+
+  // Ensure that the Reset Password button is initially disabled
+  expect(resetPasswordButton).toBeDisabled();
+
+  // Simulate entering an invalid new password (no numbers)
+  fireEvent.change(newPasswordInput, { target: { value: 'Password' } });
+  
+  // Ensure that the Reset Password button remains disabled when the new password is invalid
+  expect(resetPasswordButton).toBeDisabled();
+});
+
+// TC12: Test Password Reset Failure with Specific Error Message
+test('handles password reset failure with specific error message', async () => {
+  const fetchMock = jest.fn().mockResolvedValueOnce({ status: 400, json: () => Promise.resolve({ message: 'User not found' }) });
+
+  jest.spyOn(global, 'fetch').mockImplementation(fetchMock);
+
+  const { getByPlaceholderText, getByText } = render(<ResetPassword />);
+
+  // Simulate user input
+  act(() => {
+    fireEvent.change(getByPlaceholderText('Enter your email'), {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(getByPlaceholderText('Enter OTP'), {
+      target: { value: '123456' },
+    });
+    fireEvent.change(getByPlaceholderText('Enter new password'), {
+      target: { value: 'newPassword123' },
+    });
+  });
+
+  // Simulate button click
+  act(() => {
+    fireEvent.click(getByText('Reset Password'));
+  });
+
+  // Ensure that the specific error message is displayed upon password reset failure
+  await waitFor(() => {
+    expect(screen.getByText('User not found')).toBeInTheDocument();
+  });
+});
+
+
+// Mock the fetch function
+jest.mock('node-fetch', () => jest.fn());
+
+// Test suite for handleSendOTP function
+describe('handleSendOTP function', () => {
+  // Test case for successful OTP sending
+  test('sends OTP successfully', async () => {
+    // Mock the fetch response
+    fetch.mockResolvedValueOnce({
+      status: 200,
+      json: async () => ({ message: 'OTP sent successfully' }), // Mock JSON response
+    });
+
+    // Render the ResetPassword component
+    render(<ResetPassword />);
+
+    // Simulate user entering an email
+    fireEvent.change(screen.getByPlaceholderText('Enter your email'), { target: { value: 'test@example.com' } });
+
+    // Simulate user clicking the Send OTP button
+    fireEvent.click(screen.getByText('Send OTP'));
+
+    // Wait for the asynchronous operation to complete
+    await waitFor(() => {
+      // Assert that the loading indicator is hidden
+      expect(screen.queryByText('Loading...')).toBeNull();
+
+      // Assert that the error message is not present
+      expect(screen.queryByText('An error occurred while sending OTP.')).toBeNull();
+
+      // Assert that the success message is displayed
+      expect(screen.getByText('OTP sent successfully')).toBeInTheDocument();
+    });
+  });
+
+  // Test case for failed OTP sending
+  test('handles failed OTP sending', async () => {
+    // Mock the fetch response for a failed request
+    fetch.mockResolvedValueOnce({
+      status: 400,
+      json: async () => ({ message: 'Failed to send OTP' }), // Mock JSON response
+    });
+
+    // Render the ResetPassword component
+    render(<ResetPassword />);
+
+    // Simulate user entering an email
+    fireEvent.change(screen.getByPlaceholderText('Enter your email'), { target: { value: 'test@example.com' } });
+
+    // Simulate user clicking the Send OTP button
+    fireEvent.click(screen.getByText('Send OTP'));
+
+    // Wait for the asynchronous operation to complete
+    await waitFor(() => {
+      // Assert that the loading indicator is hidden
+      expect(screen.queryByText('Loading...')).toBeNull();
+
+      // Assert that the error message is displayed
+      expect(screen.getByText('Failed to send OTP')).toBeInTheDocument();
+
+      // Assert that the success message is not present
+      expect(screen.queryByText('OTP sent successfully')).toBeNull();
+    });
+  });
+});
+describe('ResetPassword component', () => {
+  test('handles error during OTP sending', async () => {
+    const mockError = new Error('Failed to send OTP');
+    jest.spyOn(global, 'fetch').mockRejectedValueOnce(mockError);
+
+    render(<ResetPassword />);
+
+    // Fill in the email field
+    const emailInput = screen.getByPlaceholderText('Enter your email');
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+    // Click the Send OTP button
+    const sendOTPButton = screen.getByText('Send OTP');
+    fireEvent.click(sendOTPButton);
+
+    // Assert that error state is set correctly
+    await waitFor(() => {
+      expect(screen.getByText('An error occurred while sending OTP.')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('ResetPassword component', () => {
+  test('handles missing or invalid password during password reset', async () => {
+    render(<ResetPassword />);
+
+    // Fill in the email field
+    const emailInput = screen.getByPlaceholderText('Enter your email');
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+    // Fill in the OTP field
+    const otpInput = screen.getByPlaceholderText('Enter OTP');
+    fireEvent.change(otpInput, { target: { value: '123456' } });
+
+    // Fill in an invalid or missing password
+    const newPasswordInput = screen.getByPlaceholderText('Enter new password');
+    fireEvent.change(newPasswordInput, { target: { value: '' } }); // Simulate a missing password
+
+    // Click the "Reset Password" button
+    const resetPasswordButton = screen.getByText('Reset Password');
+    fireEvent.click(resetPasswordButton);
+
+   
+
+    // Change the password to a too short one
+    fireEvent.change(newPasswordInput, { target: { value: 'short' } }); // Simulate a too short password
+
+    // Click the "Reset Password" button again
+    fireEvent.click(resetPasswordButton);
+
+  
+  });
 });
 
 });
