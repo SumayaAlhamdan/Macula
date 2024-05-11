@@ -52,6 +52,7 @@ const SClassrooms = () => {
   const handleJoinClassroom = (classroomID, date, time) => {
     const classStartTime = new Date(`${date} ${time}`).getTime();
     const currentTime = new Date().getTime();
+    setSelectedClassroomID(classroomID); // Set the selected classroom ID to trigger the FaceDetection popup
   };
   const handleCloseModal = () => {
     setSelectedClassroomID(null); // Reset selectedClassroomID when the modal is closed
