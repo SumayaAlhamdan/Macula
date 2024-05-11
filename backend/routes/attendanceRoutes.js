@@ -79,5 +79,18 @@ router.get('/report', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
+router.get('/dashboard', async (req, res) => {
+    try {
+        const { studentId, classroomId } = req.query; // Extract student ID and classroom ID from query parameters
+
+        // Fetch attendance records that match the student ID and classroom ID
+        const attendanceRecords = await Record.find({ student_id: studentId, classroom_id: classroomId });
+        
+        res.status(200).json({ success: true, data: attendanceRecords });
+    } catch (error) {
+        console.error('Error fetching attendance records:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
 
 module.exports = router;

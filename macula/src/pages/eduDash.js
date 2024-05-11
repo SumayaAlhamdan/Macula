@@ -14,7 +14,9 @@ function EducatorDashboard() {
 
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, []);
+  
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -25,9 +27,13 @@ function EducatorDashboard() {
       if (code && id) {
         setCourseCode(code);
         setClassroomID(id);
-        fetchClassroomDetails(id);
-        fetchAttendanceData(code, id);
-        fetchEngagementData(id);
+        await Promise.all([
+          fetchAllStudents(code).then(() => {
+            fetchAttendanceData(code, id);
+            fetchEngagementData(id,attendanceData);
+          }),
+          fetchClassroomDetails(id)
+        ]);
       } else {
         setError('Course code and classroom ID not provided');
       }
@@ -38,18 +44,39 @@ function EducatorDashboard() {
       setLoading(false);
     }
   };
+  
+  const fetchAllStudents = async (courseCode) => {
+    try {
+      const studentResponse = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
+      const students = studentResponse.data.students;
+      setAttendanceData(students.map(student => ({ student, attendance: 'Absent' })));
+      setEngagementData([]);
+      setError('');
+    } catch (error) {
+      console.error('Error fetching student data:', error);
+      setError('Error fetching student data. Please try again.');
+    }
+  };
+  
+  
+
 
   const fetchAttendanceData = async (courseCode, classroomID) => {
     try {
       const studentResponse = await axios.get(`/api/courses/sCourse/${courseCode}/students`);
       const students = studentResponse.data.students;
+      console.log(students);
       const attendanceRecords = [];
       for (const student of students) {
-        const attendanceResponse = await axios.get(`/api/attendance/report?studentId=${student.ID}&classroomId=${classroomID}`);
+        const attendanceResponse = await axios.get(`/api/attendance/dashboard?studentId=${student.ID}&classroomId=${classroomID}`);
         const { data } = attendanceResponse.data;
+        console.log(data);
         if (data && data.length > 0) {
+          console.log(data[0]);
           const classroomIdFromData = data[0].classroom_id;
+          console.log(classroomIdFromData + "////////" + classroomID);
           if (classroomIdFromData === classroomID) {
+            console.log("yayyy");
             attendanceRecords.push({ student, attendance: "Present" });
           } else {
             attendanceRecords.push({ student, attendance: "Absent" });
@@ -59,6 +86,7 @@ function EducatorDashboard() {
         }
       }
       setAttendanceData(attendanceRecords);
+      console.log(attendanceData);
       setError('');
     } catch (error) {
       console.error('Error fetching attendance data:', error);
@@ -66,7 +94,7 @@ function EducatorDashboard() {
     }
   };
 
-  const fetchEngagementData = async (classroomID) => {
+  const fetchEngagementData = async (classroomID,attendanceData) => {
     try {
       const response = await axios.get(`/api/engagement/${classroomID}`);
       const engagementRecords = response.data.engagementRecords;
@@ -78,6 +106,7 @@ function EducatorDashboard() {
         const studentData = students[index];
         const student = studentData && studentData.student;
         const attendanceStatus = attendanceData.find(attendance => attendance.student.ID === student.ID);
+        console.log(attendanceStatus);
         const attendance = attendanceStatus ? attendanceStatus.attendance : "Absent";
         return {
           ...record,
@@ -110,55 +139,59 @@ function EducatorDashboard() {
   return (
     <div className="educator-dashboard">
       <div className="classroom-details">
-  <h2>Classroom Details</h2>
-  {classroom ? (
-    <div className="details-container">
-      <div className="detail">
-        <p><strong>Course ID:</strong> {classroom.courseID}</p>
-        <p><strong>Date:</strong> {new Date(classroom.date).toLocaleDateString()}</p>
+        <h2>Classroom Details</h2>
+        {classroom ? (
+          <div className="details-container">
+            <div className="detail">
+              <p><strong>Course ID:</strong> {classroom.courseID}</p>
+              <p><strong>Date:</strong> {new Date(classroom.date).toLocaleDateString()}</p>
+            </div>
+            <div className="detail">
+              <p><strong>Title:</strong> {classroom.title}</p>
+              <p><strong>Time:</strong> {classroom.time}</p>
+            </div>
+          </div>
+        ) : (
+          <p>No classroom details available</p>
+        )}
       </div>
-      <div className="detail">
-      <p><strong>Title:</strong> {classroom.title}</p>
-        <p><strong>Time:</strong> {classroom.time}</p>
-      </div>
-    </div>
-  ) : (
-    <p>No classroom details available</p>
-  )}
-</div>
 
       <div className="page-content">
-        {currentPage === 'attendance' && (
-          <div className="attendance-page">
-            <h1>Reports</h1>
-            {loading && <p>Loading...</p>}
-            {error && <p className="error">{error}</p>}
-            <table style={{ margin: '0 auto' }}>
-              <thead>
-                <tr>
-                  <th>Student ID</th>
-                  <th>Student name</th>
-                  <th>Attendance Status</th>
-                  <th>Focus Duration (mins)</th>
-                  <th>Distracted Duration (mins)</th>
-                  <th>Longest Focus Duration (mins)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {engagementData.map(student => (
-                  <tr key={student.studentID}>
-                    <td>{student.studentID}</td>
-                    <td>{student.studentName}</td>
-                    <td>{student.attendance}</td>
-                    <td>{student.focusDuration}</td>
-                    <td>{student.distractedDuration}</td>
-                    <td>{student.longestFocusDuration}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+      {currentPage === 'attendance' && (
+  <div className="attendance-page">
+    <h1>Reports</h1>
+    {loading && <p>Loading...</p>}
+    {error && <p className="error">{error}</p>}
+    <table style={{ margin: '0 auto' }}>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Student name</th>
+          <th>Attendance Status</th>
+          <th>Focus Duration (mins)</th>
+          <th>Distracted Duration (mins)</th>
+          <th>Longest Focus Duration (mins)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {attendanceData.map(student => {
+          const engagementRecord = engagementData.find(record => record.studentID === student.student.ID);
+          return (
+            <tr key={student.student.ID}>
+              <td>{student.student.ID}</td>
+              <td>{student.student.name}</td>
+              <td>{student.attendance}</td>
+              <td>{engagementRecord ? engagementRecord.focusDuration : 'N/A'}</td>
+              <td>{engagementRecord ? engagementRecord.distractedDuration : 'N/A'}</td>
+              <td>{engagementRecord ? engagementRecord.longestFocusDuration : 'N/A'}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+)}
+
       </div>
     </div>
   );
